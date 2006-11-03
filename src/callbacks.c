@@ -1,0 +1,153 @@
+#ifdef HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
+#include <gtk/gtk.h>
+
+#include "callbacks.h"
+#include "interface.h"
+#include "support.h"
+#include "globals.h"
+
+extern ClientState *client_state;
+
+void
+on_quit_activate                       (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+    gtk_main_quit();
+}
+
+
+void
+on_debugger_settings_activate          (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+
+}
+
+
+void
+on_add_breakpoint_menu_item_activate   (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+
+}
+
+
+void
+on_continue_menu_item_activate         (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+
+}
+
+
+void
+on_step_over_menu_item_activate        (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+
+}
+
+
+void
+on_step_in_menu_item_activate          (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+
+}
+
+
+void
+on_step_out_menu_item_activate         (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+
+}
+
+
+void
+on_detach_debugger_menu_item_activate  (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+
+}
+
+
+void
+on_stop_debugging_menu_item_activate   (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+
+}
+
+
+void
+on_about_activate                      (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+	GtkWidget *aboutdialog;
+	
+	aboutdialog = create_aboutdialog ();
+	gtk_widget_show (aboutdialog);
+}
+
+
+void
+on_continue_button_clicked             (GtkToolButton   *toolbutton,
+                                        gpointer         user_data)
+{
+	process_continue_button(toolbutton, user_data);
+}
+
+
+void
+on_step_over_button_clicked            (GtkToolButton   *toolbutton,
+                                        gpointer         user_data)
+{
+	process_step_over_button(toolbutton, user_data);
+}
+
+
+void
+on_step_in_button_clicked              (GtkToolButton   *toolbutton,
+                                        gpointer         user_data)
+{
+	process_step_into_button(toolbutton, user_data);
+}
+
+
+void
+on_step_out_button_clicked             (GtkToolButton   *toolbutton,
+                                        gpointer         user_data)
+{
+	process_step_out_button(toolbutton, user_data);
+}
+
+
+void
+on_detach_button_clicked               (GtkToolButton   *toolbutton,
+                                        gpointer         user_data)
+{
+	process_detach_button(toolbutton, user_data);
+}
+
+
+void
+on_kill_button_clicked                 (GtkToolButton   *toolbutton,
+                                        gpointer         user_data)
+{
+	process_kill_button(toolbutton, user_data);
+}
+
+
+gboolean
+on_stack_view_select_cursor_row        (GtkTreeView     *treeview,
+                                        gboolean         start_editing,
+                                        gpointer         user_data)
+{
+
+  return FALSE;
+}
+
