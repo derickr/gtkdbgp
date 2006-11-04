@@ -1150,7 +1150,7 @@
 <widget class="GtkAboutDialog" id="aboutdialog">
   <property name="visible">True</property>
   <property name="destroy_with_parent">True</property>
-  <property name="name" translatable="yes">gtkxdebug</property>
+  <property name="name" translatable="yes">gtkdbgp</property>
   <property name="copyright" translatable="yes">(c) 2006 by Derick Rethans</property>
   <property name="comments" translatable="yes">No comments</property>
   <property name="license">The Xdebug License, version 1.01

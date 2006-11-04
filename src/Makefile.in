@@ -74,12 +74,12 @@ VERSION = @VERSION@
 INCLUDES =  	-DPACKAGE_DATA_DIR=\""$(datadir)"\" 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" 	@PACKAGE_CFLAGS@
 
 
-bin_PROGRAMS = gtkxdebug
+bin_PROGRAMS = gtkdbgp
 
-gtkxdebug_SOURCES =  	main.c 	support.c support.h 	interface.c interface.h 	callbacks.c callbacks.h
+gtkdbgp_SOURCES =  	main.c 	support.c support.h 	interface.c interface.h 	callbacks.c callbacks.h 	server.c 	usefulstuff.c usefulstuff.h 	xdebug_hash.c xdebug_hash.h 	xdebug_llist.c xdebug_llist.h 	xdebug_mm.h 	xdebug_private.h 	xdebug_str.c xdebug_str.h 	xdebug_var.h 	xdebug_xml.c xdebug_xml.h 	xdebug_xml_reader.c
 
 
-gtkxdebug_LDADD = @PACKAGE_LIBS@
+gtkdbgp_LDADD = @PACKAGE_LIBS@
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
@@ -90,9 +90,11 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I..
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-gtkxdebug_OBJECTS =  main.o support.o interface.o callbacks.o
-gtkxdebug_DEPENDENCIES = 
-gtkxdebug_LDFLAGS = 
+gtkdbgp_OBJECTS =  main.o support.o interface.o callbacks.o server.o \
+usefulstuff.o xdebug_hash.o xdebug_llist.o xdebug_str.o xdebug_xml.o \
+xdebug_xml_reader.o
+gtkdbgp_DEPENDENCIES = 
+gtkdbgp_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -105,9 +107,11 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = tar
 GZIP_ENV = --best
 DEP_FILES =  .deps/callbacks.P .deps/interface.P .deps/main.P \
-.deps/support.P
-SOURCES = $(gtkxdebug_SOURCES)
-OBJECTS = $(gtkxdebug_OBJECTS)
+.deps/server.P .deps/support.P .deps/usefulstuff.P .deps/xdebug_hash.P \
+.deps/xdebug_llist.P .deps/xdebug_str.P .deps/xdebug_xml.P \
+.deps/xdebug_xml_reader.P
+SOURCES = $(gtkdbgp_SOURCES)
+OBJECTS = $(gtkdbgp_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -161,9 +165,9 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-gtkxdebug: $(gtkxdebug_OBJECTS) $(gtkxdebug_DEPENDENCIES)
-	@rm -f gtkxdebug
-	$(LINK) $(gtkxdebug_LDFLAGS) $(gtkxdebug_OBJECTS) $(gtkxdebug_LDADD) $(LIBS)
+gtkdbgp: $(gtkdbgp_OBJECTS) $(gtkdbgp_DEPENDENCIES)
+	@rm -f gtkdbgp
+	$(LINK) $(gtkdbgp_LDFLAGS) $(gtkdbgp_OBJECTS) $(gtkdbgp_LDADD) $(LIBS)
 
 tags: TAGS
 

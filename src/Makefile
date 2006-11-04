@@ -34,9 +34,9 @@ oldincludedir = /usr/include
 
 DESTDIR =
 
-pkgdatadir = $(datadir)/gtkxdebug
-pkglibdir = $(libdir)/gtkxdebug
-pkgincludedir = $(includedir)/gtkxdebug
+pkgdatadir = $(datadir)/gtkdbgp
+pkglibdir = $(libdir)/gtkdbgp
+pkgincludedir = $(includedir)/gtkdbgp
 
 top_builddir = ..
 
@@ -65,23 +65,21 @@ LIB = @LIB@
 LTLIB = @LTLIB@
 MAINT = #
 MAKEINFO = makeinfo
-PACKAGE = gtkxdebug
-PACKAGE_CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include -I/usr/include/libxml2
-PACKAGE_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lgnet-2.0 -lxml2
+PACKAGE = gtkdbgp
+PACKAGE_CFLAGS = -pthread -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include/ -I/usr/include/libxml2  
+PACKAGE_LIBS = -pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lgnet-2.0 -lgthread-2.0 -lglib-2.0 -lxml2  
 PKG_CONFIG = /usr/bin/pkg-config
 VERSION = 0.1
 
-SUBDIRS = xmlparser
-
-INCLUDES =  	-DPACKAGE_DATA_DIR=\""$(datadir)"\" 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" 	-I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include -I/usr/include/libxml2
+INCLUDES =  	-DPACKAGE_DATA_DIR=\""$(datadir)"\" 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" 	-pthread -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include/ -I/usr/include/libxml2  
 
 
-bin_PROGRAMS = gtkxdebug
+bin_PROGRAMS = gtkdbgp
 
-gtkxdebug_SOURCES =  	main.c 	support.c support.h 	interface.c interface.h 	callbacks.c callbacks.h server.c server.h xdebug_mm.h xdebug_private.h xdebug_str.c xdebug_str.h xdebug_var.h xdebug_hash.c xdebug_hash.h xdebug_llist.c xdebug_llist.h xdebug_xml.c xdebug_xml.h xdebug_xml_reader.c usefulstuff.h usefulstuff.c
+gtkdbgp_SOURCES =  	main.c 	support.c support.h 	interface.c interface.h 	callbacks.c callbacks.h 	server.c 	usefulstuff.c usefulstuff.h 	xdebug_hash.c xdebug_hash.h 	xdebug_llist.c xdebug_llist.h 	xdebug_mm.h 	xdebug_private.h 	xdebug_str.c xdebug_str.h 	xdebug_var.h 	xdebug_xml.c xdebug_xml.h 	xdebug_xml_reader.c
 
 
-gtkxdebug_LDADD = -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lgnet-2.0 -lxml2
+gtkdbgp_LDADD = -pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lgnet-2.0 -lgthread-2.0 -lglib-2.0 -lxml2  
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
@@ -92,10 +90,12 @@ DEFS = -DHAVE_CONFIG_H -I. -I$(srcdir) -I..
 CPPFLAGS = 
 LDFLAGS = 
 LIBS = 
-gtkxdebug_OBJECTS =  main.o support.o interface.o callbacks.o server.o xdebug_str.o xdebug_llist.o xdebug_xml.o xdebug_xml_reader.o xdebug_hash.o usefulstuff.o
-gtkxdebug_DEPENDENCIES = 
-gtkxdebug_LDFLAGS = 
-CFLAGS = -g -O0
+gtkdbgp_OBJECTS =  main.o support.o interface.o callbacks.o server.o \
+usefulstuff.o xdebug_hash.o xdebug_llist.o xdebug_str.o xdebug_xml.o \
+xdebug_xml_reader.o
+gtkdbgp_DEPENDENCIES = 
+gtkdbgp_LDFLAGS = 
+CFLAGS = -g -O2
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
@@ -107,9 +107,11 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = tar
 GZIP_ENV = --best
 DEP_FILES =  .deps/callbacks.P .deps/interface.P .deps/main.P \
-.deps/support.P
-SOURCES = $(gtkxdebug_SOURCES)
-OBJECTS = $(gtkxdebug_OBJECTS)
+.deps/server.P .deps/support.P .deps/usefulstuff.P .deps/xdebug_hash.P \
+.deps/xdebug_llist.P .deps/xdebug_str.P .deps/xdebug_xml.P \
+.deps/xdebug_xml_reader.P
+SOURCES = $(gtkdbgp_SOURCES)
+OBJECTS = $(gtkdbgp_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -163,9 +165,9 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-gtkxdebug: $(gtkxdebug_OBJECTS) $(gtkxdebug_DEPENDENCIES)
-	@rm -f gtkxdebug
-	$(LINK) $(gtkxdebug_LDFLAGS) $(gtkxdebug_OBJECTS) $(gtkxdebug_LDADD) $(LIBS)
+gtkdbgp: $(gtkdbgp_OBJECTS) $(gtkdbgp_DEPENDENCIES)
+	@rm -f gtkdbgp
+	$(LINK) $(gtkdbgp_LDFLAGS) $(gtkdbgp_OBJECTS) $(gtkdbgp_LDADD) $(LIBS)
 
 tags: TAGS
 

@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.in by autoheader.  */
 
 /* Name of package */
-#define PACKAGE "gtkxdebug"
+#define PACKAGE "gtkdbgp"
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT ""

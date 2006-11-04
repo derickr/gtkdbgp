@@ -5,13 +5,23 @@ INCLUDES = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	@PACKAGE_CFLAGS@
 
-bin_PROGRAMS = gtkxdebug
+bin_PROGRAMS = gtkdbgp
 
-gtkxdebug_SOURCES = \
+gtkdbgp_SOURCES = \
 	main.c \
 	support.c support.h \
 	interface.c interface.h \
-	callbacks.c callbacks.h
+	callbacks.c callbacks.h \
+	server.c \
+	usefulstuff.c usefulstuff.h \
+	xdebug_hash.c xdebug_hash.h \
+	xdebug_llist.c xdebug_llist.h \
+	xdebug_mm.h \
+	xdebug_private.h \
+	xdebug_str.c xdebug_str.h \
+	xdebug_var.h \
+	xdebug_xml.c xdebug_xml.h \
+	xdebug_xml_reader.c
 
-gtkxdebug_LDADD = @PACKAGE_LIBS@
+gtkdbgp_LDADD = @PACKAGE_LIBS@
 

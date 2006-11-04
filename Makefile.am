@@ -4,8 +4,8 @@ SUBDIRS = src
 
 EXTRA_DIST = \
 	autogen.sh \
-	gtkxdebug.glade \
-	gtkxdebug.gladep
+	gtkdbgp.glade \
+	gtkdbgp.gladep
 
 install-data-local:
 	@$(NORMAL_INSTALL)

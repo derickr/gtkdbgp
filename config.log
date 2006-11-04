@@ -62,7 +62,7 @@ configure:2047: found /usr/local/bin/gcc
 configure:2058: result: gcc
 configure:2296: checking for C compiler version
 configure:2303: gcc --version >&5
-gcc (GCC) 4.1.2 20060729 (prerelease) (Debian 4.1.1-10)
+gcc (GCC) 4.1.2 20060928 (prerelease) (Debian 4.1.1-15)
 Copyright (C) 2006 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -73,7 +73,7 @@ Using built-in specs.
 Target: i486-linux-gnu
 Configured with: ../src/configure -v --enable-languages=c,c++,fortran,objc,obj-c++,treelang --prefix=/usr --enable-shared --with-system-zlib --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --enable-nls --program-suffix=-4.1 --enable-__cxa_atexit --enable-clocale=gnu --enable-libstdcxx-debug --enable-mpfr --with-tune=i686 --enable-checking=release i486-linux-gnu
 Thread model: posix
-gcc version 4.1.2 20060729 (prerelease) (Debian 4.1.1-10)
+gcc version 4.1.2 20060928 (prerelease) (Debian 4.1.1-15)
 configure:2316: $? = 0
 configure:2323: gcc -V >&5
 gcc: '-V' option must have argument
@@ -132,7 +132,7 @@ configure: failed program was:
 | #define PACKAGE_VERSION ""
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
-| #define PACKAGE "gtkxdebug"
+| #define PACKAGE "gtkdbgp"
 | #define VERSION "0.1"
 | /* end confdefs.h.  */
 | 
@@ -155,7 +155,7 @@ configure:3116: checking for gcc
 configure:3143: result: gcc
 configure:3381: checking for C compiler version
 configure:3388: gcc --version >&5
-gcc (GCC) 4.1.2 20060729 (prerelease) (Debian 4.1.1-10)
+gcc (GCC) 4.1.2 20060928 (prerelease) (Debian 4.1.1-15)
 Copyright (C) 2006 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -166,7 +166,7 @@ Using built-in specs.
 Target: i486-linux-gnu
 Configured with: ../src/configure -v --enable-languages=c,c++,fortran,objc,obj-c++,treelang --prefix=/usr --enable-shared --with-system-zlib --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --enable-nls --program-suffix=-4.1 --enable-__cxa_atexit --enable-clocale=gnu --enable-libstdcxx-debug --enable-mpfr --with-tune=i686 --enable-checking=release i486-linux-gnu
 Thread model: posix
-gcc version 4.1.2 20060729 (prerelease) (Debian 4.1.1-10)
+gcc version 4.1.2 20060928 (prerelease) (Debian 4.1.1-15)
 configure:3401: $? = 0
 configure:3408: gcc -V >&5
 gcc: '-V' option must have argument
@@ -198,7 +198,7 @@ configure: failed program was:
 | #define PACKAGE_VERSION ""
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
-| #define PACKAGE "gtkxdebug"
+| #define PACKAGE "gtkdbgp"
 | #define VERSION "0.1"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
@@ -215,7 +215,7 @@ configure: failed program was:
 | #define PACKAGE_VERSION ""
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
-| #define PACKAGE "gtkxdebug"
+| #define PACKAGE "gtkdbgp"
 | #define VERSION "0.1"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
@@ -268,7 +268,6 @@ config.status:743: WARNING:  Makefile.in seems to ignore the --datarootdir setti
 config.status:608: creating src/Makefile
 config.status:743: WARNING:  src/Makefile.in seems to ignore the --datarootdir setting
 config.status:608: creating config.h
-config.status:819: config.h is unchanged
 config.status:832: executing default-1 commands
 
 ## ---------------- ##
@@ -311,8 +310,8 @@ ac_cv_prog_cc_c89=
 ac_cv_prog_cc_g=yes
 ac_cv_prog_make_make_set=yes
 am_cv_prog_cc_stdc=
-pkg_cv_PACKAGE_CFLAGS='-I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  '
-pkg_cv_PACKAGE_LIBS='-lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  '
+pkg_cv_PACKAGE_CFLAGS='-pthread -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include/ -I/usr/include/libxml2  '
+pkg_cv_PACKAGE_LIBS='-pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lgnet-2.0 -lgthread-2.0 -lglib-2.0 -lxml2  '
 
 ## ----------------- ##
 ## Output variables. ##
@@ -345,10 +344,10 @@ MAINTAINER_MODE_FALSE=''
 MAINTAINER_MODE_TRUE='#'
 MAKEINFO='makeinfo'
 OBJEXT='o'
-PACKAGE='gtkxdebug'
+PACKAGE='gtkdbgp'
 PACKAGE_BUGREPORT=''
-PACKAGE_CFLAGS='-I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include  '
-PACKAGE_LIBS='-lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0  '
+PACKAGE_CFLAGS='-pthread -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include/ -I/usr/include/libxml2  '
+PACKAGE_LIBS='-pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lgnet-2.0 -lgthread-2.0 -lglib-2.0 -lxml2  '
 PACKAGE_NAME=''
 PACKAGE_STRING=''
 PACKAGE_TARNAME=''
@@ -394,7 +393,7 @@ target_alias=''
 #define PACKAGE_VERSION ""
 #define PACKAGE_STRING ""
 #define PACKAGE_BUGREPORT ""
-#define PACKAGE "gtkxdebug"
+#define PACKAGE "gtkdbgp"
 #define VERSION "0.1"
 #define STDC_HEADERS 1
 
