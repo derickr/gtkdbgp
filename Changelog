@@ -1,3 +1,9 @@
+Sat Nov 04 21:30:19 CET 2006 Derick Rethans <derick@derickrethans.nl>
+gtkdbgp.glade
+gtkdbgp/src/interface.c
+gtkdbgp/src/main.c:
+- Change layout a bit: moved the stack list to the right bottom.
+
 Sat Nov 04 17:00:04 CET 2006 Derick Rethans <derick@derickrethans.nl>
 ChangeLog:
 - Fix changelog name.
