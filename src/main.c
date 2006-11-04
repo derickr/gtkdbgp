@@ -4,7 +4,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#  include <config.h>
+#	include <config.h>
 #endif
 
 #include <gtk/gtk.h>
@@ -15,29 +15,28 @@
 
 GtkWidget *MainWindow;
 
-int
-main (int argc, char *argv[])
+int main (int argc, char *argv[])
 {
-  GtkWidget *AddBreakPointWindow;
-  GtkWidget *DebuggerSettingsWindow;
+	GtkWidget *AddBreakPointWindow;
+	GtkWidget *DebuggerSettingsWindow;
 	GtkWidget *stack_view;
 	GtkCellRenderer *r1, *r2;
 	GtkTreeViewColumn *column1;
 	GtkListStore *store;
 
-  gtk_set_locale ();
-  gtk_init (&argc, &argv);
+	gtk_set_locale();
+	gtk_init(&argc, &argv);
 
-  add_pixmap_directory (PACKAGE_DATA_DIR "/" PACKAGE "/pixmaps");
+	add_pixmap_directory(PACKAGE_DATA_DIR "/" PACKAGE "/pixmaps");
 
-  MainWindow = create_MainWindow ();
+	MainWindow = create_MainWindow();
 
-  g_signal_connect (MainWindow, "delete_event", gtk_main_quit, NULL);
+	g_signal_connect(MainWindow, "delete_event", gtk_main_quit, NULL);
 
 	/* Setup the store */
-	store = gtk_list_store_new (STACK_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+	store = gtk_list_store_new(STACK_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
-  /* Add the columns for the stackview */
+	/* Add the columns for the stackview */
  	stack_view = lookup_widget(GTK_WIDGET(MainWindow), "stack_view");
 
  	r1 = gtk_cell_renderer_text_new();
@@ -51,12 +50,12 @@ main (int argc, char *argv[])
 
 	gtk_tree_view_set_model(GTK_TREE_VIEW(stack_view), GTK_TREE_MODEL(store));
 
-  gtk_window_maximize (MainWindow);
-  gtk_widget_show (MainWindow);
+	gtk_window_maximize(MainWindow);
+	gtk_widget_show(MainWindow);
 
-  start_server(9000);
+	start_server(9000);
 
-  gtk_main ();
-  return 0;
+	gtk_main();
+	return 0;
 }
 
