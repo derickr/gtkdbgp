@@ -2,3 +2,7 @@ gtkdbgp.glade.bak
 gtkdbgp.gladep.bak
 configure
 Makefile.in
+config.log
+autom4te.cache
+Makefile
+config.status
