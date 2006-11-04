@@ -41,9 +41,9 @@ main (int argc, char *argv[])
  	stack_view = lookup_widget(GTK_WIDGET(MainWindow), "stack_view");
 
  	r1 = gtk_cell_renderer_text_new();
-	g_object_set(r1, "font-desc", pango_font_description_from_string ("Monospace 8"), "xalign", 0.99999, NULL);
+	g_object_set(r1, "font-desc", pango_font_description_from_string ("sans 8"), "xalign", 0.99999, NULL);
  	r2 = gtk_cell_renderer_text_new();
-	g_object_set(r2, "font-desc", pango_font_description_from_string ("Monospace 8"), NULL);
+	g_object_set(r2, "font-desc", pango_font_description_from_string ("sans 8"), NULL);
 
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(stack_view), -1, "#", r1, "text", STACK_NR_COLUMN, NULL);
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(stack_view), -1, "Function", r2, "text", STACK_FUNCTION_COLUMN, NULL);

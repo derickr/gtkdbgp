@@ -66,24 +66,19 @@ create_MainWindow (void)
   GtkWidget *detach_button;
   GtkWidget *kill_button;
   GtkWidget *vpaned1;
-  GtkWidget *hpaned1;
-  GtkWidget *scrolledwindow1;
-  GtkWidget *stack_view;
   GtkWidget *viewport1;
   GtkWidget *code_notebook;
   GtkWidget *scrolledwindow6;
   GtkWidget *treeview3;
   GtkWidget *label1;
-  GtkWidget *notebook1;
-  GtkWidget *scrolledwindow4;
-  GtkWidget *local_vars_view;
-  GtkWidget *globals_label;
-  GtkWidget *scrolledwindow3;
-  GtkWidget *global_vars_view;
-  GtkWidget *locals_label;
-  GtkWidget *scrolledwindow5;
-  GtkWidget *breakpoints_view;
+  GtkWidget *hpaned2;
+  GtkWidget *scrolledwindow7;
+  GtkWidget *viewport2;
+  GtkWidget *notebook5;
+  GtkWidget *empty_notebook_page;
   GtkWidget *breakpoints_label;
+  GtkWidget *scrolledwindow1;
+  GtkWidget *stack_view;
   GtkWidget *statusbar;
   GtkAccelGroup *accel_group;
   GtkTooltips *tooltips;
@@ -282,28 +277,11 @@ create_MainWindow (void)
   gtk_box_pack_start (GTK_BOX (vbox1), vpaned1, TRUE, TRUE, 0);
   gtk_paned_set_position (GTK_PANED (vpaned1), 0);
 
-  hpaned1 = gtk_hpaned_new ();
-  gtk_widget_set_name (hpaned1, "hpaned1");
-  gtk_widget_show (hpaned1);
-  gtk_paned_pack1 (GTK_PANED (vpaned1), hpaned1, TRUE, FALSE);
-
-  scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
-  gtk_widget_set_name (scrolledwindow1, "scrolledwindow1");
-  gtk_widget_show (scrolledwindow1);
-  gtk_paned_pack1 (GTK_PANED (hpaned1), scrolledwindow1, FALSE, TRUE);
-  gtk_widget_set_size_request (scrolledwindow1, 270, -1);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_SHADOW_IN);
-
-  stack_view = gtk_tree_view_new ();
-  gtk_widget_set_name (stack_view, "stack_view");
-  gtk_widget_show (stack_view);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow1), stack_view);
-  gtk_widget_set_size_request (stack_view, 250, -1);
-
   viewport1 = gtk_viewport_new (NULL, NULL);
   gtk_widget_set_name (viewport1, "viewport1");
   gtk_widget_show (viewport1);
-  gtk_paned_pack2 (GTK_PANED (hpaned1), viewport1, TRUE, TRUE);
+  gtk_paned_pack1 (GTK_PANED (vpaned1), viewport1, TRUE, FALSE);
+  gtk_viewport_set_shadow_type (GTK_VIEWPORT (viewport1), GTK_SHADOW_NONE);
 
   code_notebook = gtk_notebook_new ();
   gtk_widget_set_name (code_notebook, "code_notebook");
@@ -329,59 +307,50 @@ create_MainWindow (void)
   gtk_widget_show (label1);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (code_notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (code_notebook), 0), label1);
 
-  notebook1 = gtk_notebook_new ();
-  gtk_widget_set_name (notebook1, "notebook1");
-  gtk_widget_show (notebook1);
-  gtk_paned_pack2 (GTK_PANED (vpaned1), notebook1, TRUE, FALSE);
-  gtk_widget_set_size_request (notebook1, -1, 100);
+  hpaned2 = gtk_hpaned_new ();
+  gtk_widget_set_name (hpaned2, "hpaned2");
+  gtk_widget_show (hpaned2);
+  gtk_paned_pack2 (GTK_PANED (vpaned1), hpaned2, FALSE, FALSE);
+  gtk_widget_set_size_request (hpaned2, -1, 200);
 
-  scrolledwindow4 = gtk_scrolled_window_new (NULL, NULL);
-  gtk_widget_set_name (scrolledwindow4, "scrolledwindow4");
-  gtk_widget_show (scrolledwindow4);
-  gtk_container_add (GTK_CONTAINER (notebook1), scrolledwindow4);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow4), GTK_SHADOW_IN);
+  scrolledwindow7 = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_set_name (scrolledwindow7, "scrolledwindow7");
+  gtk_widget_show (scrolledwindow7);
+  gtk_paned_pack1 (GTK_PANED (hpaned2), scrolledwindow7, FALSE, TRUE);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow7), GTK_SHADOW_IN);
 
-  local_vars_view = gtk_tree_view_new ();
-  gtk_widget_set_name (local_vars_view, "local_vars_view");
-  gtk_widget_show (local_vars_view);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow4), local_vars_view);
+  viewport2 = gtk_viewport_new (NULL, NULL);
+  gtk_widget_set_name (viewport2, "viewport2");
+  gtk_widget_show (viewport2);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow7), viewport2);
+  gtk_widget_set_size_request (viewport2, 400, -1);
 
-  globals_label = gtk_label_new ("Global Variables");
-  gtk_widget_set_name (globals_label, "globals_label");
-  gtk_widget_show (globals_label);
-  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 0), globals_label);
+  notebook5 = gtk_notebook_new ();
+  gtk_widget_set_name (notebook5, "notebook5");
+  gtk_widget_show (notebook5);
+  gtk_container_add (GTK_CONTAINER (viewport2), notebook5);
 
-  scrolledwindow3 = gtk_scrolled_window_new (NULL, NULL);
-  gtk_widget_set_name (scrolledwindow3, "scrolledwindow3");
-  gtk_widget_show (scrolledwindow3);
-  gtk_container_add (GTK_CONTAINER (notebook1), scrolledwindow3);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow3), GTK_SHADOW_IN);
-
-  global_vars_view = gtk_tree_view_new ();
-  gtk_widget_set_name (global_vars_view, "global_vars_view");
-  gtk_widget_show (global_vars_view);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow3), global_vars_view);
-
-  locals_label = gtk_label_new ("Local Variables");
-  gtk_widget_set_name (locals_label, "locals_label");
-  gtk_widget_show (locals_label);
-  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 1), locals_label);
-
-  scrolledwindow5 = gtk_scrolled_window_new (NULL, NULL);
-  gtk_widget_set_name (scrolledwindow5, "scrolledwindow5");
-  gtk_widget_show (scrolledwindow5);
-  gtk_container_add (GTK_CONTAINER (notebook1), scrolledwindow5);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow5), GTK_SHADOW_IN);
-
-  breakpoints_view = gtk_tree_view_new ();
-  gtk_widget_set_name (breakpoints_view, "breakpoints_view");
-  gtk_widget_show (breakpoints_view);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow5), breakpoints_view);
+  empty_notebook_page = gtk_vbox_new (FALSE, 0);
+  gtk_widget_show (empty_notebook_page);
+  gtk_container_add (GTK_CONTAINER (notebook5), empty_notebook_page);
 
   breakpoints_label = gtk_label_new ("Breakpoints");
   gtk_widget_set_name (breakpoints_label, "breakpoints_label");
   gtk_widget_show (breakpoints_label);
-  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 2), breakpoints_label);
+  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook5), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook5), 0), breakpoints_label);
+
+  scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_set_name (scrolledwindow1, "scrolledwindow1");
+  gtk_widget_show (scrolledwindow1);
+  gtk_paned_pack2 (GTK_PANED (hpaned2), scrolledwindow1, TRUE, TRUE);
+  gtk_widget_set_size_request (scrolledwindow1, 270, -1);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_SHADOW_IN);
+
+  stack_view = gtk_tree_view_new ();
+  gtk_widget_set_name (stack_view, "stack_view");
+  gtk_widget_show (stack_view);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow1), stack_view);
+  gtk_widget_set_size_request (stack_view, 250, -1);
 
   statusbar = gtk_statusbar_new ();
   gtk_widget_set_name (statusbar, "statusbar");
@@ -476,24 +445,18 @@ create_MainWindow (void)
   GLADE_HOOKUP_OBJECT (MainWindow, detach_button, "detach_button");
   GLADE_HOOKUP_OBJECT (MainWindow, kill_button, "kill_button");
   GLADE_HOOKUP_OBJECT (MainWindow, vpaned1, "vpaned1");
-  GLADE_HOOKUP_OBJECT (MainWindow, hpaned1, "hpaned1");
-  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow1, "scrolledwindow1");
-  GLADE_HOOKUP_OBJECT (MainWindow, stack_view, "stack_view");
   GLADE_HOOKUP_OBJECT (MainWindow, viewport1, "viewport1");
   GLADE_HOOKUP_OBJECT (MainWindow, code_notebook, "code_notebook");
   GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow6, "scrolledwindow6");
   GLADE_HOOKUP_OBJECT (MainWindow, treeview3, "treeview3");
   GLADE_HOOKUP_OBJECT (MainWindow, label1, "label1");
-  GLADE_HOOKUP_OBJECT (MainWindow, notebook1, "notebook1");
-  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow4, "scrolledwindow4");
-  GLADE_HOOKUP_OBJECT (MainWindow, local_vars_view, "local_vars_view");
-  GLADE_HOOKUP_OBJECT (MainWindow, globals_label, "globals_label");
-  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow3, "scrolledwindow3");
-  GLADE_HOOKUP_OBJECT (MainWindow, global_vars_view, "global_vars_view");
-  GLADE_HOOKUP_OBJECT (MainWindow, locals_label, "locals_label");
-  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow5, "scrolledwindow5");
-  GLADE_HOOKUP_OBJECT (MainWindow, breakpoints_view, "breakpoints_view");
+  GLADE_HOOKUP_OBJECT (MainWindow, hpaned2, "hpaned2");
+  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow7, "scrolledwindow7");
+  GLADE_HOOKUP_OBJECT (MainWindow, viewport2, "viewport2");
+  GLADE_HOOKUP_OBJECT (MainWindow, notebook5, "notebook5");
   GLADE_HOOKUP_OBJECT (MainWindow, breakpoints_label, "breakpoints_label");
+  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow1, "scrolledwindow1");
+  GLADE_HOOKUP_OBJECT (MainWindow, stack_view, "stack_view");
   GLADE_HOOKUP_OBJECT (MainWindow, statusbar, "statusbar");
   GLADE_HOOKUP_OBJECT_NO_REF (MainWindow, tooltips, "tooltips");
 
