@@ -1,3 +1,9 @@
+Mon Nov 06 11:50:56 CET 2006 Derick Rethans <derick@derickrethans.nl>
+src/globals.h
+gtkdbgp/src/main.c
+gtkdbgp/src/server.c:
+- Adding showing the file/line combo for a stack frame when it is selected.
+
 Sat Nov 04 22:19:38 CET 2006 Derick Rethans <derick@derickrethans.nl>
 src/main.c:
 - CS issues
