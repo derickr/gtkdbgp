@@ -61,6 +61,7 @@ int process_mark_buttons_active(ClientState* state);
 int process_mark_buttons_inactive(ClientState* state);
 int process_select_file_line_for_stack_0(ClientState* state);
 int process_select_file_line_for_stack_0_no_check(ClientState* state);
+int process_select_file_line_for_selected_stack(ClientState* state);
 int process_update_context_vars_for_selected_stack(ClientState* state);
 int process_update_stack(ClientState* state);
 
@@ -68,6 +69,7 @@ int process_update_stack(ClientState* state);
 #define SERVER_STATE_INITIAL           1
 #define SERVER_STATE_BREAK             2
 #define SERVER_STATE_STOPPED           3
+#define SERVER_STATE_SELECT_STACK      4
 
 #define SERVER_ACTION_SOURCE_GET       1
 #define SERVER_ACTION_STEP_IN          2
@@ -120,12 +122,14 @@ int process_add_source_file(ClientState* state)
 int process_mark_buttons_active(ClientState* state)
 {
 	update_statusbar( "Waiting for input." );
+	state->buttons_active = TRUE;
 	return NON_INTERACTIVE;
 }
 
 
 int process_mark_buttons_inactive(ClientState* state)
 {
+	state->buttons_active = FALSE;
 	update_statusbar( "Processing..." );
 	return NON_INTERACTIVE;
 }
@@ -183,6 +187,73 @@ int process_select_file_line_for_stack_0_no_check(ClientState* state)
 	_process_select_file_line_for_stack_0(state, 0);
 }
 
+static int _process_select_file_line_for_selected_stack(ClientState* state, int check)
+{
+	/* Let's find the page! */
+	/* - first we figure out stack frame 0, and the filename from it */
+	xdebug_xml_node *message = state->message;
+	xdebug_xml_attribute *level_attr, *filename_attr = NULL, *lineno_attr = NULL;
+	dbgp_code_page *page;
+	GtkWidget *code_notebook = lookup_widget(GTK_WIDGET(MainWindow), "code_notebook");
+	GtkTreeSelection *selection;
+	GtkTreePath      *path;
+	xdebug_xml_node *stack_frame;
+
+	stack_frame = state->message->child;
+	while (stack_frame) {
+		if (strcmp(stack_frame->tag, "stack") == 0) {
+			level_attr = xdebug_xml_fetch_attribute(stack_frame, "level");
+
+			if (level_attr && level_attr->value && strtol(level_attr->value, NULL, 10) == state->last_selected_stack_frame) {
+				filename_attr = xdebug_xml_fetch_attribute(stack_frame, "filename");
+				lineno_attr = xdebug_xml_fetch_attribute(stack_frame, "lineno");
+			}
+		}
+		
+		stack_frame = stack_frame->next;
+	}
+
+	if (!filename_attr) {
+		return NON_INTERACTIVE;
+	}
+
+	/* Now we have the filename in attr->value */
+	if (xdebug_hash_find(code_tabs_hash, filename_attr->value, strlen(filename_attr->value), (void*) &page)) {
+		/* If we found it then we advance the action pointer 4 items so that we
+		 * don't call an add_source for it, but only the first time. */
+		if (check) {
+			state->action_list_ptr += 4;
+		}
+
+		/* then we select the page */
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(code_notebook), page->nr);
+		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(page->tree));
+		path = gtk_tree_path_new_from_indices(atoi(lineno_attr->value) - 1, -1);
+		gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(page->tree), path, NULL, TRUE, 0.5, 0.5);
+		state->allow_select = TRUE;
+		gtk_tree_selection_select_path(selection, path);
+		state->allow_select = FALSE;
+		gtk_widget_grab_focus(GTK_WIDGET(page->tree));
+	} else {
+		state->last_source_file = xdstrdup(filename_attr->value);
+	}
+
+	return NON_INTERACTIVE;
+}
+
+
+int process_select_file_line_for_selected_stack(ClientState* state)
+{
+	_process_select_file_line_for_selected_stack(state, 1);
+}
+
+
+int process_select_file_line_for_selected_stack_no_check(ClientState* state)
+{
+	_process_select_file_line_for_selected_stack(state, 0);
+}
+
+
 int process_update_context_vars_for_selected_stack(ClientState* state)
 {
 	return NON_INTERACTIVE;
@@ -194,6 +265,8 @@ int process_update_stack(ClientState* state)
 	GtkWidget *stack_view;
 	GtkListStore *store;
 	GtkTreeIter   iter;
+	GtkTreeSelection *selection;
+	GtkTreePath *path;
 	xdebug_xml_node *stack_frame;
 	xdebug_xml_attribute *where_attr, *level_attr, *filename_attr, *lineno_attr;
 
@@ -226,6 +299,14 @@ int process_update_stack(ClientState* state)
 		
 		stack_frame = stack_frame->next;
 	}
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(stack_view));
+	path = gtk_tree_path_new_from_indices(0, -1);
+	gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(stack_view), path, NULL, TRUE, 0.5, 0.5);
+	state->auto_stack_select = TRUE;
+	gtk_tree_selection_select_path(selection, path);
+	state->last_selected_stack_frame = 0;
+	state->auto_stack_select = FALSE;
 
 	return NON_INTERACTIVE;
 }
@@ -265,16 +346,30 @@ action_item break_action_list[] = {
 	NULL
 };
 
+action_item select_stack_action_list[] = {
+	process_mark_buttons_inactive,
+	do_stack_get,
+	process_select_file_line_for_selected_stack,
+	do_source_get,
+	process_add_source_file,
+	do_stack_get,
+	process_select_file_line_for_selected_stack_no_check,
+	process_mark_buttons_active,
+	NULL
+};
+
 static process_a_button(gchar *command, GtkToolButton *toolbutton, gpointer user_data)
 {
 	GIOChannel *iochannel;
 
-	update_statusbar( "Processing..." );
-	client_state->command = xdebug_sprintf( "%s -i %d", command, get_next_id(client_state));
-	client_state->watch_flags |= G_IO_OUT;
-	iochannel = gnet_tcp_socket_get_io_channel (client_state->socket);
-	g_source_remove (client_state->watch);
-	client_state->watch = g_io_add_watch(iochannel, client_state->watch_flags, async_client_iofunc, client_state);
+	if (client_state->buttons_active) {
+		update_statusbar("Processing...");
+		client_state->command = xdebug_sprintf("%s -i %d", command, get_next_id(client_state));
+		client_state->watch_flags |= G_IO_OUT;
+		iochannel = gnet_tcp_socket_get_io_channel(client_state->socket);
+		g_source_remove(client_state->watch);
+		client_state->watch = g_io_add_watch(iochannel, client_state->watch_flags, async_client_iofunc, client_state);
+	}
 }
 
 void process_continue_button(GtkToolButton *toolbutton, gpointer user_data)
@@ -333,11 +428,38 @@ enum
 
 gboolean code_page_selection_function (GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *path, gboolean path_currently_selected, gpointer userdata)
 {
-//	if (client_state->allow_select) {
+	if (client_state->allow_select) {
 		return TRUE;
-//	} else {
-//		return FALSE;
-//	}
+	} else {
+		return FALSE;
+	}
+}
+
+gboolean stack_selection_function(GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *path, gboolean path_currently_selected, gpointer userdata)
+{
+	GtkTreeIter iter;
+	GIOChannel *iochannel;
+	gchar *name;
+
+	if (!path_currently_selected && !client_state->auto_stack_select && gtk_tree_model_get_iter(model, &iter, path)) {
+		gtk_tree_model_get(model, &iter, STACK_NR_COLUMN, &name, -1);
+		if (strtol(name, NULL, 10) != client_state->last_selected_stack_frame) {
+			g_print ("%s is going to be selected.\n", name);
+			client_state->last_selected_stack_frame = strtol(name, NULL, 10);
+
+			client_state->server_state = SERVER_STATE_SELECT_STACK;
+			client_state->action_list_ptr = select_stack_action_list;
+
+			do_stack_get(client_state);
+
+			client_state->watch_flags |= G_IO_OUT;
+			iochannel = gnet_tcp_socket_get_io_channel(client_state->socket);
+			g_source_remove(client_state->watch);
+			client_state->watch = g_io_add_watch(iochannel, client_state->watch_flags, async_client_iofunc, client_state);
+		}
+		g_free(name);
+	}
+	return TRUE; /* allow selection state to change */
 }
 
 void add_source_file(gchar* filename, gchar *source)
@@ -528,6 +650,9 @@ int process_request(ClientState *client_state, int bcount)
 		case SERVER_STATE_STOPPED:
 			process_state_init(client_state);
 			break;
+		case SERVER_STATE_SELECT_STACK:
+			process_state_init(client_state);
+			break;
 	}
 
 	if (client_state->command) {
@@ -622,6 +747,9 @@ static void async_accept (GTcpSocket* server, GTcpSocket* client, gpointer data)
 		client_state->first_packet = TRUE;
 		client_state->more_coming = FALSE;
 		client_state->expected_length = 0;
+
+		client_state->buttons_active = FALSE;
+		client_state->auto_stack_select = FALSE;
 
 		g_print ("Accepted connection from %s:%d\n", name, port);
 		update_statusbar( "Waiting for input." );

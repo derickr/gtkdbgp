@@ -32,8 +32,11 @@ struct _ClientState
 
 	xdebug_xml_node* message;
 	gchar *last_source_file;
+	char last_selected_stack_frame;
 
 	int allow_select;
+	int buttons_active;
+	int auto_stack_select;
 };
 
 
@@ -48,6 +51,7 @@ enum
 ClientState* client_state;
 
 int get_next_id(ClientState * client_state);
+gboolean stack_selection_function(GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *path, gboolean path_currently_selected, gpointer userdata);
 
 void process_continue_button(GtkToolButton *toolbutton, gpointer user_data);
 void process_step_into_button(GtkToolButton *toolbutton, gpointer user_data);

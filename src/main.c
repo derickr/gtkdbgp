@@ -23,6 +23,7 @@ int main (int argc, char *argv[])
 	GtkCellRenderer *r1, *r2;
 	GtkTreeViewColumn *column1;
 	GtkListStore *store;
+	GtkTreeSelection *selection;
 
 	gtk_set_locale();
 	gtk_init(&argc, &argv);
@@ -49,6 +50,9 @@ int main (int argc, char *argv[])
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(stack_view), -1, "Location", r2, "text", STACK_LOCATION_COLUMN, NULL);
 
 	gtk_tree_view_set_model(GTK_TREE_VIEW(stack_view), GTK_TREE_MODEL(store));
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(stack_view));
+	gtk_tree_selection_set_select_function(selection, stack_selection_function, NULL, NULL);
 
 	gtk_window_maximize(MainWindow);
 	gtk_widget_show(MainWindow);
