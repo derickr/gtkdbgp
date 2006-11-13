@@ -3,6 +3,7 @@
 #endif
 
 #include <gtk/gtk.h>
+#include <gconf/gconf.h>
 
 #include "callbacks.h"
 #include "interface.h"
@@ -10,20 +11,13 @@
 #include "globals.h"
 
 extern ClientState *client_state;
+GtkWidget* DebuggerSettingsWindow;
 
 void
 on_quit_activate                       (GtkMenuItem     *menuitem,
                                         gpointer         user_data)
 {
     gtk_main_quit();
-}
-
-
-void
-on_debugger_settings_activate          (GtkMenuItem     *menuitem,
-                                        gpointer         user_data)
-{
-
 }
 
 
@@ -149,5 +143,105 @@ on_stack_view_select_cursor_row        (GtkTreeView     *treeview,
 {
 
   return FALSE;
+}
+
+
+void
+on_preferences_activate                (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+	DebuggerSettingsWindow = create_DebuggerSettingsWindow();
+	GtkWidget *PortWidget, *MaxDepth, *MaxStringLength, *MaxChildren, *PHPErrorBreak;
+	int port, max_string_length;
+	GConfEngine *conf;
+	char small_buffer[32];
+
+	/* Find ze widgetz! */
+	PortWidget = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "port");
+	MaxDepth = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_depth");
+	MaxStringLength = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_string_length");
+	MaxChildren = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_children");
+	PHPErrorBreak = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "break_on_warning");
+
+	/* Let's load the settings! */
+	conf = gconf_engine_get_default();
+
+	port = gconf_engine_get_int(conf, "/apps/gtkdbgp/port", NULL);
+	snprintf(small_buffer, 31, "%u", port);
+	gtk_entry_set_text(GTK_ENTRY(PortWidget), small_buffer);
+
+	max_string_length = gconf_engine_get_int(conf, "/apps/gtkdbgp/max_string_length", NULL);
+	snprintf(small_buffer, 31, "%u", max_string_length);
+	gtk_entry_set_text(GTK_ENTRY(MaxStringLength), small_buffer);
+
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(MaxChildren), gconf_engine_get_int(conf, "/apps/gtkdbgp/max_children", NULL));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(MaxDepth), gconf_engine_get_int(conf, "/apps/gtkdbgp/max_depth", NULL));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(PHPErrorBreak), gconf_engine_get_bool(conf, "/apps/gtkdbgp/break_on_warning", NULL));
+
+	gconf_engine_unref(conf);
+
+	gtk_widget_show(DebuggerSettingsWindow);
+}
+
+
+void
+on_cancel_clicked                      (GtkButton       *button,
+                                        gpointer         user_data)
+{
+	gtk_widget_hide(DebuggerSettingsWindow);
+}
+
+
+void
+on_ok_clicked                          (GtkButton       *button,
+                                        gpointer         user_data)
+{
+	GtkWidget *PortWidget, *MaxDepth, *MaxStringLength, *MaxChildren, *PHPErrorBreak;
+	int port, max_string_length;
+	GConfEngine *conf;
+	char small_buffer[32];
+
+	gtk_widget_hide(DebuggerSettingsWindow);
+
+	/* Find ze widgetz! */
+	PortWidget = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "port");
+	MaxDepth = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_depth");
+	MaxStringLength = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_string_length");
+	MaxChildren = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_children");
+	PHPErrorBreak = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "break_on_warning");
+
+	/* Let's save the settings! */
+	conf = gconf_engine_get_default();
+
+	gconf_engine_set_int(conf, "/apps/gtkdbgp/port", strtol(gtk_entry_get_text(GTK_ENTRY(PortWidget)), NULL, 10), NULL);
+	gconf_engine_set_int(conf, "/apps/gtkdbgp/max_string_length", strtol(gtk_entry_get_text(GTK_ENTRY(MaxStringLength)), NULL, 10), NULL);
+	gconf_engine_set_int(conf, "/apps/gtkdbgp/max_children", gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(MaxChildren)), NULL);
+	gconf_engine_set_int(conf, "/apps/gtkdbgp/max_depth", gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(MaxDepth)), NULL);
+	gconf_engine_set_bool(conf, "/apps/gtkdbgp/break_on_warning", gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(PHPErrorBreak)), NULL);
+
+	gconf_engine_unref(conf);
+
+}
+
+
+void
+on_revert_clicked                      (GtkButton       *button,
+                                        gpointer         user_data)
+{
+	GtkWidget *PortWidget, *MaxDepth, *MaxStringLength, *MaxChildren, *PHPErrorBreak;
+
+	/* Find ze widgetz! */
+	PortWidget = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "port");
+	MaxDepth = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_depth");
+	MaxStringLength = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_string_length");
+	MaxChildren = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_children");
+	PHPErrorBreak = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "break_on_warning");
+
+	gtk_entry_set_text(GTK_ENTRY(PortWidget), "9000");
+	gtk_entry_set_text(GTK_ENTRY(MaxStringLength), "512");
+
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(MaxChildren), 25);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(MaxDepth), 1);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(PHPErrorBreak), TRUE);
 }
 

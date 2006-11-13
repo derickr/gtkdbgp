@@ -10,7 +10,7 @@ AC_PROG_CC
 AM_PROG_CC_STDC
 AC_HEADER_STDC
 
-pkg_modules="gtk+-2.0 >= 2.0.0 gnet-2.0 >= 2.0.0 libxml-2.0"
+pkg_modules="gconf-2.0 >= 2.0.0 gtk+-2.0 >= 2.0.0 gnet-2.0 >= 2.0.0 libxml-2.0"
 PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
 AC_SUBST(PACKAGE_CFLAGS)
 AC_SUBST(PACKAGE_LIBS)

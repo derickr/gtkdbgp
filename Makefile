@@ -66,8 +66,8 @@ LTLIB = @LTLIB@
 MAINT = #
 MAKEINFO = makeinfo
 PACKAGE = gtkdbgp
-PACKAGE_CFLAGS = -pthread -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include/ -I/usr/include/libxml2  
-PACKAGE_LIBS = -pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lgnet-2.0 -lgthread-2.0 -lglib-2.0 -lxml2  
+PACKAGE_CFLAGS = -DORBIT2=1 -pthread -I/usr/include/gconf/2 -I/usr/include/orbit-2.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include/ -I/usr/include/libxml2  
+PACKAGE_LIBS = -pthread -lgconf-2 -lORBit-2 -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lgnet-2.0 -lgthread-2.0 -lglib-2.0 -lxml2  
 PKG_CONFIG = /usr/bin/pkg-config
 VERSION = 0.1
 

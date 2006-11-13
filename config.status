@@ -544,8 +544,8 @@ s,@CPP@,|#_!!_#|gcc -E,g
 s,@GREP@,|#_!!_#|/bin/grep,g
 s,@EGREP@,|#_!!_#|/bin/grep -E,g
 s,@PKG_CONFIG@,|#_!!_#|/usr/bin/pkg-config,g
-s,@PACKAGE_CFLAGS@,|#_!!_#|-pthread -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include/ -I/usr/include/libxml2  ,g
-s,@PACKAGE_LIBS@,|#_!!_#|-pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lgnet-2.0 -lgthread-2.0 -lglib-2.0 -lxml2  ,g
+s,@PACKAGE_CFLAGS@,|#_!!_#|-DORBIT2=1 -pthread -I/usr/include/gconf/2 -I/usr/include/orbit-2.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include/ -I/usr/include/libxml2  ,g
+s,@PACKAGE_LIBS@,|#_!!_#|-pthread -lgconf-2 -lORBit-2 -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lgnet-2.0 -lgthread-2.0 -lglib-2.0 -lxml2  ,g
 s,@LIBOBJS@,|#_!!_#|,g
 s,@LTLIBOBJS@,|#_!!_#|,g
 :end

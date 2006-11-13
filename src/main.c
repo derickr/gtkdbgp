@@ -8,6 +8,7 @@
 #endif
 
 #include <gtk/gtk.h>
+#include <gconf/gconf.h>
 
 #include "interface.h"
 #include "support.h"
@@ -24,6 +25,35 @@ int main (int argc, char *argv[])
 	GtkTreeViewColumn *column1;
 	GtkListStore *store;
 	GtkTreeSelection *selection;
+	GConfEngine *conf;
+	int port, max_children, max_depth, max_string_length;
+	gboolean break_on_warning;
+
+	/* Make default settings */
+	conf = gconf_engine_get_default();
+	port = gconf_engine_get_int(conf, "/apps/gtkdbgp/port", NULL);
+	if (!port) {
+		port = 9000;
+		gconf_engine_set_int(conf, "/apps/gtkdbgp/port", port, NULL);
+	}
+	max_children = gconf_engine_get_int(conf, "/apps/gtkdbgp/max_children", NULL);
+	if (!max_children) {
+		max_children = 25;
+		gconf_engine_set_int(conf, "/apps/gtkdbgp/max_children", max_children, NULL);
+	}
+	max_depth = gconf_engine_get_int(conf, "/apps/gtkdbgp/max_depth", NULL);
+	if (!max_depth) {
+		max_depth = 1;
+		gconf_engine_set_int(conf, "/apps/gtkdbgp/max_depth", max_depth, NULL);
+	}
+	max_string_length = gconf_engine_get_int(conf, "/apps/gtkdbgp/max_string_length", NULL);
+	if (!max_string_length) {
+		max_string_length = 512;
+		gconf_engine_set_int(conf, "/apps/gtkdbgp/max_string_length", max_string_length, NULL);
+	}
+	break_on_warning = gconf_engine_get_bool(conf, "/apps/gtkdbgp/break_on_warning", NULL);
+	gconf_engine_set_bool(conf, "/apps/gtkdbgp/break_on_warning", break_on_warning, NULL);
+	gconf_engine_unref(conf);
 
 	gtk_set_locale();
 	gtk_init(&argc, &argv);
@@ -57,7 +87,7 @@ int main (int argc, char *argv[])
 	gtk_window_maximize(MainWindow);
 	gtk_widget_show(MainWindow);
 
-	start_server(9000);
+	start_server(port);
 
 	gtk_main();
 	return 0;

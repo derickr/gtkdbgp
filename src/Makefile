@@ -66,12 +66,12 @@ LTLIB = @LTLIB@
 MAINT = #
 MAKEINFO = makeinfo
 PACKAGE = gtkdbgp
-PACKAGE_CFLAGS = -pthread -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include/ -I/usr/include/libxml2  
-PACKAGE_LIBS = -pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lgnet-2.0 -lgthread-2.0 -lglib-2.0 -lxml2  
+PACKAGE_CFLAGS = -DORBIT2=1 -pthread -I/usr/include/gconf/2 -I/usr/include/orbit-2.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include/ -I/usr/include/libxml2  
+PACKAGE_LIBS = -pthread -lgconf-2 -lORBit-2 -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lgnet-2.0 -lgthread-2.0 -lglib-2.0 -lxml2  
 PKG_CONFIG = /usr/bin/pkg-config
 VERSION = 0.1
 
-INCLUDES =  	-DPACKAGE_DATA_DIR=\""$(datadir)"\" 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" 	-pthread -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include/ -I/usr/include/libxml2  
+INCLUDES =  	-DPACKAGE_DATA_DIR=\""$(datadir)"\" 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" 	-DORBIT2=1 -pthread -I/usr/include/gconf/2 -I/usr/include/orbit-2.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/gnet-2.0 -I/usr/lib/gnet-2.0/include/ -I/usr/include/libxml2  
 
 
 bin_PROGRAMS = gtkdbgp
@@ -79,7 +79,7 @@ bin_PROGRAMS = gtkdbgp
 gtkdbgp_SOURCES =  	main.c 	support.c support.h 	interface.c interface.h 	callbacks.c callbacks.h 	server.c 	usefulstuff.c usefulstuff.h 	xdebug_hash.c xdebug_hash.h 	xdebug_llist.c xdebug_llist.h 	xdebug_mm.h 	xdebug_private.h 	xdebug_str.c xdebug_str.h 	xdebug_var.h 	xdebug_xml.c xdebug_xml.h 	xdebug_xml_reader.c
 
 
-gtkdbgp_LDADD = -pthread -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lgnet-2.0 -lgthread-2.0 -lglib-2.0 -lxml2  
+gtkdbgp_LDADD = -pthread -lgconf-2 -lORBit-2 -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lm -lpangocairo-1.0 -lfontconfig -lXext -lXrender -lXinerama -lXi -lXrandr -lXcursor -lXfixes -lpango-1.0 -lcairo -lX11 -lgobject-2.0 -lgmodule-2.0 -ldl -lgnet-2.0 -lgthread-2.0 -lglib-2.0 -lxml2  
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 

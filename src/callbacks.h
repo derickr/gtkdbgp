@@ -73,3 +73,19 @@ gboolean
 on_stack_view_select_cursor_row        (GtkTreeView     *treeview,
                                         gboolean         start_editing,
                                         gpointer         user_data);
+
+void
+on_preferences_activate                (GtkMenuItem     *menuitem,
+                                        gpointer         user_data);
+
+void
+on_cancel_clicked                      (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_ok_clicked                          (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_revert_clicked                      (GtkButton       *button,
+                                        gpointer         user_data);

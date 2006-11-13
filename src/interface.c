@@ -38,7 +38,8 @@ create_MainWindow (void)
   GtkWidget *quit_menu_item;
   GtkWidget *setting_menu_item;
   GtkWidget *setting_menu_item_menu;
-  GtkWidget *debugger_settings;
+  GtkWidget *preferences;
+  GtkWidget *image4;
   GtkWidget *debug_menu_item;
   GtkWidget *debug_menu_item_menu;
   GtkWidget *add_breakpoint_menu_item;
@@ -54,6 +55,7 @@ create_MainWindow (void)
   GtkWidget *HelpMenuItem;
   GtkWidget *HelpMenuItem_menu;
   GtkWidget *AboutMenuItem;
+  GtkWidget *image5;
   GtkWidget *toolbar1;
   GtkIconSize tmp_toolbar_icon_size;
   GtkWidget *tmp_image;
@@ -72,10 +74,27 @@ create_MainWindow (void)
   GtkWidget *treeview3;
   GtkWidget *label1;
   GtkWidget *hpaned2;
-  GtkWidget *scrolledwindow7;
   GtkWidget *viewport2;
   GtkWidget *notebook5;
-  GtkWidget *empty_notebook_page;
+  GtkWidget *vbox5;
+  GtkWidget *scrolledwindow8;
+  GtkWidget *treeview4;
+  GtkWidget *hbuttonbox1;
+  GtkWidget *button6;
+  GtkWidget *alignment5;
+  GtkWidget *hbox3;
+  GtkWidget *image1;
+  GtkWidget *label13;
+  GtkWidget *button7;
+  GtkWidget *alignment6;
+  GtkWidget *hbox4;
+  GtkWidget *image2;
+  GtkWidget *label14;
+  GtkWidget *button8;
+  GtkWidget *alignment7;
+  GtkWidget *hbox5;
+  GtkWidget *image3;
+  GtkWidget *label15;
   GtkWidget *breakpoints_label;
   GtkWidget *scrolledwindow1;
   GtkWidget *stack_view;
@@ -130,10 +149,15 @@ create_MainWindow (void)
   gtk_widget_set_name (setting_menu_item_menu, "setting_menu_item_menu");
   gtk_menu_item_set_submenu (GTK_MENU_ITEM (setting_menu_item), setting_menu_item_menu);
 
-  debugger_settings = gtk_menu_item_new_with_mnemonic ("_Debugger Settings");
-  gtk_widget_set_name (debugger_settings, "debugger_settings");
-  gtk_widget_show (debugger_settings);
-  gtk_container_add (GTK_CONTAINER (setting_menu_item_menu), debugger_settings);
+  preferences = gtk_image_menu_item_new_with_mnemonic ("_Preferences");
+  gtk_widget_set_name (preferences, "preferences");
+  gtk_widget_show (preferences);
+  gtk_container_add (GTK_CONTAINER (setting_menu_item_menu), preferences);
+
+  image4 = gtk_image_new_from_stock ("gtk-preferences", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_name (image4, "image4");
+  gtk_widget_show (image4);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (preferences), image4);
 
   debug_menu_item = gtk_menu_item_new_with_mnemonic ("_Debug");
   gtk_widget_set_name (debug_menu_item, "debug_menu_item");
@@ -209,10 +233,15 @@ create_MainWindow (void)
   gtk_widget_set_name (HelpMenuItem_menu, "HelpMenuItem_menu");
   gtk_menu_item_set_submenu (GTK_MENU_ITEM (HelpMenuItem), HelpMenuItem_menu);
 
-  AboutMenuItem = gtk_menu_item_new_with_mnemonic ("_About");
+  AboutMenuItem = gtk_image_menu_item_new_with_mnemonic ("_About");
   gtk_widget_set_name (AboutMenuItem, "AboutMenuItem");
   gtk_widget_show (AboutMenuItem);
   gtk_container_add (GTK_CONTAINER (HelpMenuItem_menu), AboutMenuItem);
+
+  image5 = gtk_image_new_from_stock ("gtk-help", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_name (image5, "image5");
+  gtk_widget_show (image5);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (AboutMenuItem), image5);
 
   toolbar1 = gtk_toolbar_new ();
   gtk_widget_set_name (toolbar1, "toolbar1");
@@ -313,16 +342,10 @@ create_MainWindow (void)
   gtk_paned_pack2 (GTK_PANED (vpaned1), hpaned2, FALSE, FALSE);
   gtk_widget_set_size_request (hpaned2, -1, 200);
 
-  scrolledwindow7 = gtk_scrolled_window_new (NULL, NULL);
-  gtk_widget_set_name (scrolledwindow7, "scrolledwindow7");
-  gtk_widget_show (scrolledwindow7);
-  gtk_paned_pack1 (GTK_PANED (hpaned2), scrolledwindow7, FALSE, TRUE);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow7), GTK_SHADOW_IN);
-
   viewport2 = gtk_viewport_new (NULL, NULL);
   gtk_widget_set_name (viewport2, "viewport2");
   gtk_widget_show (viewport2);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow7), viewport2);
+  gtk_paned_pack1 (GTK_PANED (hpaned2), viewport2, FALSE, TRUE);
   gtk_widget_set_size_request (viewport2, 400, -1);
 
   notebook5 = gtk_notebook_new ();
@@ -330,9 +353,108 @@ create_MainWindow (void)
   gtk_widget_show (notebook5);
   gtk_container_add (GTK_CONTAINER (viewport2), notebook5);
 
-  empty_notebook_page = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (empty_notebook_page);
-  gtk_container_add (GTK_CONTAINER (notebook5), empty_notebook_page);
+  vbox5 = gtk_vbox_new (FALSE, 0);
+  gtk_widget_set_name (vbox5, "vbox5");
+  gtk_widget_show (vbox5);
+  gtk_container_add (GTK_CONTAINER (notebook5), vbox5);
+
+  scrolledwindow8 = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_set_name (scrolledwindow8, "scrolledwindow8");
+  gtk_widget_show (scrolledwindow8);
+  gtk_box_pack_start (GTK_BOX (vbox5), scrolledwindow8, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow8), GTK_SHADOW_IN);
+
+  treeview4 = gtk_tree_view_new ();
+  gtk_widget_set_name (treeview4, "treeview4");
+  gtk_widget_show (treeview4);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow8), treeview4);
+
+  hbuttonbox1 = gtk_hbutton_box_new ();
+  gtk_widget_set_name (hbuttonbox1, "hbuttonbox1");
+  gtk_widget_show (hbuttonbox1);
+  gtk_box_pack_start (GTK_BOX (vbox5), hbuttonbox1, FALSE, FALSE, 0);
+  gtk_button_box_set_layout (GTK_BUTTON_BOX (hbuttonbox1), GTK_BUTTONBOX_END);
+
+  button6 = gtk_button_new ();
+  gtk_widget_set_name (button6, "button6");
+  gtk_widget_show (button6);
+  gtk_container_add (GTK_CONTAINER (hbuttonbox1), button6);
+  GTK_WIDGET_SET_FLAGS (button6, GTK_CAN_DEFAULT);
+  gtk_button_set_relief (GTK_BUTTON (button6), GTK_RELIEF_NONE);
+
+  alignment5 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_set_name (alignment5, "alignment5");
+  gtk_widget_show (alignment5);
+  gtk_container_add (GTK_CONTAINER (button6), alignment5);
+
+  hbox3 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_set_name (hbox3, "hbox3");
+  gtk_widget_show (hbox3);
+  gtk_container_add (GTK_CONTAINER (alignment5), hbox3);
+
+  image1 = gtk_image_new_from_stock ("gtk-add", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_set_name (image1, "image1");
+  gtk_widget_show (image1);
+  gtk_box_pack_start (GTK_BOX (hbox3), image1, FALSE, FALSE, 0);
+
+  label13 = gtk_label_new_with_mnemonic ("Add");
+  gtk_widget_set_name (label13, "label13");
+  gtk_widget_show (label13);
+  gtk_box_pack_start (GTK_BOX (hbox3), label13, FALSE, FALSE, 0);
+
+  button7 = gtk_button_new ();
+  gtk_widget_set_name (button7, "button7");
+  gtk_widget_show (button7);
+  gtk_container_add (GTK_CONTAINER (hbuttonbox1), button7);
+  GTK_WIDGET_SET_FLAGS (button7, GTK_CAN_DEFAULT);
+  gtk_button_set_relief (GTK_BUTTON (button7), GTK_RELIEF_NONE);
+
+  alignment6 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_set_name (alignment6, "alignment6");
+  gtk_widget_show (alignment6);
+  gtk_container_add (GTK_CONTAINER (button7), alignment6);
+
+  hbox4 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_set_name (hbox4, "hbox4");
+  gtk_widget_show (hbox4);
+  gtk_container_add (GTK_CONTAINER (alignment6), hbox4);
+
+  image2 = gtk_image_new_from_stock ("gtk-edit", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_set_name (image2, "image2");
+  gtk_widget_show (image2);
+  gtk_box_pack_start (GTK_BOX (hbox4), image2, FALSE, FALSE, 0);
+
+  label14 = gtk_label_new_with_mnemonic ("Edit");
+  gtk_widget_set_name (label14, "label14");
+  gtk_widget_show (label14);
+  gtk_box_pack_start (GTK_BOX (hbox4), label14, FALSE, FALSE, 0);
+
+  button8 = gtk_button_new ();
+  gtk_widget_set_name (button8, "button8");
+  gtk_widget_show (button8);
+  gtk_container_add (GTK_CONTAINER (hbuttonbox1), button8);
+  GTK_WIDGET_SET_FLAGS (button8, GTK_CAN_DEFAULT);
+  gtk_button_set_relief (GTK_BUTTON (button8), GTK_RELIEF_NONE);
+
+  alignment7 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_set_name (alignment7, "alignment7");
+  gtk_widget_show (alignment7);
+  gtk_container_add (GTK_CONTAINER (button8), alignment7);
+
+  hbox5 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_set_name (hbox5, "hbox5");
+  gtk_widget_show (hbox5);
+  gtk_container_add (GTK_CONTAINER (alignment7), hbox5);
+
+  image3 = gtk_image_new_from_stock ("gtk-delete", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_set_name (image3, "image3");
+  gtk_widget_show (image3);
+  gtk_box_pack_start (GTK_BOX (hbox5), image3, FALSE, FALSE, 0);
+
+  label15 = gtk_label_new_with_mnemonic ("Remove");
+  gtk_widget_set_name (label15, "label15");
+  gtk_widget_show (label15);
+  gtk_box_pack_start (GTK_BOX (hbox5), label15, FALSE, FALSE, 0);
 
   breakpoints_label = gtk_label_new ("Breakpoints");
   gtk_widget_set_name (breakpoints_label, "breakpoints_label");
@@ -360,8 +482,8 @@ create_MainWindow (void)
   g_signal_connect ((gpointer) quit_menu_item, "activate",
                     G_CALLBACK (on_quit_activate),
                     NULL);
-  g_signal_connect ((gpointer) debugger_settings, "activate",
-                    G_CALLBACK (on_debugger_settings_activate),
+  g_signal_connect ((gpointer) preferences, "activate",
+                    G_CALLBACK (on_preferences_activate),
                     NULL);
   g_signal_connect ((gpointer) add_breakpoint_menu_item, "activate",
                     G_CALLBACK (on_add_breakpoint_menu_item_activate),
@@ -419,7 +541,8 @@ create_MainWindow (void)
   GLADE_HOOKUP_OBJECT (MainWindow, quit_menu_item, "quit_menu_item");
   GLADE_HOOKUP_OBJECT (MainWindow, setting_menu_item, "setting_menu_item");
   GLADE_HOOKUP_OBJECT (MainWindow, setting_menu_item_menu, "setting_menu_item_menu");
-  GLADE_HOOKUP_OBJECT (MainWindow, debugger_settings, "debugger_settings");
+  GLADE_HOOKUP_OBJECT (MainWindow, preferences, "preferences");
+  GLADE_HOOKUP_OBJECT (MainWindow, image4, "image4");
   GLADE_HOOKUP_OBJECT (MainWindow, debug_menu_item, "debug_menu_item");
   GLADE_HOOKUP_OBJECT (MainWindow, debug_menu_item_menu, "debug_menu_item_menu");
   GLADE_HOOKUP_OBJECT (MainWindow, add_breakpoint_menu_item, "add_breakpoint_menu_item");
@@ -435,6 +558,7 @@ create_MainWindow (void)
   GLADE_HOOKUP_OBJECT (MainWindow, HelpMenuItem, "HelpMenuItem");
   GLADE_HOOKUP_OBJECT (MainWindow, HelpMenuItem_menu, "HelpMenuItem_menu");
   GLADE_HOOKUP_OBJECT (MainWindow, AboutMenuItem, "AboutMenuItem");
+  GLADE_HOOKUP_OBJECT (MainWindow, image5, "image5");
   GLADE_HOOKUP_OBJECT (MainWindow, toolbar1, "toolbar1");
   GLADE_HOOKUP_OBJECT (MainWindow, continue_button, "continue_button");
   GLADE_HOOKUP_OBJECT (MainWindow, separatortoolitem1, "separatortoolitem1");
@@ -451,9 +575,27 @@ create_MainWindow (void)
   GLADE_HOOKUP_OBJECT (MainWindow, treeview3, "treeview3");
   GLADE_HOOKUP_OBJECT (MainWindow, label1, "label1");
   GLADE_HOOKUP_OBJECT (MainWindow, hpaned2, "hpaned2");
-  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow7, "scrolledwindow7");
   GLADE_HOOKUP_OBJECT (MainWindow, viewport2, "viewport2");
   GLADE_HOOKUP_OBJECT (MainWindow, notebook5, "notebook5");
+  GLADE_HOOKUP_OBJECT (MainWindow, vbox5, "vbox5");
+  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow8, "scrolledwindow8");
+  GLADE_HOOKUP_OBJECT (MainWindow, treeview4, "treeview4");
+  GLADE_HOOKUP_OBJECT (MainWindow, hbuttonbox1, "hbuttonbox1");
+  GLADE_HOOKUP_OBJECT (MainWindow, button6, "button6");
+  GLADE_HOOKUP_OBJECT (MainWindow, alignment5, "alignment5");
+  GLADE_HOOKUP_OBJECT (MainWindow, hbox3, "hbox3");
+  GLADE_HOOKUP_OBJECT (MainWindow, image1, "image1");
+  GLADE_HOOKUP_OBJECT (MainWindow, label13, "label13");
+  GLADE_HOOKUP_OBJECT (MainWindow, button7, "button7");
+  GLADE_HOOKUP_OBJECT (MainWindow, alignment6, "alignment6");
+  GLADE_HOOKUP_OBJECT (MainWindow, hbox4, "hbox4");
+  GLADE_HOOKUP_OBJECT (MainWindow, image2, "image2");
+  GLADE_HOOKUP_OBJECT (MainWindow, label14, "label14");
+  GLADE_HOOKUP_OBJECT (MainWindow, button8, "button8");
+  GLADE_HOOKUP_OBJECT (MainWindow, alignment7, "alignment7");
+  GLADE_HOOKUP_OBJECT (MainWindow, hbox5, "hbox5");
+  GLADE_HOOKUP_OBJECT (MainWindow, image3, "image3");
+  GLADE_HOOKUP_OBJECT (MainWindow, label15, "label15");
   GLADE_HOOKUP_OBJECT (MainWindow, breakpoints_label, "breakpoints_label");
   GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow1, "scrolledwindow1");
   GLADE_HOOKUP_OBJECT (MainWindow, stack_view, "stack_view");
@@ -594,22 +736,48 @@ create_DebuggerSettingsWindow (void)
 {
   GtkWidget *DebuggerSettingsWindow;
   GtkWidget *vbox4;
-  GtkWidget *notebook4;
-  GtkWidget *alignment4;
+  GtkWidget *alignment11;
+  GtkWidget *frame1;
+  GtkWidget *alignment8;
   GtkWidget *table1;
-  GtkWidget *label12;
-  GtkWidget *entry1;
-  GtkWidget *listener_label;
-  GtkWidget *empty_notebook_page;
-  GtkWidget *data_settings_label;
+  GtkWidget *label19;
+  GtkWidget *port;
+  GtkWidget *label16;
+  GtkWidget *alignment12;
+  GtkWidget *frame2;
+  GtkWidget *alignment9;
+  GtkWidget *table2;
+  GtkWidget *label20;
+  GtkWidget *label21;
+  GtkWidget *label22;
+  GtkWidget *max_string_length;
+  GtkObject *max_children_adj;
+  GtkWidget *max_children;
+  GtkObject *max_depth_adj;
+  GtkWidget *max_depth;
+  GtkWidget *label23;
+  GtkWidget *label17;
+  GtkWidget *alignment13;
+  GtkWidget *frame3;
+  GtkWidget *alignment14;
+  GtkWidget *table3;
+  GtkWidget *break_on_warning;
+  GtkWidget *label18;
   GtkWidget *alignment3;
   GtkWidget *hbox2;
-  GtkWidget *button4;
-  GtkWidget *button5;
+  GtkWidget *revert;
+  GtkWidget *cancel;
+  GtkWidget *ok;
+  GtkAccelGroup *accel_group;
+  GtkTooltips *tooltips;
+
+  tooltips = gtk_tooltips_new ();
+
+  accel_group = gtk_accel_group_new ();
 
   DebuggerSettingsWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_set_name (DebuggerSettingsWindow, "DebuggerSettingsWindow");
-  gtk_window_set_title (GTK_WINDOW (DebuggerSettingsWindow), "Debugger Settings");
+  gtk_window_set_title (GTK_WINDOW (DebuggerSettingsWindow), "Preferences");
   gtk_window_set_position (GTK_WINDOW (DebuggerSettingsWindow), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_modal (GTK_WINDOW (DebuggerSettingsWindow), TRUE);
   gtk_window_set_resizable (GTK_WINDOW (DebuggerSettingsWindow), FALSE);
@@ -621,93 +789,289 @@ create_DebuggerSettingsWindow (void)
   gtk_widget_show (vbox4);
   gtk_container_add (GTK_CONTAINER (DebuggerSettingsWindow), vbox4);
 
-  notebook4 = gtk_notebook_new ();
-  gtk_widget_set_name (notebook4, "notebook4");
-  gtk_widget_show (notebook4);
-  gtk_box_pack_start (GTK_BOX (vbox4), notebook4, TRUE, TRUE, 0);
-  gtk_widget_set_size_request (notebook4, -1, 130);
+  alignment11 = gtk_alignment_new (0.5, 0.5, 1, 1);
+  gtk_widget_set_name (alignment11, "alignment11");
+  gtk_widget_show (alignment11);
+  gtk_box_pack_start (GTK_BOX (vbox4), alignment11, TRUE, TRUE, 0);
+  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment11), 5, 5, 5, 5);
 
-  alignment4 = gtk_alignment_new (0.5, 0.5, 1, 1);
-  gtk_widget_set_name (alignment4, "alignment4");
-  gtk_widget_show (alignment4);
-  gtk_container_add (GTK_CONTAINER (notebook4), alignment4);
-  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment4), 5, 5, 5, 5);
+  frame1 = gtk_frame_new (NULL);
+  gtk_widget_set_name (frame1, "frame1");
+  gtk_widget_show (frame1);
+  gtk_container_add (GTK_CONTAINER (alignment11), frame1);
 
-  table1 = gtk_table_new (1, 2, FALSE);
+  alignment8 = gtk_alignment_new (0.5, 0.5, 1, 1);
+  gtk_widget_set_name (alignment8, "alignment8");
+  gtk_widget_show (alignment8);
+  gtk_container_add (GTK_CONTAINER (frame1), alignment8);
+  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment8), 4, 4, 12, 0);
+
+  table1 = gtk_table_new (1, 3, FALSE);
   gtk_widget_set_name (table1, "table1");
   gtk_widget_show (table1);
-  gtk_container_add (GTK_CONTAINER (alignment4), table1);
-  gtk_table_set_row_spacings (GTK_TABLE (table1), 32);
-  gtk_table_set_col_spacings (GTK_TABLE (table1), 26);
+  gtk_container_add (GTK_CONTAINER (alignment8), table1);
 
-  label12 = gtk_label_new ("Port:");
-  gtk_widget_set_name (label12, "label12");
-  gtk_widget_show (label12);
-  gtk_table_attach (GTK_TABLE (table1), label12, 0, 1, 0, 1,
+  label19 = gtk_label_new_with_mnemonic ("_Port:");
+  gtk_widget_set_name (label19, "label19");
+  gtk_widget_show (label19);
+  gtk_table_attach (GTK_TABLE (table1), label19, 0, 1, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 4, 4);
+  gtk_widget_set_size_request (label19, 150, -1);
+  gtk_label_set_justify (GTK_LABEL (label19), GTK_JUSTIFY_RIGHT);
+  gtk_misc_set_alignment (GTK_MISC (label19), 0, 0.5);
+  gtk_label_set_ellipsize (GTK_LABEL (label19), PANGO_ELLIPSIZE_START);
+
+  port = gtk_entry_new ();
+  gtk_widget_set_name (port, "port");
+  gtk_widget_show (port);
+  gtk_table_attach (GTK_TABLE (table1), port, 1, 3, 0, 1,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
-  gtk_misc_set_alignment (GTK_MISC (label12), 0, 0.5);
+  gtk_widget_set_size_request (port, 160, -1);
+  gtk_tooltips_set_tip (tooltips, port, "This is the port on which the DBGP client listens. The default value is 9000.", NULL);
+  gtk_widget_add_accelerator (port, "activate", accel_group,
+                              GDK_P, (GdkModifierType) GDK_MOD1_MASK,
+                              GTK_ACCEL_VISIBLE);
+  gtk_entry_set_max_length (GTK_ENTRY (port), 5);
+  gtk_entry_set_text (GTK_ENTRY (port), "9000");
 
-  entry1 = gtk_entry_new ();
-  gtk_widget_set_name (entry1, "entry1");
-  gtk_widget_show (entry1);
-  gtk_table_attach (GTK_TABLE (table1), entry1, 1, 2, 0, 1,
+  label16 = gtk_label_new ("<b>Listener</b>");
+  gtk_widget_set_name (label16, "label16");
+  gtk_widget_show (label16);
+  gtk_frame_set_label_widget (GTK_FRAME (frame1), label16);
+  gtk_label_set_use_markup (GTK_LABEL (label16), TRUE);
+
+  alignment12 = gtk_alignment_new (0.5, 0.5, 1, 1);
+  gtk_widget_set_name (alignment12, "alignment12");
+  gtk_widget_show (alignment12);
+  gtk_box_pack_start (GTK_BOX (vbox4), alignment12, TRUE, TRUE, 0);
+  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment12), 5, 5, 5, 5);
+
+  frame2 = gtk_frame_new (NULL);
+  gtk_widget_set_name (frame2, "frame2");
+  gtk_widget_show (frame2);
+  gtk_container_add (GTK_CONTAINER (alignment12), frame2);
+
+  alignment9 = gtk_alignment_new (0.5, 0.5, 1, 1);
+  gtk_widget_set_name (alignment9, "alignment9");
+  gtk_widget_show (alignment9);
+  gtk_container_add (GTK_CONTAINER (frame2), alignment9);
+  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment9), 4, 4, 12, 0);
+
+  table2 = gtk_table_new (3, 3, FALSE);
+  gtk_widget_set_name (table2, "table2");
+  gtk_widget_show (table2);
+  gtk_container_add (GTK_CONTAINER (alignment9), table2);
+
+  label20 = gtk_label_new_with_mnemonic ("Maximum c_hildren:");
+  gtk_widget_set_name (label20, "label20");
+  gtk_widget_show (label20);
+  gtk_table_attach (GTK_TABLE (table2), label20, 0, 1, 0, 1,
                     (GtkAttachOptions) (GTK_FILL),
-                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
-  gtk_widget_set_size_request (entry1, 70, -1);
-  gtk_entry_set_max_length (GTK_ENTRY (entry1), 5);
-  gtk_entry_set_text (GTK_ENTRY (entry1), "9000");
+                    (GtkAttachOptions) (0), 4, 4);
+  gtk_widget_set_size_request (label20, 150, -1);
+  gtk_label_set_justify (GTK_LABEL (label20), GTK_JUSTIFY_RIGHT);
+  gtk_misc_set_alignment (GTK_MISC (label20), 0, 0.5);
+  gtk_label_set_ellipsize (GTK_LABEL (label20), PANGO_ELLIPSIZE_START);
 
-  listener_label = gtk_label_new ("Listener");
-  gtk_widget_set_name (listener_label, "listener_label");
-  gtk_widget_show (listener_label);
-  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook4), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook4), 0), listener_label);
+  label21 = gtk_label_new_with_mnemonic ("Maxium _string length:");
+  gtk_widget_set_name (label21, "label21");
+  gtk_widget_show (label21);
+  gtk_table_attach (GTK_TABLE (table2), label21, 0, 1, 1, 2,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 4, 4);
+  gtk_label_set_justify (GTK_LABEL (label21), GTK_JUSTIFY_RIGHT);
+  gtk_misc_set_alignment (GTK_MISC (label21), 0, 0.5);
+  gtk_label_set_ellipsize (GTK_LABEL (label21), PANGO_ELLIPSIZE_START);
 
-  empty_notebook_page = gtk_vbox_new (FALSE, 0);
-  gtk_widget_show (empty_notebook_page);
-  gtk_container_add (GTK_CONTAINER (notebook4), empty_notebook_page);
+  label22 = gtk_label_new_with_mnemonic ("Maximum _depth:");
+  gtk_widget_set_name (label22, "label22");
+  gtk_widget_show (label22);
+  gtk_table_attach (GTK_TABLE (table2), label22, 0, 1, 2, 3,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 4, 4);
+  gtk_label_set_justify (GTK_LABEL (label22), GTK_JUSTIFY_RIGHT);
+  gtk_misc_set_alignment (GTK_MISC (label22), 0, 0.5);
+  gtk_label_set_ellipsize (GTK_LABEL (label22), PANGO_ELLIPSIZE_START);
 
-  data_settings_label = gtk_label_new ("Data Transfer");
-  gtk_widget_set_name (data_settings_label, "data_settings_label");
-  gtk_widget_show (data_settings_label);
-  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook4), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook4), 1), data_settings_label);
+  max_string_length = gtk_entry_new ();
+  gtk_widget_set_name (max_string_length, "max_string_length");
+  gtk_widget_show (max_string_length);
+  gtk_table_attach (GTK_TABLE (table2), max_string_length, 1, 2, 1, 2,
+                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_tooltips_set_tip (tooltips, max_string_length, "The number of bytes that will be returns for a string while fetching variable contents.", NULL);
+  gtk_widget_add_accelerator (max_string_length, "activate", accel_group,
+                              GDK_S, (GdkModifierType) GDK_MOD1_MASK,
+                              GTK_ACCEL_VISIBLE);
+
+  max_children_adj = gtk_adjustment_new (5, 5, 100, 1, 5, 5);
+  max_children = gtk_spin_button_new (GTK_ADJUSTMENT (max_children_adj), 1, 0);
+  gtk_widget_set_name (max_children, "max_children");
+  gtk_widget_show (max_children);
+  gtk_table_attach (GTK_TABLE (table2), max_children, 1, 2, 0, 1,
+                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_widget_set_size_request (max_children, 160, -1);
+  gtk_tooltips_set_tip (tooltips, max_children, "The maximum number of children to be returned in a single request for variable warnings.", NULL);
+  gtk_widget_add_accelerator (max_children, "activate", accel_group,
+                              GDK_H, (GdkModifierType) GDK_MOD1_MASK,
+                              GTK_ACCEL_VISIBLE);
+  gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (max_children), TRUE);
+
+  max_depth_adj = gtk_adjustment_new (1, 1, 10, 1, 10, 10);
+  max_depth = gtk_spin_button_new (GTK_ADJUSTMENT (max_depth_adj), 1, 0);
+  gtk_widget_set_name (max_depth, "max_depth");
+  gtk_widget_show (max_depth);
+  gtk_table_attach (GTK_TABLE (table2), max_depth, 1, 2, 2, 3,
+                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_widget_set_size_request (max_depth, 160, -1);
+  gtk_tooltips_set_tip (tooltips, max_depth, "The number of levels deep that will be returned for variable contents.", NULL);
+  gtk_widget_add_accelerator (max_depth, "activate", accel_group,
+                              GDK_D, (GdkModifierType) GDK_MOD1_MASK,
+                              GTK_ACCEL_VISIBLE);
+  gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (max_depth), TRUE);
+
+  label23 = gtk_label_new ("bytes");
+  gtk_widget_set_name (label23, "label23");
+  gtk_widget_show (label23);
+  gtk_table_attach (GTK_TABLE (table2), label23, 2, 3, 1, 2,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 4, 4);
+  gtk_misc_set_alignment (GTK_MISC (label23), 0, 0.5);
+
+  label17 = gtk_label_new ("<b>Data Transfer</b>");
+  gtk_widget_set_name (label17, "label17");
+  gtk_widget_show (label17);
+  gtk_frame_set_label_widget (GTK_FRAME (frame2), label17);
+  gtk_label_set_use_markup (GTK_LABEL (label17), TRUE);
+
+  alignment13 = gtk_alignment_new (0.5, 0.5, 1, 1);
+  gtk_widget_set_name (alignment13, "alignment13");
+  gtk_widget_show (alignment13);
+  gtk_box_pack_start (GTK_BOX (vbox4), alignment13, TRUE, TRUE, 0);
+  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment13), 5, 5, 5, 5);
+
+  frame3 = gtk_frame_new (NULL);
+  gtk_widget_set_name (frame3, "frame3");
+  gtk_widget_show (frame3);
+  gtk_container_add (GTK_CONTAINER (alignment13), frame3);
+
+  alignment14 = gtk_alignment_new (0.5, 0.5, 1, 1);
+  gtk_widget_set_name (alignment14, "alignment14");
+  gtk_widget_show (alignment14);
+  gtk_container_add (GTK_CONTAINER (frame3), alignment14);
+  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment14), 4, 4, 12, 0);
+
+  table3 = gtk_table_new (1, 3, FALSE);
+  gtk_widget_set_name (table3, "table3");
+  gtk_widget_show (table3);
+  gtk_container_add (GTK_CONTAINER (alignment14), table3);
+
+  break_on_warning = gtk_check_button_new_with_mnemonic ("_Break on PHP errors, warnings, etc...");
+  gtk_widget_set_name (break_on_warning, "break_on_warning");
+  gtk_widget_show (break_on_warning);
+  gtk_table_attach (GTK_TABLE (table3), break_on_warning, 0, 3, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_tooltips_set_tip (tooltips, break_on_warning, "Causes the PHP script to generate a breakpoint whenever a Notice, Warning or Error has been reached.", NULL);
+  gtk_widget_add_accelerator (break_on_warning, "grab_focus", accel_group,
+                              GDK_B, (GdkModifierType) GDK_MOD1_MASK,
+                              GTK_ACCEL_VISIBLE);
+
+  label18 = gtk_label_new ("<b>Debugger Settings</b>");
+  gtk_widget_set_name (label18, "label18");
+  gtk_widget_show (label18);
+  gtk_frame_set_label_widget (GTK_FRAME (frame3), label18);
+  gtk_label_set_use_markup (GTK_LABEL (label18), TRUE);
 
   alignment3 = gtk_alignment_new (0, 0.5, 1, 1);
   gtk_widget_set_name (alignment3, "alignment3");
   gtk_widget_show (alignment3);
   gtk_box_pack_start (GTK_BOX (vbox4), alignment3, TRUE, TRUE, 0);
-  gtk_widget_set_size_request (alignment3, -1, 32);
-  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment3), 0, 0, 251, 0);
+  gtk_widget_set_size_request (alignment3, -1, 40);
+  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment3), 4, 6, 141, 0);
 
   hbox2 = gtk_hbox_new (FALSE, 0);
   gtk_widget_set_name (hbox2, "hbox2");
   gtk_widget_show (hbox2);
   gtk_container_add (GTK_CONTAINER (alignment3), hbox2);
 
-  button4 = gtk_button_new_from_stock ("gtk-ok");
-  gtk_widget_set_name (button4, "button4");
-  gtk_widget_show (button4);
-  gtk_box_pack_start (GTK_BOX (hbox2), button4, FALSE, FALSE, 0);
+  revert = gtk_button_new_from_stock ("gtk-revert-to-saved");
+  gtk_widget_set_name (revert, "revert");
+  gtk_widget_show (revert);
+  gtk_box_pack_start (GTK_BOX (hbox2), revert, FALSE, FALSE, 0);
+  gtk_widget_set_size_request (revert, 80, -1);
+  gtk_tooltips_set_tip (tooltips, revert, "Revert settings to default changes.", NULL);
 
-  button5 = gtk_button_new_from_stock ("gtk-cancel");
-  gtk_widget_set_name (button5, "button5");
-  gtk_widget_show (button5);
-  gtk_box_pack_start (GTK_BOX (hbox2), button5, FALSE, FALSE, 0);
+  cancel = gtk_button_new_from_stock ("gtk-cancel");
+  gtk_widget_set_name (cancel, "cancel");
+  gtk_widget_show (cancel);
+  gtk_box_pack_start (GTK_BOX (hbox2), cancel, FALSE, FALSE, 0);
+  gtk_widget_set_size_request (cancel, 80, -1);
+
+  ok = gtk_button_new_from_stock ("gtk-ok");
+  gtk_widget_set_name (ok, "ok");
+  gtk_widget_show (ok);
+  gtk_box_pack_start (GTK_BOX (hbox2), ok, FALSE, FALSE, 0);
+  gtk_widget_set_size_request (ok, 80, -1);
+  GTK_WIDGET_SET_FLAGS (ok, GTK_CAN_DEFAULT);
+
+  g_signal_connect ((gpointer) revert, "clicked",
+                    G_CALLBACK (on_revert_clicked),
+                    NULL);
+  g_signal_connect ((gpointer) cancel, "clicked",
+                    G_CALLBACK (on_cancel_clicked),
+                    NULL);
+  g_signal_connect ((gpointer) ok, "clicked",
+                    G_CALLBACK (on_ok_clicked),
+                    NULL);
+
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label19), port);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label20), max_children);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label21), max_string_length);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label22), max_depth);
 
   /* Store pointers to all widgets, for use by lookup_widget(). */
   GLADE_HOOKUP_OBJECT_NO_REF (DebuggerSettingsWindow, DebuggerSettingsWindow, "DebuggerSettingsWindow");
   GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, vbox4, "vbox4");
-  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, notebook4, "notebook4");
-  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, alignment4, "alignment4");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, alignment11, "alignment11");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, frame1, "frame1");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, alignment8, "alignment8");
   GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, table1, "table1");
-  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, label12, "label12");
-  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, entry1, "entry1");
-  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, listener_label, "listener_label");
-  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, data_settings_label, "data_settings_label");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, label19, "label19");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, port, "port");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, label16, "label16");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, alignment12, "alignment12");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, frame2, "frame2");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, alignment9, "alignment9");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, table2, "table2");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, label20, "label20");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, label21, "label21");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, label22, "label22");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, max_string_length, "max_string_length");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, max_children, "max_children");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, max_depth, "max_depth");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, label23, "label23");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, label17, "label17");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, alignment13, "alignment13");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, frame3, "frame3");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, alignment14, "alignment14");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, table3, "table3");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, break_on_warning, "break_on_warning");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, label18, "label18");
   GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, alignment3, "alignment3");
   GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, hbox2, "hbox2");
-  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, button4, "button4");
-  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, button5, "button5");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, revert, "revert");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, cancel, "cancel");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, ok, "ok");
+  GLADE_HOOKUP_OBJECT_NO_REF (DebuggerSettingsWindow, tooltips, "tooltips");
+
+  gtk_widget_grab_focus (port);
+  gtk_widget_grab_default (ok);
+  gtk_window_add_accel_group (GTK_WINDOW (DebuggerSettingsWindow), accel_group);
 
   return DebuggerSettingsWindow;
 }
