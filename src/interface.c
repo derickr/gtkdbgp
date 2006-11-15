@@ -69,10 +69,13 @@ create_MainWindow (void)
   GtkWidget *kill_button;
   GtkWidget *vpaned1;
   GtkWidget *viewport1;
+  GtkWidget *vbox6;
   GtkWidget *code_notebook;
   GtkWidget *scrolledwindow6;
   GtkWidget *treeview3;
   GtkWidget *label1;
+  GtkWidget *last_message_label;
+  GtkWidget *hseparator1;
   GtkWidget *hpaned2;
   GtkWidget *viewport2;
   GtkWidget *notebook5;
@@ -312,10 +315,15 @@ create_MainWindow (void)
   gtk_paned_pack1 (GTK_PANED (vpaned1), viewport1, TRUE, FALSE);
   gtk_viewport_set_shadow_type (GTK_VIEWPORT (viewport1), GTK_SHADOW_NONE);
 
+  vbox6 = gtk_vbox_new (FALSE, 0);
+  gtk_widget_set_name (vbox6, "vbox6");
+  gtk_widget_show (vbox6);
+  gtk_container_add (GTK_CONTAINER (viewport1), vbox6);
+
   code_notebook = gtk_notebook_new ();
   gtk_widget_set_name (code_notebook, "code_notebook");
   gtk_widget_show (code_notebook);
-  gtk_container_add (GTK_CONTAINER (viewport1), code_notebook);
+  gtk_box_pack_start (GTK_BOX (vbox6), code_notebook, TRUE, TRUE, 0);
   gtk_notebook_set_scrollable (GTK_NOTEBOOK (code_notebook), TRUE);
 
   scrolledwindow6 = gtk_scrolled_window_new (NULL, NULL);
@@ -335,6 +343,21 @@ create_MainWindow (void)
   gtk_widget_set_name (label1, "label1");
   gtk_widget_show (label1);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (code_notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (code_notebook), 0), label1);
+
+  last_message_label = gtk_label_new ("fsadasdf");
+  gtk_widget_set_name (last_message_label, "last_message_label");
+  gtk_widget_show (last_message_label);
+  gtk_box_pack_start (GTK_BOX (vbox6), last_message_label, FALSE, FALSE, 0);
+  gtk_misc_set_alignment (GTK_MISC (last_message_label), 0, 0.5);
+  gtk_misc_set_padding (GTK_MISC (last_message_label), 4, 1);
+  gtk_label_set_ellipsize (GTK_LABEL (last_message_label), PANGO_ELLIPSIZE_END);
+  gtk_label_set_single_line_mode (GTK_LABEL (last_message_label), TRUE);
+
+  hseparator1 = gtk_hseparator_new ();
+  gtk_widget_set_name (hseparator1, "hseparator1");
+  gtk_widget_show (hseparator1);
+  gtk_box_pack_start (GTK_BOX (vbox6), hseparator1, FALSE, FALSE, 0);
+  gtk_widget_set_size_request (hseparator1, -1, 4);
 
   hpaned2 = gtk_hpaned_new ();
   gtk_widget_set_name (hpaned2, "hpaned2");
@@ -570,10 +593,13 @@ create_MainWindow (void)
   GLADE_HOOKUP_OBJECT (MainWindow, kill_button, "kill_button");
   GLADE_HOOKUP_OBJECT (MainWindow, vpaned1, "vpaned1");
   GLADE_HOOKUP_OBJECT (MainWindow, viewport1, "viewport1");
+  GLADE_HOOKUP_OBJECT (MainWindow, vbox6, "vbox6");
   GLADE_HOOKUP_OBJECT (MainWindow, code_notebook, "code_notebook");
   GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow6, "scrolledwindow6");
   GLADE_HOOKUP_OBJECT (MainWindow, treeview3, "treeview3");
   GLADE_HOOKUP_OBJECT (MainWindow, label1, "label1");
+  GLADE_HOOKUP_OBJECT (MainWindow, last_message_label, "last_message_label");
+  GLADE_HOOKUP_OBJECT (MainWindow, hseparator1, "hseparator1");
   GLADE_HOOKUP_OBJECT (MainWindow, hpaned2, "hpaned2");
   GLADE_HOOKUP_OBJECT (MainWindow, viewport2, "viewport2");
   GLADE_HOOKUP_OBJECT (MainWindow, notebook5, "notebook5");

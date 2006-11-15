@@ -688,6 +688,20 @@ int process_state_input(ClientState *client_state)
 			client_state->server_state = SERVER_STATE_BREAK;
 			client_state->action_list_ptr = break_action_list;
 		}
+		attr = xdebug_xml_fetch_attribute(message, "reason");
+		if (attr && attr->value && strcmp(attr->value, "exception") == 0) {
+			gchar *error_message;
+			xdebug_xml_attribute *level, *code;
+			GtkWidget *statusbar;
+			
+			statusbar = lookup_widget(GTK_WIDGET(MainWindow), "last_message_label");
+			level = xdebug_xml_fetch_attribute(message->child, "exception");
+			code = xdebug_xml_fetch_attribute(message->child, "code");
+
+			error_message = xdebug_sprintf("<span foreground=\"red\" weight=\"bold\">%s:</span> %s (%s)", level->value, message->child->text->text, code->value);
+			gtk_label_set_markup(GTK_LABEL(statusbar), error_message);
+			xdfree(error_message);
+		}
 	}
 	if (strcmp(message->tag, "response") == 0) {
 		attr = xdebug_xml_fetch_attribute(message, "status");
