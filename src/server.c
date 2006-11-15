@@ -43,6 +43,10 @@
 #define DBGP_PHP_ERROR       3
 #define DBGP_PHP_STRICT      4
 
+#define FEATURE_MAX_CHILDREN 1
+#define FEATURE_MAX_DATA     2
+#define FEATURE_MAX_DEPTH    3
+
 ClientState* client_state;
 
 extern GtkWidget *MainWindow;
@@ -63,6 +67,7 @@ void add_source_file(gchar* filename, gchar *source);
 int do_context_get(int param, ClientState* state);
 int do_run(int param, ClientState* state);
 int do_set_error_breakpoint(int param, ClientState* state);
+int do_set_feature(int param, ClientState* state);
 int do_source_get(int param, ClientState* state);
 int do_stack_get(int param, ClientState* state);
 int do_step_into(int param, ClientState* state);
@@ -116,6 +121,27 @@ int do_set_error_breakpoint(int param, ClientState* state)
 		case DBGP_PHP_STRICT: name = "Strict"; break;
 	}
 	state->command = xdebug_sprintf( "breakpoint_set -i %d -t exception -x \"%s\"", get_next_id(state), name);
+	return INTERACTIVE;
+}
+
+
+int do_set_feature(int param, ClientState* state)
+{
+	char *name, *key;
+	GConfEngine *conf;
+	gint value;
+
+	conf = gconf_engine_get_default();
+
+	switch (param) {
+		case FEATURE_MAX_CHILDREN: name = "max_children"; key = "/apps/gtkdbgp/max_children"; break;
+		case FEATURE_MAX_DATA:     name = "max_data";     key = "/apps/gtkdbgp/max_string_length"; break;
+		case FEATURE_MAX_DEPTH:    name = "max_depth";    key = "/apps/gtkdbgp/max_depth"; break;
+	}
+	value = gconf_engine_get_int(conf, key, NULL);
+	state->command = xdebug_sprintf( "feature_set -i %d -n %s -v %d", get_next_id(state), name, value);
+
+	gconf_engine_unref(conf);
 	return INTERACTIVE;
 }
 
@@ -380,6 +406,9 @@ action_item initial_action_list[] = {
 	{ do_set_error_breakpoint, DBGP_PHP_WARNING },
 	{ do_set_error_breakpoint, DBGP_PHP_ERROR },
 	{ do_set_error_breakpoint, DBGP_PHP_STRICT },
+	{ do_set_feature, FEATURE_MAX_CHILDREN },
+	{ do_set_feature, FEATURE_MAX_DEPTH },
+	{ do_set_feature, FEATURE_MAX_DATA },
 	{ process_mark_buttons_active, 0 },
 	{ NULL, 0 }
 };
@@ -524,8 +553,9 @@ gboolean stack_selection_function(GtkTreeSelection *selection, GtkTreeModel *mod
 void add_source_file(gchar* filename, gchar *source)
 {
 	GtkWidget *treeview3;
-	GtkWidget *label1, *scrolledwindow;
+	GtkWidget *label1, *scrolledwindow, *eventbox1;
 	GtkWidget *code_notebook = lookup_widget(GTK_WIDGET(MainWindow), "code_notebook");
+	GtkTooltips *tooltips;
 	GtkTreeViewColumn *column1, *column2, *column3, *column4;
 	GtkTreeSelection *selection;
 	GtkListStore *store;
@@ -576,15 +606,23 @@ void add_source_file(gchar* filename, gchar *source)
 	gtk_tree_selection_set_select_function(selection, code_page_selection_function, NULL, NULL);
 	gtk_container_add (GTK_CONTAINER (scrolledwindow), treeview3);
 
+	page = (dbgp_code_page*) malloc(sizeof (dbgp_code_page));
+	page->nr = gtk_notebook_append_page(GTK_NOTEBOOK(code_notebook), scrolledwindow, NULL);
+	page->tree = treeview3;
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(code_notebook), page->nr);
+
+	tooltips = gtk_tooltips_new();
+	eventbox1 = gtk_event_box_new();
+	gtk_widget_set_name(eventbox1, "eventbox1");
+	gtk_widget_show(eventbox1);
+	gtk_notebook_set_tab_label(GTK_NOTEBOOK (code_notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (code_notebook), page->nr), eventbox1);
+	gtk_tooltips_set_tip(tooltips, eventbox1, filename, NULL);
+
 	sanitized_label = strrchr(filename, '/') + 1;
 	label1 = gtk_label_new (sanitized_label);
 	gtk_widget_set_name (label1, "label1");
 	gtk_widget_show (label1);
-
-	page = (dbgp_code_page*) malloc(sizeof (dbgp_code_page));
-	page->nr = gtk_notebook_append_page(GTK_NOTEBOOK(code_notebook), scrolledwindow, label1);
-	page->tree = treeview3;
-	gtk_notebook_set_current_page(GTK_NOTEBOOK(code_notebook), page->nr);
+	gtk_container_add(GTK_CONTAINER(eventbox1), label1);
 
 	/* Do the columns */
 	r1 = gtk_cell_renderer_toggle_new();
