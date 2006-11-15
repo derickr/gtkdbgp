@@ -1,3 +1,8 @@
+Wed Nov 15 22:45:36 CET 2006 Derick Rethans <derick@derickrethans.nl>
+src/server.c:
+- Implemented feature_set for the 3 preferences.
+- Added tooltips for the filename's full path.
+
 Wed Nov 15 09:22:52 CET 2006 Derick Rethans <derick@derickrethans.nl>
 src/globals.h
 gtkdbgp/src/server.c:
