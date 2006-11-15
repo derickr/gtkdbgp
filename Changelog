@@ -1,3 +1,9 @@
+Wed Nov 15 09:22:52 CET 2006 Derick Rethans <derick@derickrethans.nl>
+src/globals.h
+gtkdbgp/src/server.c:
+- Implemented setting breakpoints on php's errors when requested by the
+  setting.
+
 Mon Nov 06 11:50:56 CET 2006 Derick Rethans <derick@derickrethans.nl>
 src/globals.h
 gtkdbgp/src/main.c
