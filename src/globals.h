@@ -3,7 +3,11 @@
 
 typedef struct _ClientState ClientState;
 
-typedef int (*action_item)(struct _ClientState*);
+typedef struct action_item
+{
+	int (*func)(int, struct _ClientState*);
+	int param;
+} action_item;
 
 typedef struct dbgp_code_page
 {

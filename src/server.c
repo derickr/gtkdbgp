@@ -25,6 +25,7 @@
 
 #include <signal.h>
 #include <gtk/gtk.h>
+#include <gconf/gconf.h>
 
 #include "interface.h"
 #include "support.h"
@@ -33,6 +34,14 @@
 #include "xdebug_xml.h"
 
 #include "globals.h"
+
+#define JMP_MASK                       0x00ff
+#define JMP_IF_BREAK_ON_ERROR_FEATURE  0x0100
+
+#define DBGP_PHP_NOTICE      1
+#define DBGP_PHP_WARNING     2
+#define DBGP_PHP_ERROR       3
+#define DBGP_PHP_STRICT      4
 
 ClientState* client_state;
 
@@ -51,19 +60,22 @@ static xdebug_hash *code_tabs_hash;
 
 void add_source_file(gchar* filename, gchar *source);
 
-int do_context_get(ClientState* state);
-int do_source_get(ClientState* state);
-int do_stack_get(ClientState* state);
-int do_step_into(ClientState* state);
+int do_context_get(int param, ClientState* state);
+int do_run(int param, ClientState* state);
+int do_set_error_breakpoint(int param, ClientState* state);
+int do_source_get(int param, ClientState* state);
+int do_stack_get(int param, ClientState* state);
+int do_step_into(int param, ClientState* state);
 
-int process_add_source_file(ClientState* state);
-int process_mark_buttons_active(ClientState* state);
-int process_mark_buttons_inactive(ClientState* state);
-int process_select_file_line_for_stack_0(ClientState* state);
-int process_select_file_line_for_stack_0_no_check(ClientState* state);
-int process_select_file_line_for_selected_stack(ClientState* state);
-int process_update_context_vars_for_selected_stack(ClientState* state);
-int process_update_stack(ClientState* state);
+int process_add_source_file(int param, ClientState* state);
+int process_jump(int param, ClientState* state);
+int process_mark_buttons_active(int param, ClientState* state);
+int process_mark_buttons_inactive(int param, ClientState* state);
+int process_select_file_line_for_stack_0(int param, ClientState* state);
+int process_select_file_line_for_stack_0_no_check(int param, ClientState* state);
+int process_select_file_line_for_selected_stack(int param, ClientState* state);
+int process_update_context_vars_for_selected_stack(int param, ClientState* state);
+int process_update_stack(int param, ClientState* state);
 
 #define SERVER_STATE_INPUT             0
 #define SERVER_STATE_INITIAL           1
@@ -79,28 +91,50 @@ int process_update_stack(ClientState* state);
 #define INTERACTIVE                    0
 #define NON_INTERACTIVE                1
 
-int do_context_get(ClientState* state)
+int do_context_get(int param, ClientState* state)
 {
 	state->command = xdebug_sprintf( "context_get -i %d", get_next_id(state));
 	return INTERACTIVE;
 }
 
 
-int do_source_get(ClientState* state)
+int do_run(int param, ClientState* state)
+{
+	state->command = xdebug_sprintf( "run -i %d", get_next_id(state));
+	return INTERACTIVE;
+}
+
+
+int do_set_error_breakpoint(int param, ClientState* state)
+{
+	char *name;
+
+	switch (param) {
+		case DBGP_PHP_NOTICE: name = "Notice"; break;
+		case DBGP_PHP_WARNING: name = "Warning"; break;
+		case DBGP_PHP_ERROR: name = "Error"; break;
+		case DBGP_PHP_STRICT: name = "Strict"; break;
+	}
+	state->command = xdebug_sprintf( "breakpoint_set -i %d -t exception -x \"%s\"", get_next_id(state), name);
+	return INTERACTIVE;
+}
+
+
+int do_source_get(int param, ClientState* state)
 {
 	state->command = xdebug_sprintf( "source -i %d -f %s", get_next_id(state), state->last_source_file);
 	return INTERACTIVE;
 }
 
 
-int do_stack_get(ClientState* state)
+int do_stack_get(int param, ClientState* state)
 {
 	state->command = xdebug_sprintf( "stack_get -i %d", get_next_id(state));
 	return INTERACTIVE;
 }
 
 
-int do_step_into(ClientState* state)
+int do_step_into(int param, ClientState* state)
 {
 	state->command = xdebug_sprintf( "step_into -i %d", get_next_id(state));
 	return INTERACTIVE;
@@ -108,7 +142,7 @@ int do_step_into(ClientState* state)
 
 
 
-int process_add_source_file(ClientState* state)
+int process_add_source_file(int param, ClientState* state)
 {
 	xdebug_xml_node *message = state->message;
 
@@ -119,7 +153,21 @@ int process_add_source_file(ClientState* state)
 }
 
 
-int process_mark_buttons_active(ClientState* state)
+int process_jump(int param, ClientState* state)
+{
+	GConfEngine *conf;
+
+	conf = gconf_engine_get_default();
+	if (!gconf_engine_get_bool(conf, "/apps/gtkdbgp/break_on_warning", NULL)) {
+		state->action_list_ptr += (param & JMP_MASK);
+	}
+	gconf_engine_unref(conf);
+
+	return NON_INTERACTIVE;
+}
+
+
+int process_mark_buttons_active(int param, ClientState* state)
 {
 	update_statusbar( "Waiting for input." );
 	state->buttons_active = TRUE;
@@ -127,7 +175,7 @@ int process_mark_buttons_active(ClientState* state)
 }
 
 
-int process_mark_buttons_inactive(ClientState* state)
+int process_mark_buttons_inactive(int param, ClientState* state)
 {
 	state->buttons_active = FALSE;
 	update_statusbar( "Processing..." );
@@ -135,7 +183,7 @@ int process_mark_buttons_inactive(ClientState* state)
 }
 
 
-static int _process_select_file_line_for_stack_0(ClientState* state, int check)
+static int _process_select_file_line_for_stack_0(int param, ClientState* state, int check)
 {
 	/* Let's find the page! */
 	/* - first we figure out stack frame 0, and the filename from it */
@@ -155,7 +203,7 @@ static int _process_select_file_line_for_stack_0(ClientState* state, int check)
 			/* If we found it then we advance the action pointer 4 items so that we
 			 * don't call an add_source for it, but only the first time. */
 			if (check) {
-				state->action_list_ptr += 4;
+				state->action_list_ptr += param;
 			}
 
 			/* then we select the page */
@@ -176,18 +224,18 @@ static int _process_select_file_line_for_stack_0(ClientState* state, int check)
 }
 
 
-int process_select_file_line_for_stack_0(ClientState* state)
+int process_select_file_line_for_stack_0(int param, ClientState* state)
 {
-	_process_select_file_line_for_stack_0(state, 1);
+	_process_select_file_line_for_stack_0(param, state, 1);
 }
 
 
-int process_select_file_line_for_stack_0_no_check(ClientState* state)
+int process_select_file_line_for_stack_0_no_check(int param, ClientState* state)
 {
-	_process_select_file_line_for_stack_0(state, 0);
+	_process_select_file_line_for_stack_0(param, state, 0);
 }
 
-static int _process_select_file_line_for_selected_stack(ClientState* state, int check)
+static int _process_select_file_line_for_selected_stack(int param, ClientState* state, int check)
 {
 	/* Let's find the page! */
 	/* - first we figure out stack frame 0, and the filename from it */
@@ -222,7 +270,7 @@ static int _process_select_file_line_for_selected_stack(ClientState* state, int 
 		/* If we found it then we advance the action pointer 4 items so that we
 		 * don't call an add_source for it, but only the first time. */
 		if (check) {
-			state->action_list_ptr += 4;
+			state->action_list_ptr += param;
 		}
 
 		/* then we select the page */
@@ -242,25 +290,25 @@ static int _process_select_file_line_for_selected_stack(ClientState* state, int 
 }
 
 
-int process_select_file_line_for_selected_stack(ClientState* state)
+int process_select_file_line_for_selected_stack(int param, ClientState* state)
 {
-	_process_select_file_line_for_selected_stack(state, 1);
+	_process_select_file_line_for_selected_stack(param, state, 1);
 }
 
 
-int process_select_file_line_for_selected_stack_no_check(ClientState* state)
+int process_select_file_line_for_selected_stack_no_check(int param, ClientState* state)
 {
-	_process_select_file_line_for_selected_stack(state, 0);
+	_process_select_file_line_for_selected_stack(param, state, 0);
 }
 
 
-int process_update_context_vars_for_selected_stack(ClientState* state)
+int process_update_context_vars_for_selected_stack(int param, ClientState* state)
 {
 	return NON_INTERACTIVE;
 }
 
 
-int process_update_stack(ClientState* state)
+int process_update_stack(int param, ClientState* state)
 {
 	GtkWidget *stack_view;
 	GtkListStore *store;
@@ -314,48 +362,59 @@ int process_update_stack(ClientState* state)
 
 
 action_item initial_action_list[] = {
-	process_mark_buttons_inactive,
-	do_source_get,
-	process_add_source_file,
-	do_step_into,
-	do_stack_get,
-	process_update_stack,
-	process_select_file_line_for_stack_0,
-	do_source_get,
-	process_add_source_file,
-	do_stack_get,
-	process_select_file_line_for_stack_0_no_check,
-	do_context_get,
-	process_update_context_vars_for_selected_stack,
-	process_mark_buttons_active,
-	NULL
+	{ process_mark_buttons_inactive, 0 },
+	{ do_source_get, 0 },
+	{ process_add_source_file, 0 },
+	{ do_step_into, 0 },
+	{ do_stack_get, 0 },
+	{ process_update_stack, 0 },
+	{ process_select_file_line_for_stack_0, 4 },
+	{ do_source_get, 0 },
+	{ process_add_source_file, 0 },
+	{ do_stack_get, 0 },
+	{ process_select_file_line_for_stack_0_no_check, 0 },
+	{ do_context_get, 0 },
+	{ process_update_context_vars_for_selected_stack, 0 },
+	{ process_jump, JMP_IF_BREAK_ON_ERROR_FEATURE | 4 },
+	{ do_set_error_breakpoint, DBGP_PHP_NOTICE },
+	{ do_set_error_breakpoint, DBGP_PHP_WARNING },
+	{ do_set_error_breakpoint, DBGP_PHP_ERROR },
+	{ do_set_error_breakpoint, DBGP_PHP_STRICT },
+	{ process_mark_buttons_active, 0 },
+	{ NULL, 0 }
 };
 
 action_item break_action_list[] = {
-	process_mark_buttons_inactive,
-	do_stack_get,
-	process_update_stack,
-	process_select_file_line_for_stack_0,
-	do_source_get,
-	process_add_source_file,
-	do_stack_get,
-	process_select_file_line_for_stack_0_no_check,
-	do_context_get,
-	process_update_context_vars_for_selected_stack,
-	process_mark_buttons_active,
-	NULL
+	{ process_mark_buttons_inactive, 0 },
+	{ do_stack_get, 0 },
+	{ process_update_stack, 0 },
+	{ process_select_file_line_for_stack_0, 4 },
+	{ do_source_get, 0 },
+	{ process_add_source_file, 0 },
+	{ do_stack_get, 0 },
+	{ process_select_file_line_for_stack_0_no_check, 0 },
+	{ do_context_get, 0 },
+	{ process_update_context_vars_for_selected_stack, 0 },
+	{ process_mark_buttons_active, 0 },
+	{ NULL, 0 }
+};
+
+action_item stopped_action_list[] = {
+	{ process_mark_buttons_inactive, 0 },
+	{ do_run, 0 },
+	{ NULL, 0 }
 };
 
 action_item select_stack_action_list[] = {
-	process_mark_buttons_inactive,
-	do_stack_get,
-	process_select_file_line_for_selected_stack,
-	do_source_get,
-	process_add_source_file,
-	do_stack_get,
-	process_select_file_line_for_selected_stack_no_check,
-	process_mark_buttons_active,
-	NULL
+	{ process_mark_buttons_inactive, 0 },
+	{ do_stack_get, 0 },
+	{ process_select_file_line_for_selected_stack, 4 },
+	{ do_source_get, 0 },
+	{ process_add_source_file, 0 },
+	{ do_stack_get, 0 },
+	{ process_select_file_line_for_selected_stack_no_check, 0 },
+	{ process_mark_buttons_active, 0 },
+	{ NULL, 0 }
 };
 
 static process_a_button(gchar *command, GtkToolButton *toolbutton, gpointer user_data)
@@ -450,7 +509,7 @@ gboolean stack_selection_function(GtkTreeSelection *selection, GtkTreeModel *mod
 			client_state->server_state = SERVER_STATE_SELECT_STACK;
 			client_state->action_list_ptr = select_stack_action_list;
 
-			do_stack_get(client_state);
+			do_stack_get(0, client_state);
 
 			client_state->watch_flags |= G_IO_OUT;
 			iochannel = gnet_tcp_socket_get_io_channel(client_state->socket);
@@ -592,6 +651,13 @@ int process_state_input(ClientState *client_state)
 			client_state->action_list_ptr = break_action_list;
 		}
 	}
+	if (strcmp(message->tag, "response") == 0) {
+		attr = xdebug_xml_fetch_attribute(message, "status");
+		if (attr && attr->value && strcmp(attr->value, "stopped") == 0) {
+			client_state->server_state = SERVER_STATE_STOPPED;
+			client_state->action_list_ptr = stopped_action_list;
+		}
+	}
 	printf("STATE: %d\n", client_state->server_state );
 }
 
@@ -602,14 +668,14 @@ int process_state_init(ClientState *client_state)
 	/* Take action from the list */
 	action = *client_state->action_list_ptr;
 
-	while (action && action(client_state) == NON_INTERACTIVE)
+	while (action.func && action.func(action.param, client_state) == NON_INTERACTIVE)
 	{
 		/* Increase action pointer */
 		client_state->action_list_ptr++;
 		/* Get a new action */
 		action = *client_state->action_list_ptr;
 	}
-	if (!action) {
+	if (!action.func) {
 		client_state->server_state = SERVER_STATE_INPUT;
 	} else {
 		/* Increase action pointer */
