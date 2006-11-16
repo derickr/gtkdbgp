@@ -31,31 +31,30 @@ create_MainWindow (void)
 {
   GtkWidget *MainWindow;
   GtkWidget *vbox1;
-  GtkWidget *vbox2;
   GtkWidget *menubar1;
-  GtkWidget *file_menu_item;
-  GtkWidget *file_menu_item_menu;
-  GtkWidget *quit_menu_item;
-  GtkWidget *setting_menu_item;
-  GtkWidget *setting_menu_item_menu;
-  GtkWidget *preferences;
-  GtkWidget *image4;
-  GtkWidget *debug_menu_item;
-  GtkWidget *debug_menu_item_menu;
-  GtkWidget *add_breakpoint_menu_item;
-  GtkWidget *separator1;
-  GtkWidget *continue_menu_item;
-  GtkWidget *separator3;
-  GtkWidget *step_over_menu_item;
-  GtkWidget *step_in_menu_item;
-  GtkWidget *step_out_menu_item;
-  GtkWidget *separator2;
-  GtkWidget *detach_debugger_menu_item;
-  GtkWidget *stop_debugging_menu_item;
-  GtkWidget *HelpMenuItem;
-  GtkWidget *HelpMenuItem_menu;
-  GtkWidget *AboutMenuItem;
-  GtkWidget *image5;
+  GtkWidget *menuitem1;
+  GtkWidget *menu1;
+  GtkWidget *imagemenuitem1;
+  GtkWidget *menuitem2;
+  GtkWidget *menu2;
+  GtkWidget *imagemenuitem2;
+  GtkWidget *image11;
+  GtkWidget *menuitem3;
+  GtkWidget *menu3;
+  GtkWidget *menuitem4;
+  GtkWidget *separatormenuitem1;
+  GtkWidget *menuitem5;
+  GtkWidget *separatormenuitem2;
+  GtkWidget *menuitem6;
+  GtkWidget *menuitem7;
+  GtkWidget *menuitem8;
+  GtkWidget *separatormenuitem3;
+  GtkWidget *menuitem9;
+  GtkWidget *menuitem10;
+  GtkWidget *menuitem11;
+  GtkWidget *menu4;
+  GtkWidget *imagemenuitem3;
+  GtkWidget *image12;
   GtkWidget *toolbar1;
   GtkIconSize tmp_toolbar_icon_size;
   GtkWidget *tmp_image;
@@ -67,40 +66,46 @@ create_MainWindow (void)
   GtkWidget *separatortoolitem2;
   GtkWidget *detach_button;
   GtkWidget *kill_button;
-  GtkWidget *vpaned1;
-  GtkWidget *viewport1;
-  GtkWidget *vbox6;
-  GtkWidget *code_notebook;
-  GtkWidget *scrolledwindow6;
-  GtkWidget *treeview3;
-  GtkWidget *label1;
   GtkWidget *last_message_label;
   GtkWidget *hseparator1;
-  GtkWidget *hpaned2;
-  GtkWidget *viewport2;
-  GtkWidget *notebook5;
-  GtkWidget *vbox5;
-  GtkWidget *scrolledwindow8;
-  GtkWidget *treeview4;
+  GtkWidget *hbox10;
+  GtkWidget *vbox10;
+  GtkWidget *code_notebook;
+  GtkWidget *scrolledwindow13;
+  GtkWidget *treeview7;
+  GtkWidget *label38;
+  GtkWidget *notebook7;
+  GtkWidget *vbox9;
+  GtkWidget *scrolledwindow11;
+  GtkWidget *treeview6;
   GtkWidget *hbuttonbox1;
-  GtkWidget *button6;
-  GtkWidget *alignment5;
-  GtkWidget *hbox3;
-  GtkWidget *image1;
-  GtkWidget *label13;
-  GtkWidget *button7;
-  GtkWidget *alignment6;
-  GtkWidget *hbox4;
-  GtkWidget *image2;
-  GtkWidget *label14;
-  GtkWidget *button8;
-  GtkWidget *alignment7;
-  GtkWidget *hbox5;
-  GtkWidget *image3;
-  GtkWidget *label15;
-  GtkWidget *breakpoints_label;
-  GtkWidget *scrolledwindow1;
+  GtkWidget *button10;
+  GtkWidget *alignment17;
+  GtkWidget *hbox7;
+  GtkWidget *image8;
+  GtkWidget *label32;
+  GtkWidget *button11;
+  GtkWidget *alignment18;
+  GtkWidget *hbox8;
+  GtkWidget *image9;
+  GtkWidget *label33;
+  GtkWidget *button12;
+  GtkWidget *alignment19;
+  GtkWidget *hbox9;
+  GtkWidget *image10;
+  GtkWidget *label34;
+  GtkWidget *label35;
+  GtkWidget *scrolledwindow12;
   GtkWidget *stack_view;
+  GtkWidget *label36;
+  GtkWidget *alignment20;
+  GtkWidget *viewport1;
+  GtkWidget *vbox11;
+  GtkWidget *alignment21;
+  GtkWidget *eventbox1;
+  GtkWidget *label40;
+  GtkWidget *scrolledwindow15;
+  GtkWidget *treeview9;
   GtkWidget *statusbar;
   GtkAccelGroup *accel_group;
   GtkTooltips *tooltips;
@@ -111,6 +116,7 @@ create_MainWindow (void)
 
   MainWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_set_name (MainWindow, "MainWindow");
+  gtk_widget_set_size_request (MainWindow, 900, 600);
   gtk_window_set_title (GTK_WINDOW (MainWindow), "Xdebug client");
   gtk_window_set_destroy_with_parent (GTK_WINDOW (MainWindow), TRUE);
 
@@ -119,137 +125,132 @@ create_MainWindow (void)
   gtk_widget_show (vbox1);
   gtk_container_add (GTK_CONTAINER (MainWindow), vbox1);
 
-  vbox2 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_set_name (vbox2, "vbox2");
-  gtk_widget_show (vbox2);
-  gtk_box_pack_start (GTK_BOX (vbox1), vbox2, FALSE, FALSE, 0);
-
   menubar1 = gtk_menu_bar_new ();
   gtk_widget_set_name (menubar1, "menubar1");
   gtk_widget_show (menubar1);
-  gtk_box_pack_start (GTK_BOX (vbox2), menubar1, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox1), menubar1, FALSE, FALSE, 0);
 
-  file_menu_item = gtk_menu_item_new_with_mnemonic ("_File");
-  gtk_widget_set_name (file_menu_item, "file_menu_item");
-  gtk_widget_show (file_menu_item);
-  gtk_container_add (GTK_CONTAINER (menubar1), file_menu_item);
+  menuitem1 = gtk_menu_item_new_with_mnemonic ("_File");
+  gtk_widget_set_name (menuitem1, "menuitem1");
+  gtk_widget_show (menuitem1);
+  gtk_container_add (GTK_CONTAINER (menubar1), menuitem1);
 
-  file_menu_item_menu = gtk_menu_new ();
-  gtk_widget_set_name (file_menu_item_menu, "file_menu_item_menu");
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (file_menu_item), file_menu_item_menu);
+  menu1 = gtk_menu_new ();
+  gtk_widget_set_name (menu1, "menu1");
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem1), menu1);
 
-  quit_menu_item = gtk_image_menu_item_new_from_stock ("gtk-quit", accel_group);
-  gtk_widget_set_name (quit_menu_item, "quit_menu_item");
-  gtk_widget_show (quit_menu_item);
-  gtk_container_add (GTK_CONTAINER (file_menu_item_menu), quit_menu_item);
+  imagemenuitem1 = gtk_image_menu_item_new_from_stock ("gtk-quit", accel_group);
+  gtk_widget_set_name (imagemenuitem1, "imagemenuitem1");
+  gtk_widget_show (imagemenuitem1);
+  gtk_container_add (GTK_CONTAINER (menu1), imagemenuitem1);
 
-  setting_menu_item = gtk_menu_item_new_with_mnemonic ("_Settings");
-  gtk_widget_set_name (setting_menu_item, "setting_menu_item");
-  gtk_widget_show (setting_menu_item);
-  gtk_container_add (GTK_CONTAINER (menubar1), setting_menu_item);
+  menuitem2 = gtk_menu_item_new_with_mnemonic ("_Settings");
+  gtk_widget_set_name (menuitem2, "menuitem2");
+  gtk_widget_show (menuitem2);
+  gtk_container_add (GTK_CONTAINER (menubar1), menuitem2);
 
-  setting_menu_item_menu = gtk_menu_new ();
-  gtk_widget_set_name (setting_menu_item_menu, "setting_menu_item_menu");
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (setting_menu_item), setting_menu_item_menu);
+  menu2 = gtk_menu_new ();
+  gtk_widget_set_name (menu2, "menu2");
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem2), menu2);
 
-  preferences = gtk_image_menu_item_new_with_mnemonic ("_Preferences");
-  gtk_widget_set_name (preferences, "preferences");
-  gtk_widget_show (preferences);
-  gtk_container_add (GTK_CONTAINER (setting_menu_item_menu), preferences);
+  imagemenuitem2 = gtk_image_menu_item_new_with_mnemonic ("_Preferences");
+  gtk_widget_set_name (imagemenuitem2, "imagemenuitem2");
+  gtk_widget_show (imagemenuitem2);
+  gtk_container_add (GTK_CONTAINER (menu2), imagemenuitem2);
 
-  image4 = gtk_image_new_from_stock ("gtk-preferences", GTK_ICON_SIZE_MENU);
-  gtk_widget_set_name (image4, "image4");
-  gtk_widget_show (image4);
-  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (preferences), image4);
+  image11 = gtk_image_new_from_stock ("gtk-preferences", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_name (image11, "image11");
+  gtk_widget_show (image11);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (imagemenuitem2), image11);
 
-  debug_menu_item = gtk_menu_item_new_with_mnemonic ("_Debug");
-  gtk_widget_set_name (debug_menu_item, "debug_menu_item");
-  gtk_widget_show (debug_menu_item);
-  gtk_container_add (GTK_CONTAINER (menubar1), debug_menu_item);
+  menuitem3 = gtk_menu_item_new_with_mnemonic ("_Debug");
+  gtk_widget_set_name (menuitem3, "menuitem3");
+  gtk_widget_show (menuitem3);
+  gtk_container_add (GTK_CONTAINER (menubar1), menuitem3);
 
-  debug_menu_item_menu = gtk_menu_new ();
-  gtk_widget_set_name (debug_menu_item_menu, "debug_menu_item_menu");
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (debug_menu_item), debug_menu_item_menu);
+  menu3 = gtk_menu_new ();
+  gtk_widget_set_name (menu3, "menu3");
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem3), menu3);
 
-  add_breakpoint_menu_item = gtk_menu_item_new_with_mnemonic ("Add Breakpoint");
-  gtk_widget_set_name (add_breakpoint_menu_item, "add_breakpoint_menu_item");
-  gtk_widget_show (add_breakpoint_menu_item);
-  gtk_container_add (GTK_CONTAINER (debug_menu_item_menu), add_breakpoint_menu_item);
+  menuitem4 = gtk_menu_item_new_with_mnemonic ("Add Breakpoint");
+  gtk_widget_set_name (menuitem4, "menuitem4");
+  gtk_widget_show (menuitem4);
+  gtk_container_add (GTK_CONTAINER (menu3), menuitem4);
 
-  separator1 = gtk_separator_menu_item_new ();
-  gtk_widget_set_name (separator1, "separator1");
-  gtk_widget_show (separator1);
-  gtk_container_add (GTK_CONTAINER (debug_menu_item_menu), separator1);
-  gtk_widget_set_sensitive (separator1, FALSE);
+  separatormenuitem1 = gtk_separator_menu_item_new ();
+  gtk_widget_set_name (separatormenuitem1, "separatormenuitem1");
+  gtk_widget_show (separatormenuitem1);
+  gtk_container_add (GTK_CONTAINER (menu3), separatormenuitem1);
+  gtk_widget_set_sensitive (separatormenuitem1, FALSE);
 
-  continue_menu_item = gtk_menu_item_new_with_mnemonic ("Continue");
-  gtk_widget_set_name (continue_menu_item, "continue_menu_item");
-  gtk_widget_show (continue_menu_item);
-  gtk_container_add (GTK_CONTAINER (debug_menu_item_menu), continue_menu_item);
-  gtk_widget_add_accelerator (continue_menu_item, "activate", accel_group,
+  menuitem5 = gtk_menu_item_new_with_mnemonic ("Continue");
+  gtk_widget_set_name (menuitem5, "menuitem5");
+  gtk_widget_show (menuitem5);
+  gtk_container_add (GTK_CONTAINER (menu3), menuitem5);
+  gtk_widget_add_accelerator (menuitem5, "activate", accel_group,
                               GDK_F5, (GdkModifierType) 0,
                               GTK_ACCEL_VISIBLE);
 
-  separator3 = gtk_separator_menu_item_new ();
-  gtk_widget_set_name (separator3, "separator3");
-  gtk_widget_show (separator3);
-  gtk_container_add (GTK_CONTAINER (debug_menu_item_menu), separator3);
-  gtk_widget_set_sensitive (separator3, FALSE);
+  separatormenuitem2 = gtk_separator_menu_item_new ();
+  gtk_widget_set_name (separatormenuitem2, "separatormenuitem2");
+  gtk_widget_show (separatormenuitem2);
+  gtk_container_add (GTK_CONTAINER (menu3), separatormenuitem2);
+  gtk_widget_set_sensitive (separatormenuitem2, FALSE);
 
-  step_over_menu_item = gtk_menu_item_new_with_mnemonic ("Step Over");
-  gtk_widget_set_name (step_over_menu_item, "step_over_menu_item");
-  gtk_widget_show (step_over_menu_item);
-  gtk_container_add (GTK_CONTAINER (debug_menu_item_menu), step_over_menu_item);
+  menuitem6 = gtk_menu_item_new_with_mnemonic ("Step Over");
+  gtk_widget_set_name (menuitem6, "menuitem6");
+  gtk_widget_show (menuitem6);
+  gtk_container_add (GTK_CONTAINER (menu3), menuitem6);
 
-  step_in_menu_item = gtk_menu_item_new_with_mnemonic ("Step In");
-  gtk_widget_set_name (step_in_menu_item, "step_in_menu_item");
-  gtk_widget_show (step_in_menu_item);
-  gtk_container_add (GTK_CONTAINER (debug_menu_item_menu), step_in_menu_item);
+  menuitem7 = gtk_menu_item_new_with_mnemonic ("Step In");
+  gtk_widget_set_name (menuitem7, "menuitem7");
+  gtk_widget_show (menuitem7);
+  gtk_container_add (GTK_CONTAINER (menu3), menuitem7);
 
-  step_out_menu_item = gtk_menu_item_new_with_mnemonic ("Step Out");
-  gtk_widget_set_name (step_out_menu_item, "step_out_menu_item");
-  gtk_widget_show (step_out_menu_item);
-  gtk_container_add (GTK_CONTAINER (debug_menu_item_menu), step_out_menu_item);
+  menuitem8 = gtk_menu_item_new_with_mnemonic ("Step Out");
+  gtk_widget_set_name (menuitem8, "menuitem8");
+  gtk_widget_show (menuitem8);
+  gtk_container_add (GTK_CONTAINER (menu3), menuitem8);
 
-  separator2 = gtk_separator_menu_item_new ();
-  gtk_widget_set_name (separator2, "separator2");
-  gtk_widget_show (separator2);
-  gtk_container_add (GTK_CONTAINER (debug_menu_item_menu), separator2);
-  gtk_widget_set_sensitive (separator2, FALSE);
+  separatormenuitem3 = gtk_separator_menu_item_new ();
+  gtk_widget_set_name (separatormenuitem3, "separatormenuitem3");
+  gtk_widget_show (separatormenuitem3);
+  gtk_container_add (GTK_CONTAINER (menu3), separatormenuitem3);
+  gtk_widget_set_sensitive (separatormenuitem3, FALSE);
 
-  detach_debugger_menu_item = gtk_menu_item_new_with_mnemonic ("Detach Debugger");
-  gtk_widget_set_name (detach_debugger_menu_item, "detach_debugger_menu_item");
-  gtk_widget_show (detach_debugger_menu_item);
-  gtk_container_add (GTK_CONTAINER (debug_menu_item_menu), detach_debugger_menu_item);
+  menuitem9 = gtk_menu_item_new_with_mnemonic ("Detach Debugger");
+  gtk_widget_set_name (menuitem9, "menuitem9");
+  gtk_widget_show (menuitem9);
+  gtk_container_add (GTK_CONTAINER (menu3), menuitem9);
 
-  stop_debugging_menu_item = gtk_menu_item_new_with_mnemonic ("Stop Debugging");
-  gtk_widget_set_name (stop_debugging_menu_item, "stop_debugging_menu_item");
-  gtk_widget_show (stop_debugging_menu_item);
-  gtk_container_add (GTK_CONTAINER (debug_menu_item_menu), stop_debugging_menu_item);
+  menuitem10 = gtk_menu_item_new_with_mnemonic ("Stop Debugging");
+  gtk_widget_set_name (menuitem10, "menuitem10");
+  gtk_widget_show (menuitem10);
+  gtk_container_add (GTK_CONTAINER (menu3), menuitem10);
 
-  HelpMenuItem = gtk_menu_item_new_with_mnemonic ("_Help");
-  gtk_widget_set_name (HelpMenuItem, "HelpMenuItem");
-  gtk_widget_show (HelpMenuItem);
-  gtk_container_add (GTK_CONTAINER (menubar1), HelpMenuItem);
+  menuitem11 = gtk_menu_item_new_with_mnemonic ("_Help");
+  gtk_widget_set_name (menuitem11, "menuitem11");
+  gtk_widget_show (menuitem11);
+  gtk_container_add (GTK_CONTAINER (menubar1), menuitem11);
 
-  HelpMenuItem_menu = gtk_menu_new ();
-  gtk_widget_set_name (HelpMenuItem_menu, "HelpMenuItem_menu");
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (HelpMenuItem), HelpMenuItem_menu);
+  menu4 = gtk_menu_new ();
+  gtk_widget_set_name (menu4, "menu4");
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem11), menu4);
 
-  AboutMenuItem = gtk_image_menu_item_new_with_mnemonic ("_About");
-  gtk_widget_set_name (AboutMenuItem, "AboutMenuItem");
-  gtk_widget_show (AboutMenuItem);
-  gtk_container_add (GTK_CONTAINER (HelpMenuItem_menu), AboutMenuItem);
+  imagemenuitem3 = gtk_image_menu_item_new_with_mnemonic ("_About");
+  gtk_widget_set_name (imagemenuitem3, "imagemenuitem3");
+  gtk_widget_show (imagemenuitem3);
+  gtk_container_add (GTK_CONTAINER (menu4), imagemenuitem3);
 
-  image5 = gtk_image_new_from_stock ("gtk-help", GTK_ICON_SIZE_MENU);
-  gtk_widget_set_name (image5, "image5");
-  gtk_widget_show (image5);
-  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (AboutMenuItem), image5);
+  image12 = gtk_image_new_from_stock ("gtk-help", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_name (image12, "image12");
+  gtk_widget_show (image12);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (imagemenuitem3), image12);
 
   toolbar1 = gtk_toolbar_new ();
   gtk_widget_set_name (toolbar1, "toolbar1");
   gtk_widget_show (toolbar1);
-  gtk_box_pack_start (GTK_BOX (vbox2), toolbar1, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox1), toolbar1, FALSE, FALSE, 0);
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar1), GTK_TOOLBAR_ICONS);
   tmp_toolbar_icon_size = gtk_toolbar_get_icon_size (GTK_TOOLBAR (toolbar1));
 
@@ -303,233 +304,272 @@ create_MainWindow (void)
   gtk_container_add (GTK_CONTAINER (toolbar1), kill_button);
   gtk_tool_item_set_tooltip (GTK_TOOL_ITEM (kill_button), tooltips, "kill", NULL);
 
-  vpaned1 = gtk_vpaned_new ();
-  gtk_widget_set_name (vpaned1, "vpaned1");
-  gtk_widget_show (vpaned1);
-  gtk_box_pack_start (GTK_BOX (vbox1), vpaned1, TRUE, TRUE, 0);
-  gtk_paned_set_position (GTK_PANED (vpaned1), 0);
-
-  viewport1 = gtk_viewport_new (NULL, NULL);
-  gtk_widget_set_name (viewport1, "viewport1");
-  gtk_widget_show (viewport1);
-  gtk_paned_pack1 (GTK_PANED (vpaned1), viewport1, TRUE, FALSE);
-  gtk_viewport_set_shadow_type (GTK_VIEWPORT (viewport1), GTK_SHADOW_NONE);
-
-  vbox6 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_set_name (vbox6, "vbox6");
-  gtk_widget_show (vbox6);
-  gtk_container_add (GTK_CONTAINER (viewport1), vbox6);
-
-  code_notebook = gtk_notebook_new ();
-  gtk_widget_set_name (code_notebook, "code_notebook");
-  gtk_widget_show (code_notebook);
-  gtk_box_pack_start (GTK_BOX (vbox6), code_notebook, TRUE, TRUE, 0);
-  gtk_notebook_set_scrollable (GTK_NOTEBOOK (code_notebook), TRUE);
-
-  scrolledwindow6 = gtk_scrolled_window_new (NULL, NULL);
-  gtk_widget_set_name (scrolledwindow6, "scrolledwindow6");
-  gtk_widget_show (scrolledwindow6);
-  gtk_container_add (GTK_CONTAINER (code_notebook), scrolledwindow6);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow6), GTK_SHADOW_IN);
-
-  treeview3 = gtk_tree_view_new ();
-  gtk_widget_set_name (treeview3, "treeview3");
-  gtk_widget_show (treeview3);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow6), treeview3);
-  gtk_widget_set_sensitive (treeview3, FALSE);
-  gtk_tree_view_set_enable_search (GTK_TREE_VIEW (treeview3), FALSE);
-
-  label1 = gtk_label_new ("label1");
-  gtk_widget_set_name (label1, "label1");
-  gtk_widget_show (label1);
-  gtk_notebook_set_tab_label (GTK_NOTEBOOK (code_notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (code_notebook), 0), label1);
-
-  last_message_label = gtk_label_new ("fsadasdf");
+  last_message_label = gtk_label_new ("");
   gtk_widget_set_name (last_message_label, "last_message_label");
   gtk_widget_show (last_message_label);
-  gtk_box_pack_start (GTK_BOX (vbox6), last_message_label, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox1), last_message_label, FALSE, TRUE, 0);
+  gtk_label_set_justify (GTK_LABEL (last_message_label), GTK_JUSTIFY_FILL);
   gtk_misc_set_alignment (GTK_MISC (last_message_label), 0, 0.5);
-  gtk_misc_set_padding (GTK_MISC (last_message_label), 4, 1);
+  gtk_misc_set_padding (GTK_MISC (last_message_label), 10, 5);
   gtk_label_set_ellipsize (GTK_LABEL (last_message_label), PANGO_ELLIPSIZE_END);
-  gtk_label_set_single_line_mode (GTK_LABEL (last_message_label), TRUE);
 
   hseparator1 = gtk_hseparator_new ();
   gtk_widget_set_name (hseparator1, "hseparator1");
   gtk_widget_show (hseparator1);
-  gtk_box_pack_start (GTK_BOX (vbox6), hseparator1, FALSE, FALSE, 0);
-  gtk_widget_set_size_request (hseparator1, -1, 4);
+  gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, FALSE, TRUE, 1);
+  gtk_widget_set_size_request (hseparator1, -1, 2);
 
-  hpaned2 = gtk_hpaned_new ();
-  gtk_widget_set_name (hpaned2, "hpaned2");
-  gtk_widget_show (hpaned2);
-  gtk_paned_pack2 (GTK_PANED (vpaned1), hpaned2, FALSE, FALSE);
-  gtk_widget_set_size_request (hpaned2, -1, 200);
+  hbox10 = gtk_hbox_new (FALSE, 0);
+  gtk_widget_set_name (hbox10, "hbox10");
+  gtk_widget_show (hbox10);
+  gtk_box_pack_start (GTK_BOX (vbox1), hbox10, TRUE, TRUE, 0);
 
-  viewport2 = gtk_viewport_new (NULL, NULL);
-  gtk_widget_set_name (viewport2, "viewport2");
-  gtk_widget_show (viewport2);
-  gtk_paned_pack1 (GTK_PANED (hpaned2), viewport2, FALSE, TRUE);
-  gtk_widget_set_size_request (viewport2, 400, -1);
+  vbox10 = gtk_vbox_new (FALSE, 0);
+  gtk_widget_set_name (vbox10, "vbox10");
+  gtk_widget_show (vbox10);
+  gtk_box_pack_start (GTK_BOX (hbox10), vbox10, FALSE, TRUE, 0);
+  gtk_widget_set_size_request (vbox10, 650, -1);
 
-  notebook5 = gtk_notebook_new ();
-  gtk_widget_set_name (notebook5, "notebook5");
-  gtk_widget_show (notebook5);
-  gtk_container_add (GTK_CONTAINER (viewport2), notebook5);
+  code_notebook = gtk_notebook_new ();
+  gtk_widget_set_name (code_notebook, "code_notebook");
+  gtk_widget_show (code_notebook);
+  gtk_box_pack_start (GTK_BOX (vbox10), code_notebook, TRUE, TRUE, 0);
+  gtk_widget_set_size_request (code_notebook, -1, 300);
+  gtk_notebook_set_show_border (GTK_NOTEBOOK (code_notebook), FALSE);
+  gtk_notebook_set_scrollable (GTK_NOTEBOOK (code_notebook), TRUE);
 
-  vbox5 = gtk_vbox_new (FALSE, 0);
-  gtk_widget_set_name (vbox5, "vbox5");
-  gtk_widget_show (vbox5);
-  gtk_container_add (GTK_CONTAINER (notebook5), vbox5);
+  scrolledwindow13 = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_set_name (scrolledwindow13, "scrolledwindow13");
+  gtk_widget_show (scrolledwindow13);
+  gtk_container_add (GTK_CONTAINER (code_notebook), scrolledwindow13);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow13), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow13), GTK_SHADOW_IN);
 
-  scrolledwindow8 = gtk_scrolled_window_new (NULL, NULL);
-  gtk_widget_set_name (scrolledwindow8, "scrolledwindow8");
-  gtk_widget_show (scrolledwindow8);
-  gtk_box_pack_start (GTK_BOX (vbox5), scrolledwindow8, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow8), GTK_SHADOW_IN);
+  treeview7 = gtk_tree_view_new ();
+  gtk_widget_set_name (treeview7, "treeview7");
+  gtk_widget_show (treeview7);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow13), treeview7);
+  gtk_widget_set_sensitive (treeview7, FALSE);
+  gtk_tree_view_set_enable_search (GTK_TREE_VIEW (treeview7), FALSE);
 
-  treeview4 = gtk_tree_view_new ();
-  gtk_widget_set_name (treeview4, "treeview4");
-  gtk_widget_show (treeview4);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow8), treeview4);
+  label38 = gtk_label_new ("label1");
+  gtk_widget_set_name (label38, "label38");
+  gtk_widget_show (label38);
+  gtk_notebook_set_tab_label (GTK_NOTEBOOK (code_notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (code_notebook), 0), label38);
+
+  notebook7 = gtk_notebook_new ();
+  gtk_widget_set_name (notebook7, "notebook7");
+  gtk_widget_show (notebook7);
+  gtk_box_pack_start (GTK_BOX (vbox10), notebook7, TRUE, TRUE, 0);
+
+  vbox9 = gtk_vbox_new (FALSE, 0);
+  gtk_widget_set_name (vbox9, "vbox9");
+  gtk_widget_show (vbox9);
+  gtk_container_add (GTK_CONTAINER (notebook7), vbox9);
+  gtk_widget_set_size_request (vbox9, -1, 170);
+
+  scrolledwindow11 = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_set_name (scrolledwindow11, "scrolledwindow11");
+  gtk_widget_show (scrolledwindow11);
+  gtk_box_pack_start (GTK_BOX (vbox9), scrolledwindow11, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow11), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow11), GTK_SHADOW_IN);
+
+  treeview6 = gtk_tree_view_new ();
+  gtk_widget_set_name (treeview6, "treeview6");
+  gtk_widget_show (treeview6);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow11), treeview6);
 
   hbuttonbox1 = gtk_hbutton_box_new ();
   gtk_widget_set_name (hbuttonbox1, "hbuttonbox1");
   gtk_widget_show (hbuttonbox1);
-  gtk_box_pack_start (GTK_BOX (vbox5), hbuttonbox1, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox9), hbuttonbox1, FALSE, FALSE, 0);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (hbuttonbox1), GTK_BUTTONBOX_END);
 
-  button6 = gtk_button_new ();
-  gtk_widget_set_name (button6, "button6");
-  gtk_widget_show (button6);
-  gtk_container_add (GTK_CONTAINER (hbuttonbox1), button6);
-  GTK_WIDGET_SET_FLAGS (button6, GTK_CAN_DEFAULT);
-  gtk_button_set_relief (GTK_BUTTON (button6), GTK_RELIEF_NONE);
+  button10 = gtk_button_new ();
+  gtk_widget_set_name (button10, "button10");
+  gtk_widget_show (button10);
+  gtk_container_add (GTK_CONTAINER (hbuttonbox1), button10);
+  GTK_WIDGET_SET_FLAGS (button10, GTK_CAN_DEFAULT);
+  gtk_button_set_relief (GTK_BUTTON (button10), GTK_RELIEF_NONE);
 
-  alignment5 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_set_name (alignment5, "alignment5");
-  gtk_widget_show (alignment5);
-  gtk_container_add (GTK_CONTAINER (button6), alignment5);
+  alignment17 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_set_name (alignment17, "alignment17");
+  gtk_widget_show (alignment17);
+  gtk_container_add (GTK_CONTAINER (button10), alignment17);
 
-  hbox3 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_set_name (hbox3, "hbox3");
-  gtk_widget_show (hbox3);
-  gtk_container_add (GTK_CONTAINER (alignment5), hbox3);
+  hbox7 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_set_name (hbox7, "hbox7");
+  gtk_widget_show (hbox7);
+  gtk_container_add (GTK_CONTAINER (alignment17), hbox7);
 
-  image1 = gtk_image_new_from_stock ("gtk-add", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_set_name (image1, "image1");
-  gtk_widget_show (image1);
-  gtk_box_pack_start (GTK_BOX (hbox3), image1, FALSE, FALSE, 0);
+  image8 = gtk_image_new_from_stock ("gtk-add", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_set_name (image8, "image8");
+  gtk_widget_show (image8);
+  gtk_box_pack_start (GTK_BOX (hbox7), image8, FALSE, FALSE, 0);
 
-  label13 = gtk_label_new_with_mnemonic ("Add");
-  gtk_widget_set_name (label13, "label13");
-  gtk_widget_show (label13);
-  gtk_box_pack_start (GTK_BOX (hbox3), label13, FALSE, FALSE, 0);
+  label32 = gtk_label_new_with_mnemonic ("Add");
+  gtk_widget_set_name (label32, "label32");
+  gtk_widget_show (label32);
+  gtk_box_pack_start (GTK_BOX (hbox7), label32, FALSE, FALSE, 0);
 
-  button7 = gtk_button_new ();
-  gtk_widget_set_name (button7, "button7");
-  gtk_widget_show (button7);
-  gtk_container_add (GTK_CONTAINER (hbuttonbox1), button7);
-  GTK_WIDGET_SET_FLAGS (button7, GTK_CAN_DEFAULT);
-  gtk_button_set_relief (GTK_BUTTON (button7), GTK_RELIEF_NONE);
+  button11 = gtk_button_new ();
+  gtk_widget_set_name (button11, "button11");
+  gtk_widget_show (button11);
+  gtk_container_add (GTK_CONTAINER (hbuttonbox1), button11);
+  GTK_WIDGET_SET_FLAGS (button11, GTK_CAN_DEFAULT);
+  gtk_button_set_relief (GTK_BUTTON (button11), GTK_RELIEF_NONE);
 
-  alignment6 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_set_name (alignment6, "alignment6");
-  gtk_widget_show (alignment6);
-  gtk_container_add (GTK_CONTAINER (button7), alignment6);
+  alignment18 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_set_name (alignment18, "alignment18");
+  gtk_widget_show (alignment18);
+  gtk_container_add (GTK_CONTAINER (button11), alignment18);
 
-  hbox4 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_set_name (hbox4, "hbox4");
-  gtk_widget_show (hbox4);
-  gtk_container_add (GTK_CONTAINER (alignment6), hbox4);
+  hbox8 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_set_name (hbox8, "hbox8");
+  gtk_widget_show (hbox8);
+  gtk_container_add (GTK_CONTAINER (alignment18), hbox8);
 
-  image2 = gtk_image_new_from_stock ("gtk-edit", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_set_name (image2, "image2");
-  gtk_widget_show (image2);
-  gtk_box_pack_start (GTK_BOX (hbox4), image2, FALSE, FALSE, 0);
+  image9 = gtk_image_new_from_stock ("gtk-edit", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_set_name (image9, "image9");
+  gtk_widget_show (image9);
+  gtk_box_pack_start (GTK_BOX (hbox8), image9, FALSE, FALSE, 0);
 
-  label14 = gtk_label_new_with_mnemonic ("Edit");
-  gtk_widget_set_name (label14, "label14");
-  gtk_widget_show (label14);
-  gtk_box_pack_start (GTK_BOX (hbox4), label14, FALSE, FALSE, 0);
+  label33 = gtk_label_new_with_mnemonic ("Edit");
+  gtk_widget_set_name (label33, "label33");
+  gtk_widget_show (label33);
+  gtk_box_pack_start (GTK_BOX (hbox8), label33, FALSE, FALSE, 0);
 
-  button8 = gtk_button_new ();
-  gtk_widget_set_name (button8, "button8");
-  gtk_widget_show (button8);
-  gtk_container_add (GTK_CONTAINER (hbuttonbox1), button8);
-  GTK_WIDGET_SET_FLAGS (button8, GTK_CAN_DEFAULT);
-  gtk_button_set_relief (GTK_BUTTON (button8), GTK_RELIEF_NONE);
+  button12 = gtk_button_new ();
+  gtk_widget_set_name (button12, "button12");
+  gtk_widget_show (button12);
+  gtk_container_add (GTK_CONTAINER (hbuttonbox1), button12);
+  GTK_WIDGET_SET_FLAGS (button12, GTK_CAN_DEFAULT);
+  gtk_button_set_relief (GTK_BUTTON (button12), GTK_RELIEF_NONE);
 
-  alignment7 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_set_name (alignment7, "alignment7");
-  gtk_widget_show (alignment7);
-  gtk_container_add (GTK_CONTAINER (button8), alignment7);
+  alignment19 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_set_name (alignment19, "alignment19");
+  gtk_widget_show (alignment19);
+  gtk_container_add (GTK_CONTAINER (button12), alignment19);
 
-  hbox5 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_set_name (hbox5, "hbox5");
-  gtk_widget_show (hbox5);
-  gtk_container_add (GTK_CONTAINER (alignment7), hbox5);
+  hbox9 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_set_name (hbox9, "hbox9");
+  gtk_widget_show (hbox9);
+  gtk_container_add (GTK_CONTAINER (alignment19), hbox9);
 
-  image3 = gtk_image_new_from_stock ("gtk-delete", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_set_name (image3, "image3");
-  gtk_widget_show (image3);
-  gtk_box_pack_start (GTK_BOX (hbox5), image3, FALSE, FALSE, 0);
+  image10 = gtk_image_new_from_stock ("gtk-delete", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_set_name (image10, "image10");
+  gtk_widget_show (image10);
+  gtk_box_pack_start (GTK_BOX (hbox9), image10, FALSE, FALSE, 0);
 
-  label15 = gtk_label_new_with_mnemonic ("Remove");
-  gtk_widget_set_name (label15, "label15");
-  gtk_widget_show (label15);
-  gtk_box_pack_start (GTK_BOX (hbox5), label15, FALSE, FALSE, 0);
+  label34 = gtk_label_new_with_mnemonic ("Remove");
+  gtk_widget_set_name (label34, "label34");
+  gtk_widget_show (label34);
+  gtk_box_pack_start (GTK_BOX (hbox9), label34, FALSE, FALSE, 0);
 
-  breakpoints_label = gtk_label_new ("Breakpoints");
-  gtk_widget_set_name (breakpoints_label, "breakpoints_label");
-  gtk_widget_show (breakpoints_label);
-  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook5), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook5), 0), breakpoints_label);
+  label35 = gtk_label_new_with_mnemonic ("_Breakpoints");
+  gtk_widget_set_name (label35, "label35");
+  gtk_widget_show (label35);
+  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook7), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook7), 0), label35);
 
-  scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
-  gtk_widget_set_name (scrolledwindow1, "scrolledwindow1");
-  gtk_widget_show (scrolledwindow1);
-  gtk_paned_pack2 (GTK_PANED (hpaned2), scrolledwindow1, TRUE, TRUE);
-  gtk_widget_set_size_request (scrolledwindow1, 270, -1);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_SHADOW_IN);
+  scrolledwindow12 = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_set_name (scrolledwindow12, "scrolledwindow12");
+  gtk_widget_show (scrolledwindow12);
+  gtk_container_add (GTK_CONTAINER (notebook7), scrolledwindow12);
+  gtk_widget_set_size_request (scrolledwindow12, -1, 170);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow12), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow12), GTK_SHADOW_IN);
 
   stack_view = gtk_tree_view_new ();
   gtk_widget_set_name (stack_view, "stack_view");
   gtk_widget_show (stack_view);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow1), stack_view);
-  gtk_widget_set_size_request (stack_view, 250, -1);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow12), stack_view);
+
+  label36 = gtk_label_new_with_mnemonic ("S_tack");
+  gtk_widget_set_name (label36, "label36");
+  gtk_widget_show (label36);
+  gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook7), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook7), 1), label36);
+
+  alignment20 = gtk_alignment_new (0.5, 0.5, 1, 1);
+  gtk_widget_set_name (alignment20, "alignment20");
+  gtk_widget_show (alignment20);
+  gtk_box_pack_start (GTK_BOX (hbox10), alignment20, TRUE, TRUE, 0);
+  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment20), 0, 0, 10, 0);
+
+  viewport1 = gtk_viewport_new (NULL, NULL);
+  gtk_widget_set_name (viewport1, "viewport1");
+  gtk_widget_show (viewport1);
+  gtk_container_add (GTK_CONTAINER (alignment20), viewport1);
+  gtk_viewport_set_shadow_type (GTK_VIEWPORT (viewport1), GTK_SHADOW_ETCHED_OUT);
+
+  vbox11 = gtk_vbox_new (FALSE, 0);
+  gtk_widget_set_name (vbox11, "vbox11");
+  gtk_widget_show (vbox11);
+  gtk_container_add (GTK_CONTAINER (viewport1), vbox11);
+
+  alignment21 = gtk_alignment_new (0.5, 0.5, 1, 1);
+  gtk_widget_set_name (alignment21, "alignment21");
+  gtk_widget_show (alignment21);
+  gtk_box_pack_start (GTK_BOX (vbox11), alignment21, FALSE, FALSE, 0);
+  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment21), 0, 4, 0, 0);
+
+  eventbox1 = gtk_event_box_new ();
+  gtk_widget_set_name (eventbox1, "eventbox1");
+  gtk_widget_show (eventbox1);
+  gtk_container_add (GTK_CONTAINER (alignment21), eventbox1);
+
+  label40 = gtk_label_new ("<big><b>Variables</b></big>");
+  gtk_widget_set_name (label40, "label40");
+  gtk_widget_show (label40);
+  gtk_container_add (GTK_CONTAINER (eventbox1), label40);
+  gtk_label_set_use_markup (GTK_LABEL (label40), TRUE);
+  gtk_misc_set_alignment (GTK_MISC (label40), 0.01, 0.5);
+
+  scrolledwindow15 = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_set_name (scrolledwindow15, "scrolledwindow15");
+  gtk_widget_show (scrolledwindow15);
+  gtk_box_pack_start (GTK_BOX (vbox11), scrolledwindow15, TRUE, TRUE, 0);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow15), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
+  treeview9 = gtk_tree_view_new ();
+  gtk_widget_set_name (treeview9, "treeview9");
+  gtk_widget_show (treeview9);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow15), treeview9);
 
   statusbar = gtk_statusbar_new ();
   gtk_widget_set_name (statusbar, "statusbar");
   gtk_widget_show (statusbar);
   gtk_box_pack_start (GTK_BOX (vbox1), statusbar, FALSE, FALSE, 0);
+  gtk_statusbar_set_has_resize_grip (GTK_STATUSBAR (statusbar), FALSE);
 
-  g_signal_connect ((gpointer) quit_menu_item, "activate",
+  g_signal_connect ((gpointer) imagemenuitem1, "activate",
                     G_CALLBACK (on_quit_activate),
                     NULL);
-  g_signal_connect ((gpointer) preferences, "activate",
+  g_signal_connect ((gpointer) imagemenuitem2, "activate",
                     G_CALLBACK (on_preferences_activate),
                     NULL);
-  g_signal_connect ((gpointer) add_breakpoint_menu_item, "activate",
+  g_signal_connect ((gpointer) menuitem4, "activate",
                     G_CALLBACK (on_add_breakpoint_menu_item_activate),
                     NULL);
-  g_signal_connect ((gpointer) continue_menu_item, "activate",
+  g_signal_connect ((gpointer) menuitem5, "activate",
                     G_CALLBACK (on_continue_menu_item_activate),
                     NULL);
-  g_signal_connect ((gpointer) step_over_menu_item, "activate",
+  g_signal_connect ((gpointer) menuitem6, "activate",
                     G_CALLBACK (on_step_over_menu_item_activate),
                     NULL);
-  g_signal_connect ((gpointer) step_in_menu_item, "activate",
+  g_signal_connect ((gpointer) menuitem7, "activate",
                     G_CALLBACK (on_step_in_menu_item_activate),
                     NULL);
-  g_signal_connect ((gpointer) step_out_menu_item, "activate",
+  g_signal_connect ((gpointer) menuitem8, "activate",
                     G_CALLBACK (on_step_out_menu_item_activate),
                     NULL);
-  g_signal_connect ((gpointer) detach_debugger_menu_item, "activate",
+  g_signal_connect ((gpointer) menuitem9, "activate",
                     G_CALLBACK (on_detach_debugger_menu_item_activate),
                     NULL);
-  g_signal_connect ((gpointer) stop_debugging_menu_item, "activate",
+  g_signal_connect ((gpointer) menuitem10, "activate",
                     G_CALLBACK (on_stop_debugging_menu_item_activate),
                     NULL);
-  g_signal_connect ((gpointer) AboutMenuItem, "activate",
+  g_signal_connect ((gpointer) imagemenuitem3, "activate",
                     G_CALLBACK (on_about_activate),
                     NULL);
   g_signal_connect ((gpointer) continue_button, "clicked",
@@ -557,31 +597,30 @@ create_MainWindow (void)
   /* Store pointers to all widgets, for use by lookup_widget(). */
   GLADE_HOOKUP_OBJECT_NO_REF (MainWindow, MainWindow, "MainWindow");
   GLADE_HOOKUP_OBJECT (MainWindow, vbox1, "vbox1");
-  GLADE_HOOKUP_OBJECT (MainWindow, vbox2, "vbox2");
   GLADE_HOOKUP_OBJECT (MainWindow, menubar1, "menubar1");
-  GLADE_HOOKUP_OBJECT (MainWindow, file_menu_item, "file_menu_item");
-  GLADE_HOOKUP_OBJECT (MainWindow, file_menu_item_menu, "file_menu_item_menu");
-  GLADE_HOOKUP_OBJECT (MainWindow, quit_menu_item, "quit_menu_item");
-  GLADE_HOOKUP_OBJECT (MainWindow, setting_menu_item, "setting_menu_item");
-  GLADE_HOOKUP_OBJECT (MainWindow, setting_menu_item_menu, "setting_menu_item_menu");
-  GLADE_HOOKUP_OBJECT (MainWindow, preferences, "preferences");
-  GLADE_HOOKUP_OBJECT (MainWindow, image4, "image4");
-  GLADE_HOOKUP_OBJECT (MainWindow, debug_menu_item, "debug_menu_item");
-  GLADE_HOOKUP_OBJECT (MainWindow, debug_menu_item_menu, "debug_menu_item_menu");
-  GLADE_HOOKUP_OBJECT (MainWindow, add_breakpoint_menu_item, "add_breakpoint_menu_item");
-  GLADE_HOOKUP_OBJECT (MainWindow, separator1, "separator1");
-  GLADE_HOOKUP_OBJECT (MainWindow, continue_menu_item, "continue_menu_item");
-  GLADE_HOOKUP_OBJECT (MainWindow, separator3, "separator3");
-  GLADE_HOOKUP_OBJECT (MainWindow, step_over_menu_item, "step_over_menu_item");
-  GLADE_HOOKUP_OBJECT (MainWindow, step_in_menu_item, "step_in_menu_item");
-  GLADE_HOOKUP_OBJECT (MainWindow, step_out_menu_item, "step_out_menu_item");
-  GLADE_HOOKUP_OBJECT (MainWindow, separator2, "separator2");
-  GLADE_HOOKUP_OBJECT (MainWindow, detach_debugger_menu_item, "detach_debugger_menu_item");
-  GLADE_HOOKUP_OBJECT (MainWindow, stop_debugging_menu_item, "stop_debugging_menu_item");
-  GLADE_HOOKUP_OBJECT (MainWindow, HelpMenuItem, "HelpMenuItem");
-  GLADE_HOOKUP_OBJECT (MainWindow, HelpMenuItem_menu, "HelpMenuItem_menu");
-  GLADE_HOOKUP_OBJECT (MainWindow, AboutMenuItem, "AboutMenuItem");
-  GLADE_HOOKUP_OBJECT (MainWindow, image5, "image5");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem1, "menuitem1");
+  GLADE_HOOKUP_OBJECT (MainWindow, menu1, "menu1");
+  GLADE_HOOKUP_OBJECT (MainWindow, imagemenuitem1, "imagemenuitem1");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem2, "menuitem2");
+  GLADE_HOOKUP_OBJECT (MainWindow, menu2, "menu2");
+  GLADE_HOOKUP_OBJECT (MainWindow, imagemenuitem2, "imagemenuitem2");
+  GLADE_HOOKUP_OBJECT (MainWindow, image11, "image11");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem3, "menuitem3");
+  GLADE_HOOKUP_OBJECT (MainWindow, menu3, "menu3");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem4, "menuitem4");
+  GLADE_HOOKUP_OBJECT (MainWindow, separatormenuitem1, "separatormenuitem1");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem5, "menuitem5");
+  GLADE_HOOKUP_OBJECT (MainWindow, separatormenuitem2, "separatormenuitem2");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem6, "menuitem6");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem7, "menuitem7");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem8, "menuitem8");
+  GLADE_HOOKUP_OBJECT (MainWindow, separatormenuitem3, "separatormenuitem3");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem9, "menuitem9");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem10, "menuitem10");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem11, "menuitem11");
+  GLADE_HOOKUP_OBJECT (MainWindow, menu4, "menu4");
+  GLADE_HOOKUP_OBJECT (MainWindow, imagemenuitem3, "imagemenuitem3");
+  GLADE_HOOKUP_OBJECT (MainWindow, image12, "image12");
   GLADE_HOOKUP_OBJECT (MainWindow, toolbar1, "toolbar1");
   GLADE_HOOKUP_OBJECT (MainWindow, continue_button, "continue_button");
   GLADE_HOOKUP_OBJECT (MainWindow, separatortoolitem1, "separatortoolitem1");
@@ -591,40 +630,46 @@ create_MainWindow (void)
   GLADE_HOOKUP_OBJECT (MainWindow, separatortoolitem2, "separatortoolitem2");
   GLADE_HOOKUP_OBJECT (MainWindow, detach_button, "detach_button");
   GLADE_HOOKUP_OBJECT (MainWindow, kill_button, "kill_button");
-  GLADE_HOOKUP_OBJECT (MainWindow, vpaned1, "vpaned1");
-  GLADE_HOOKUP_OBJECT (MainWindow, viewport1, "viewport1");
-  GLADE_HOOKUP_OBJECT (MainWindow, vbox6, "vbox6");
-  GLADE_HOOKUP_OBJECT (MainWindow, code_notebook, "code_notebook");
-  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow6, "scrolledwindow6");
-  GLADE_HOOKUP_OBJECT (MainWindow, treeview3, "treeview3");
-  GLADE_HOOKUP_OBJECT (MainWindow, label1, "label1");
   GLADE_HOOKUP_OBJECT (MainWindow, last_message_label, "last_message_label");
   GLADE_HOOKUP_OBJECT (MainWindow, hseparator1, "hseparator1");
-  GLADE_HOOKUP_OBJECT (MainWindow, hpaned2, "hpaned2");
-  GLADE_HOOKUP_OBJECT (MainWindow, viewport2, "viewport2");
-  GLADE_HOOKUP_OBJECT (MainWindow, notebook5, "notebook5");
-  GLADE_HOOKUP_OBJECT (MainWindow, vbox5, "vbox5");
-  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow8, "scrolledwindow8");
-  GLADE_HOOKUP_OBJECT (MainWindow, treeview4, "treeview4");
+  GLADE_HOOKUP_OBJECT (MainWindow, hbox10, "hbox10");
+  GLADE_HOOKUP_OBJECT (MainWindow, vbox10, "vbox10");
+  GLADE_HOOKUP_OBJECT (MainWindow, code_notebook, "code_notebook");
+  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow13, "scrolledwindow13");
+  GLADE_HOOKUP_OBJECT (MainWindow, treeview7, "treeview7");
+  GLADE_HOOKUP_OBJECT (MainWindow, label38, "label38");
+  GLADE_HOOKUP_OBJECT (MainWindow, notebook7, "notebook7");
+  GLADE_HOOKUP_OBJECT (MainWindow, vbox9, "vbox9");
+  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow11, "scrolledwindow11");
+  GLADE_HOOKUP_OBJECT (MainWindow, treeview6, "treeview6");
   GLADE_HOOKUP_OBJECT (MainWindow, hbuttonbox1, "hbuttonbox1");
-  GLADE_HOOKUP_OBJECT (MainWindow, button6, "button6");
-  GLADE_HOOKUP_OBJECT (MainWindow, alignment5, "alignment5");
-  GLADE_HOOKUP_OBJECT (MainWindow, hbox3, "hbox3");
-  GLADE_HOOKUP_OBJECT (MainWindow, image1, "image1");
-  GLADE_HOOKUP_OBJECT (MainWindow, label13, "label13");
-  GLADE_HOOKUP_OBJECT (MainWindow, button7, "button7");
-  GLADE_HOOKUP_OBJECT (MainWindow, alignment6, "alignment6");
-  GLADE_HOOKUP_OBJECT (MainWindow, hbox4, "hbox4");
-  GLADE_HOOKUP_OBJECT (MainWindow, image2, "image2");
-  GLADE_HOOKUP_OBJECT (MainWindow, label14, "label14");
-  GLADE_HOOKUP_OBJECT (MainWindow, button8, "button8");
-  GLADE_HOOKUP_OBJECT (MainWindow, alignment7, "alignment7");
-  GLADE_HOOKUP_OBJECT (MainWindow, hbox5, "hbox5");
-  GLADE_HOOKUP_OBJECT (MainWindow, image3, "image3");
-  GLADE_HOOKUP_OBJECT (MainWindow, label15, "label15");
-  GLADE_HOOKUP_OBJECT (MainWindow, breakpoints_label, "breakpoints_label");
-  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow1, "scrolledwindow1");
+  GLADE_HOOKUP_OBJECT (MainWindow, button10, "button10");
+  GLADE_HOOKUP_OBJECT (MainWindow, alignment17, "alignment17");
+  GLADE_HOOKUP_OBJECT (MainWindow, hbox7, "hbox7");
+  GLADE_HOOKUP_OBJECT (MainWindow, image8, "image8");
+  GLADE_HOOKUP_OBJECT (MainWindow, label32, "label32");
+  GLADE_HOOKUP_OBJECT (MainWindow, button11, "button11");
+  GLADE_HOOKUP_OBJECT (MainWindow, alignment18, "alignment18");
+  GLADE_HOOKUP_OBJECT (MainWindow, hbox8, "hbox8");
+  GLADE_HOOKUP_OBJECT (MainWindow, image9, "image9");
+  GLADE_HOOKUP_OBJECT (MainWindow, label33, "label33");
+  GLADE_HOOKUP_OBJECT (MainWindow, button12, "button12");
+  GLADE_HOOKUP_OBJECT (MainWindow, alignment19, "alignment19");
+  GLADE_HOOKUP_OBJECT (MainWindow, hbox9, "hbox9");
+  GLADE_HOOKUP_OBJECT (MainWindow, image10, "image10");
+  GLADE_HOOKUP_OBJECT (MainWindow, label34, "label34");
+  GLADE_HOOKUP_OBJECT (MainWindow, label35, "label35");
+  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow12, "scrolledwindow12");
   GLADE_HOOKUP_OBJECT (MainWindow, stack_view, "stack_view");
+  GLADE_HOOKUP_OBJECT (MainWindow, label36, "label36");
+  GLADE_HOOKUP_OBJECT (MainWindow, alignment20, "alignment20");
+  GLADE_HOOKUP_OBJECT (MainWindow, viewport1, "viewport1");
+  GLADE_HOOKUP_OBJECT (MainWindow, vbox11, "vbox11");
+  GLADE_HOOKUP_OBJECT (MainWindow, alignment21, "alignment21");
+  GLADE_HOOKUP_OBJECT (MainWindow, eventbox1, "eventbox1");
+  GLADE_HOOKUP_OBJECT (MainWindow, label40, "label40");
+  GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow15, "scrolledwindow15");
+  GLADE_HOOKUP_OBJECT (MainWindow, treeview9, "treeview9");
   GLADE_HOOKUP_OBJECT (MainWindow, statusbar, "statusbar");
   GLADE_HOOKUP_OBJECT_NO_REF (MainWindow, tooltips, "tooltips");
 
