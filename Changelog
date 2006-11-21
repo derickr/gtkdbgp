@@ -1,3 +1,9 @@
+Tue Nov 21 14:41:41 CET 2006 Derick Rethans <derick@derickrethans.nl>
+gtkdbgp.glade
+gtkdbgp/src/interface.c
+gtkdbgp/src/server.c:
+- Show object's classes and PPP for object's properties.
+
 Tue Nov 21 09:11:37 CET 2006 Derick Rethans <derick@derickrethans.nl>
 gtkdbgp.glade
 gtkdbgp/src/interface.c
