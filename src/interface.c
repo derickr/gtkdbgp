@@ -596,7 +596,6 @@ create_MainWindow (void)
   gtk_widget_show (var_view);
   gtk_container_add (GTK_CONTAINER (scrolledwindow15), var_view);
   gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (var_view), TRUE);
-  gtk_tree_view_set_hover_expand (GTK_TREE_VIEW (var_view), TRUE);
 
   statusbar = gtk_statusbar_new ();
   gtk_widget_set_name (statusbar, "statusbar");

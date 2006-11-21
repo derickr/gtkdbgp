@@ -329,8 +329,8 @@ int process_select_file_line_for_selected_stack_no_check(int param, ClientState*
 
 static add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_xml_node *property)
 {
-	xdebug_xml_attribute *fullname_attr, *type_attr, *size_attr, *encoding_attr;
-	gchar *value;
+	xdebug_xml_attribute *fullname_attr, *type_attr, *size_attr, *encoding_attr, *class_attr, *facet_attr;
+	gchar *value, *type, *name;
 	int new_len;
 	GtkTreeIter iter;
 
@@ -351,10 +351,28 @@ static add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_xml_no
 				value = "";
 			}
 
+			name = fullname_attr->value ? fullname_attr->value : "*unknown*";
+			if (fullname_attr->value) {
+				facet_attr = xdebug_xml_fetch_attribute(property, "facet");
+				if (facet_attr && facet_attr->value) {
+					name = xdebug_sprintf("%s: %s", facet_attr->value, name);
+				}
+			}
+
+			type = type_attr->value ? type_attr->value : "*unknown*";
+			if (type_attr->value) {
+				if (strcmp(type_attr->value, "object") == 0) {
+					class_attr = xdebug_xml_fetch_attribute(property, "classname");
+					if (class_attr && class_attr->value) {
+						type = xdebug_sprintf("object(%s)", class_attr->value);
+					}
+				}
+			}
+
 			gtk_tree_store_append(store, &iter, parent_iter);
 			gtk_tree_store_set(store, &iter,
-				STACK_NR_COLUMN,       fullname_attr->value ? fullname_attr->value : "*que?*",
-				STACK_FUNCTION_COLUMN, type_attr->value ? type_attr->value : "*unknown*",
+				STACK_NR_COLUMN,       name,
+				STACK_FUNCTION_COLUMN, type,
 				STACK_LOCATION_COLUMN, value,
 				-1);
 
