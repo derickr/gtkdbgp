@@ -1,3 +1,10 @@
+Tue Nov 21 09:11:37 CET 2006 Derick Rethans <derick@derickrethans.nl>
+gtkdbgp.glade
+gtkdbgp/src/interface.c
+gtkdbgp/src/main.c
+gtkdbgp/src/server.c:
+- Added display of variables in the most basic way.
+
 Thu Nov 16 23:56:04 CET 2006 Derick Rethans <derick@derickrethans.nl>
 gtkdbgp.glade
 gtkdbgp/src/interface.c:
