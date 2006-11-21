@@ -98,7 +98,7 @@ int process_update_stack(int param, ClientState* state);
 
 int do_context_get(int param, ClientState* state)
 {
-	state->command = xdebug_sprintf( "context_get -i %d", get_next_id(state));
+	state->command = xdebug_sprintf( "context_get -i %d -d %d", get_next_id(state), state->last_selected_stack_frame);
 	return INTERACTIVE;
 }
 
@@ -327,9 +327,61 @@ int process_select_file_line_for_selected_stack_no_check(int param, ClientState*
 	_process_select_file_line_for_selected_stack(param, state, 0);
 }
 
+static add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_xml_node *property)
+{
+	xdebug_xml_attribute *fullname_attr, *type_attr, *size_attr, *encoding_attr;
+	gchar *value;
+	int new_len;
+	GtkTreeIter iter;
+
+	while (property) {
+		if (strcmp(property->tag, "property") == 0) {
+			fullname_attr = xdebug_xml_fetch_attribute(property, "fullname");
+			type_attr = xdebug_xml_fetch_attribute(property, "type");
+			size_attr = xdebug_xml_fetch_attribute(property, "size");
+			encoding_attr = xdebug_xml_fetch_attribute(property, "encoding");
+
+			if (property->text && property->text->text) {
+				if (encoding_attr && strcmp(encoding_attr->value, "base64") == 0) {
+					value = gnet_base64_decode(property->text->text, strlen(property->text->text), &new_len);
+				} else {
+					value = property->text->text;
+				}
+			} else {
+				value = "";
+			}
+
+			gtk_tree_store_append(store, &iter, parent_iter);
+			gtk_tree_store_set(store, &iter,
+				STACK_NR_COLUMN,       fullname_attr->value ? fullname_attr->value : "*que?*",
+				STACK_FUNCTION_COLUMN, type_attr->value ? type_attr->value : "*unknown*",
+				STACK_LOCATION_COLUMN, value,
+				-1);
+
+			if (property->child) {
+				add_property(store, &iter, property->child);
+			}
+		}
+		property = property->next;
+	}
+
+}
 
 int process_update_context_vars_for_selected_stack(int param, ClientState* state)
 {
+	GtkWidget *var_view;
+	GtkTreeStore *store;
+	xdebug_xml_node *property;
+
+ 	var_view = lookup_widget(GTK_WIDGET(MainWindow), "var_view");
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(var_view));
+
+	gtk_tree_store_clear(store);
+
+	property = state->message->child;
+
+	add_property(store, NULL, property);
+
 	return NON_INTERACTIVE;
 }
 
@@ -442,6 +494,8 @@ action_item select_stack_action_list[] = {
 	{ process_add_source_file, 0 },
 	{ do_stack_get, 0 },
 	{ process_select_file_line_for_selected_stack_no_check, 0 },
+	{ do_context_get, 0 },
+	{ process_update_context_vars_for_selected_stack, 0 },
 	{ process_mark_buttons_active, 0 },
 	{ NULL, 0 }
 };

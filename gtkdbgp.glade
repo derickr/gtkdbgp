@@ -40,7 +40,7 @@
 	      <property name="use_underline">True</property>
 
 	      <child>
-		<widget class="GtkMenu" id="menu1">
+		<widget class="GtkMenu" id="menuitem1_menu">
 
 		  <child>
 		    <widget class="GtkImageMenuItem" id="imagemenuitem1">
@@ -62,7 +62,7 @@
 	      <property name="use_underline">True</property>
 
 	      <child>
-		<widget class="GtkMenu" id="menu2">
+		<widget class="GtkMenu" id="menuitem2_menu">
 
 		  <child>
 		    <widget class="GtkImageMenuItem" id="imagemenuitem2">
@@ -72,7 +72,7 @@
 		      <signal name="activate" handler="on_preferences_activate" last_modification_time="Sun, 12 Nov 2006 10:46:18 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image11">
+			<widget class="GtkImage" id="image12">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-preferences</property>
 			  <property name="icon_size">1</property>
@@ -96,14 +96,27 @@
 	      <property name="use_underline">True</property>
 
 	      <child>
-		<widget class="GtkMenu" id="menu3">
+		<widget class="GtkMenu" id="menuitem3_menu">
 
 		  <child>
-		    <widget class="GtkMenuItem" id="menuitem4">
+		    <widget class="GtkImageMenuItem" id="menuitem4">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Add Breakpoint</property>
+		      <property name="label" translatable="yes">_Add Breakpoint</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_add_breakpoint_menu_item_activate" last_modification_time="Mon, 09 Oct 2006 18:50:16 GMT"/>
+		      <accelerator key="F4" modifiers="0" signal="activate"/>
+
+		      <child internal-child="image">
+			<widget class="GtkImage" id="image13">
+			  <property name="visible">True</property>
+			  <property name="stock">gtk-add</property>
+			  <property name="icon_size">1</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+		      </child>
 		    </widget>
 		  </child>
 
@@ -114,12 +127,24 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="menuitem5">
+		    <widget class="GtkImageMenuItem" id="menuitem5">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Continue</property>
+		      <property name="label" translatable="yes">_Continue</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_continue_menu_item_activate" last_modification_time="Mon, 09 Oct 2006 18:50:16 GMT"/>
 		      <accelerator key="F5" modifiers="0" signal="activate"/>
+
+		      <child internal-child="image">
+			<widget class="GtkImage" id="image14">
+			  <property name="visible">True</property>
+			  <property name="stock">gtk-media-play</property>
+			  <property name="icon_size">1</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+		      </child>
 		    </widget>
 		  </child>
 
@@ -130,29 +155,68 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="menuitem6">
+		    <widget class="GtkImageMenuItem" id="menuitem6">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Step Over</property>
+		      <property name="label" translatable="yes">Step _Over</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_step_over_menu_item_activate" last_modification_time="Mon, 09 Oct 2006 18:50:16 GMT"/>
+		      <accelerator key="F6" modifiers="0" signal="activate"/>
+
+		      <child internal-child="image">
+			<widget class="GtkImage" id="image15">
+			  <property name="visible">True</property>
+			  <property name="stock">gtk-go-forward</property>
+			  <property name="icon_size">1</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+		      </child>
 		    </widget>
 		  </child>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="menuitem7">
+		    <widget class="GtkImageMenuItem" id="menuitem7">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Step In</property>
+		      <property name="label" translatable="yes">Step _In</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_step_in_menu_item_activate" last_modification_time="Mon, 09 Oct 2006 18:50:16 GMT"/>
+		      <accelerator key="F7" modifiers="0" signal="activate"/>
+
+		      <child internal-child="image">
+			<widget class="GtkImage" id="image16">
+			  <property name="visible">True</property>
+			  <property name="stock">gtk-media-next</property>
+			  <property name="icon_size">1</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+		      </child>
 		    </widget>
 		  </child>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="menuitem8">
+		    <widget class="GtkImageMenuItem" id="menuitem8">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Step Out</property>
+		      <property name="label" translatable="yes">Step O_ut</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_step_out_menu_item_activate" last_modification_time="Mon, 09 Oct 2006 18:50:16 GMT"/>
+		      <accelerator key="F8" modifiers="0" signal="activate"/>
+
+		      <child internal-child="image">
+			<widget class="GtkImage" id="image17">
+			  <property name="visible">True</property>
+			  <property name="stock">gtk-goto-last</property>
+			  <property name="icon_size">1</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+		      </child>
 		    </widget>
 		  </child>
 
@@ -163,20 +227,46 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="menuitem9">
+		    <widget class="GtkImageMenuItem" id="menuitem9">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Detach Debugger</property>
+		      <property name="label" translatable="yes">_Detach Debugger</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_detach_debugger_menu_item_activate" last_modification_time="Mon, 09 Oct 2006 18:50:16 GMT"/>
+		      <accelerator key="F9" modifiers="0" signal="activate"/>
+
+		      <child internal-child="image">
+			<widget class="GtkImage" id="image18">
+			  <property name="visible">True</property>
+			  <property name="stock">gtk-quit</property>
+			  <property name="icon_size">1</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+		      </child>
 		    </widget>
 		  </child>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="menuitem10">
+		    <widget class="GtkImageMenuItem" id="menuitem10">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Stop Debugging</property>
+		      <property name="label" translatable="yes">_Stop Debugging</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_stop_debugging_menu_item_activate" last_modification_time="Mon, 09 Oct 2006 18:50:16 GMT"/>
+		      <accelerator key="F10" modifiers="0" signal="activate"/>
+
+		      <child internal-child="image">
+			<widget class="GtkImage" id="image19">
+			  <property name="visible">True</property>
+			  <property name="stock">gtk-stop</property>
+			  <property name="icon_size">1</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+		      </child>
 		    </widget>
 		  </child>
 		</widget>
@@ -191,7 +281,7 @@
 	      <property name="use_underline">True</property>
 
 	      <child>
-		<widget class="GtkMenu" id="menu4">
+		<widget class="GtkMenu" id="menuitem11_menu">
 
 		  <child>
 		    <widget class="GtkImageMenuItem" id="imagemenuitem3">
@@ -201,7 +291,7 @@
 		      <signal name="activate" handler="on_about_activate" last_modification_time="Mon, 09 Oct 2006 18:50:16 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image12">
+			<widget class="GtkImage" id="image20">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-help</property>
 			  <property name="icon_size">1</property>
@@ -946,16 +1036,16 @@
 			  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 			  <child>
-			    <widget class="GtkTreeView" id="treeview9">
+			    <widget class="GtkTreeView" id="var_view">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="headers_visible">True</property>
-			      <property name="rules_hint">False</property>
+			      <property name="rules_hint">True</property>
 			      <property name="reorderable">False</property>
 			      <property name="enable_search">True</property>
 			      <property name="fixed_height_mode">False</property>
 			      <property name="hover_selection">False</property>
-			      <property name="hover_expand">False</property>
+			      <property name="hover_expand">True</property>
 			    </widget>
 			  </child>
 			</widget>
@@ -1861,7 +1951,7 @@
   <property name="destroy_with_parent">True</property>
   <property name="name" translatable="yes">gtkdbgp</property>
   <property name="copyright" translatable="yes">(c) 2006 by Derick Rethans</property>
-  <property name="comments" translatable="yes">No comments</property>
+  <property name="comments" translatable="yes"></property>
   <property name="license">The Xdebug License, version 1.01
 (Based on &quot;The PHP License&quot;, version 3.0)
 

@@ -33,28 +33,35 @@ create_MainWindow (void)
   GtkWidget *vbox1;
   GtkWidget *menubar1;
   GtkWidget *menuitem1;
-  GtkWidget *menu1;
+  GtkWidget *menuitem1_menu;
   GtkWidget *imagemenuitem1;
   GtkWidget *menuitem2;
-  GtkWidget *menu2;
+  GtkWidget *menuitem2_menu;
   GtkWidget *imagemenuitem2;
-  GtkWidget *image11;
+  GtkWidget *image12;
   GtkWidget *menuitem3;
-  GtkWidget *menu3;
+  GtkWidget *menuitem3_menu;
   GtkWidget *menuitem4;
+  GtkWidget *image13;
   GtkWidget *separatormenuitem1;
   GtkWidget *menuitem5;
+  GtkWidget *image14;
   GtkWidget *separatormenuitem2;
   GtkWidget *menuitem6;
+  GtkWidget *image15;
   GtkWidget *menuitem7;
+  GtkWidget *image16;
   GtkWidget *menuitem8;
+  GtkWidget *image17;
   GtkWidget *separatormenuitem3;
   GtkWidget *menuitem9;
+  GtkWidget *image18;
   GtkWidget *menuitem10;
+  GtkWidget *image19;
   GtkWidget *menuitem11;
-  GtkWidget *menu4;
+  GtkWidget *menuitem11_menu;
   GtkWidget *imagemenuitem3;
-  GtkWidget *image12;
+  GtkWidget *image20;
   GtkWidget *toolbar1;
   GtkIconSize tmp_toolbar_icon_size;
   GtkWidget *tmp_image;
@@ -105,7 +112,7 @@ create_MainWindow (void)
   GtkWidget *eventbox1;
   GtkWidget *label40;
   GtkWidget *scrolledwindow15;
-  GtkWidget *treeview9;
+  GtkWidget *var_view;
   GtkWidget *statusbar;
   GtkAccelGroup *accel_group;
   GtkTooltips *tooltips;
@@ -135,117 +142,170 @@ create_MainWindow (void)
   gtk_widget_show (menuitem1);
   gtk_container_add (GTK_CONTAINER (menubar1), menuitem1);
 
-  menu1 = gtk_menu_new ();
-  gtk_widget_set_name (menu1, "menu1");
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem1), menu1);
+  menuitem1_menu = gtk_menu_new ();
+  gtk_widget_set_name (menuitem1_menu, "menuitem1_menu");
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem1), menuitem1_menu);
 
   imagemenuitem1 = gtk_image_menu_item_new_from_stock ("gtk-quit", accel_group);
   gtk_widget_set_name (imagemenuitem1, "imagemenuitem1");
   gtk_widget_show (imagemenuitem1);
-  gtk_container_add (GTK_CONTAINER (menu1), imagemenuitem1);
+  gtk_container_add (GTK_CONTAINER (menuitem1_menu), imagemenuitem1);
 
   menuitem2 = gtk_menu_item_new_with_mnemonic ("_Settings");
   gtk_widget_set_name (menuitem2, "menuitem2");
   gtk_widget_show (menuitem2);
   gtk_container_add (GTK_CONTAINER (menubar1), menuitem2);
 
-  menu2 = gtk_menu_new ();
-  gtk_widget_set_name (menu2, "menu2");
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem2), menu2);
+  menuitem2_menu = gtk_menu_new ();
+  gtk_widget_set_name (menuitem2_menu, "menuitem2_menu");
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem2), menuitem2_menu);
 
   imagemenuitem2 = gtk_image_menu_item_new_with_mnemonic ("_Preferences");
   gtk_widget_set_name (imagemenuitem2, "imagemenuitem2");
   gtk_widget_show (imagemenuitem2);
-  gtk_container_add (GTK_CONTAINER (menu2), imagemenuitem2);
+  gtk_container_add (GTK_CONTAINER (menuitem2_menu), imagemenuitem2);
 
-  image11 = gtk_image_new_from_stock ("gtk-preferences", GTK_ICON_SIZE_MENU);
-  gtk_widget_set_name (image11, "image11");
-  gtk_widget_show (image11);
-  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (imagemenuitem2), image11);
+  image12 = gtk_image_new_from_stock ("gtk-preferences", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_name (image12, "image12");
+  gtk_widget_show (image12);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (imagemenuitem2), image12);
 
   menuitem3 = gtk_menu_item_new_with_mnemonic ("_Debug");
   gtk_widget_set_name (menuitem3, "menuitem3");
   gtk_widget_show (menuitem3);
   gtk_container_add (GTK_CONTAINER (menubar1), menuitem3);
 
-  menu3 = gtk_menu_new ();
-  gtk_widget_set_name (menu3, "menu3");
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem3), menu3);
+  menuitem3_menu = gtk_menu_new ();
+  gtk_widget_set_name (menuitem3_menu, "menuitem3_menu");
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem3), menuitem3_menu);
 
-  menuitem4 = gtk_menu_item_new_with_mnemonic ("Add Breakpoint");
+  menuitem4 = gtk_image_menu_item_new_with_mnemonic ("_Add Breakpoint");
   gtk_widget_set_name (menuitem4, "menuitem4");
   gtk_widget_show (menuitem4);
-  gtk_container_add (GTK_CONTAINER (menu3), menuitem4);
+  gtk_container_add (GTK_CONTAINER (menuitem3_menu), menuitem4);
+  gtk_widget_add_accelerator (menuitem4, "activate", accel_group,
+                              GDK_F4, (GdkModifierType) 0,
+                              GTK_ACCEL_VISIBLE);
+
+  image13 = gtk_image_new_from_stock ("gtk-add", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_name (image13, "image13");
+  gtk_widget_show (image13);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem4), image13);
 
   separatormenuitem1 = gtk_separator_menu_item_new ();
   gtk_widget_set_name (separatormenuitem1, "separatormenuitem1");
   gtk_widget_show (separatormenuitem1);
-  gtk_container_add (GTK_CONTAINER (menu3), separatormenuitem1);
+  gtk_container_add (GTK_CONTAINER (menuitem3_menu), separatormenuitem1);
   gtk_widget_set_sensitive (separatormenuitem1, FALSE);
 
-  menuitem5 = gtk_menu_item_new_with_mnemonic ("Continue");
+  menuitem5 = gtk_image_menu_item_new_with_mnemonic ("_Continue");
   gtk_widget_set_name (menuitem5, "menuitem5");
   gtk_widget_show (menuitem5);
-  gtk_container_add (GTK_CONTAINER (menu3), menuitem5);
+  gtk_container_add (GTK_CONTAINER (menuitem3_menu), menuitem5);
   gtk_widget_add_accelerator (menuitem5, "activate", accel_group,
                               GDK_F5, (GdkModifierType) 0,
                               GTK_ACCEL_VISIBLE);
 
+  image14 = gtk_image_new_from_stock ("gtk-media-play", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_name (image14, "image14");
+  gtk_widget_show (image14);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem5), image14);
+
   separatormenuitem2 = gtk_separator_menu_item_new ();
   gtk_widget_set_name (separatormenuitem2, "separatormenuitem2");
   gtk_widget_show (separatormenuitem2);
-  gtk_container_add (GTK_CONTAINER (menu3), separatormenuitem2);
+  gtk_container_add (GTK_CONTAINER (menuitem3_menu), separatormenuitem2);
   gtk_widget_set_sensitive (separatormenuitem2, FALSE);
 
-  menuitem6 = gtk_menu_item_new_with_mnemonic ("Step Over");
+  menuitem6 = gtk_image_menu_item_new_with_mnemonic ("Step _Over");
   gtk_widget_set_name (menuitem6, "menuitem6");
   gtk_widget_show (menuitem6);
-  gtk_container_add (GTK_CONTAINER (menu3), menuitem6);
+  gtk_container_add (GTK_CONTAINER (menuitem3_menu), menuitem6);
+  gtk_widget_add_accelerator (menuitem6, "activate", accel_group,
+                              GDK_F6, (GdkModifierType) 0,
+                              GTK_ACCEL_VISIBLE);
 
-  menuitem7 = gtk_menu_item_new_with_mnemonic ("Step In");
+  image15 = gtk_image_new_from_stock ("gtk-go-forward", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_name (image15, "image15");
+  gtk_widget_show (image15);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem6), image15);
+
+  menuitem7 = gtk_image_menu_item_new_with_mnemonic ("Step _In");
   gtk_widget_set_name (menuitem7, "menuitem7");
   gtk_widget_show (menuitem7);
-  gtk_container_add (GTK_CONTAINER (menu3), menuitem7);
+  gtk_container_add (GTK_CONTAINER (menuitem3_menu), menuitem7);
+  gtk_widget_add_accelerator (menuitem7, "activate", accel_group,
+                              GDK_F7, (GdkModifierType) 0,
+                              GTK_ACCEL_VISIBLE);
 
-  menuitem8 = gtk_menu_item_new_with_mnemonic ("Step Out");
+  image16 = gtk_image_new_from_stock ("gtk-media-next", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_name (image16, "image16");
+  gtk_widget_show (image16);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem7), image16);
+
+  menuitem8 = gtk_image_menu_item_new_with_mnemonic ("Step O_ut");
   gtk_widget_set_name (menuitem8, "menuitem8");
   gtk_widget_show (menuitem8);
-  gtk_container_add (GTK_CONTAINER (menu3), menuitem8);
+  gtk_container_add (GTK_CONTAINER (menuitem3_menu), menuitem8);
+  gtk_widget_add_accelerator (menuitem8, "activate", accel_group,
+                              GDK_F8, (GdkModifierType) 0,
+                              GTK_ACCEL_VISIBLE);
+
+  image17 = gtk_image_new_from_stock ("gtk-goto-last", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_name (image17, "image17");
+  gtk_widget_show (image17);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem8), image17);
 
   separatormenuitem3 = gtk_separator_menu_item_new ();
   gtk_widget_set_name (separatormenuitem3, "separatormenuitem3");
   gtk_widget_show (separatormenuitem3);
-  gtk_container_add (GTK_CONTAINER (menu3), separatormenuitem3);
+  gtk_container_add (GTK_CONTAINER (menuitem3_menu), separatormenuitem3);
   gtk_widget_set_sensitive (separatormenuitem3, FALSE);
 
-  menuitem9 = gtk_menu_item_new_with_mnemonic ("Detach Debugger");
+  menuitem9 = gtk_image_menu_item_new_with_mnemonic ("_Detach Debugger");
   gtk_widget_set_name (menuitem9, "menuitem9");
   gtk_widget_show (menuitem9);
-  gtk_container_add (GTK_CONTAINER (menu3), menuitem9);
+  gtk_container_add (GTK_CONTAINER (menuitem3_menu), menuitem9);
+  gtk_widget_add_accelerator (menuitem9, "activate", accel_group,
+                              GDK_F9, (GdkModifierType) 0,
+                              GTK_ACCEL_VISIBLE);
 
-  menuitem10 = gtk_menu_item_new_with_mnemonic ("Stop Debugging");
+  image18 = gtk_image_new_from_stock ("gtk-quit", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_name (image18, "image18");
+  gtk_widget_show (image18);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem9), image18);
+
+  menuitem10 = gtk_image_menu_item_new_with_mnemonic ("_Stop Debugging");
   gtk_widget_set_name (menuitem10, "menuitem10");
   gtk_widget_show (menuitem10);
-  gtk_container_add (GTK_CONTAINER (menu3), menuitem10);
+  gtk_container_add (GTK_CONTAINER (menuitem3_menu), menuitem10);
+  gtk_widget_add_accelerator (menuitem10, "activate", accel_group,
+                              GDK_F10, (GdkModifierType) 0,
+                              GTK_ACCEL_VISIBLE);
+
+  image19 = gtk_image_new_from_stock ("gtk-stop", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_name (image19, "image19");
+  gtk_widget_show (image19);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem10), image19);
 
   menuitem11 = gtk_menu_item_new_with_mnemonic ("_Help");
   gtk_widget_set_name (menuitem11, "menuitem11");
   gtk_widget_show (menuitem11);
   gtk_container_add (GTK_CONTAINER (menubar1), menuitem11);
 
-  menu4 = gtk_menu_new ();
-  gtk_widget_set_name (menu4, "menu4");
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem11), menu4);
+  menuitem11_menu = gtk_menu_new ();
+  gtk_widget_set_name (menuitem11_menu, "menuitem11_menu");
+  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem11), menuitem11_menu);
 
   imagemenuitem3 = gtk_image_menu_item_new_with_mnemonic ("_About");
   gtk_widget_set_name (imagemenuitem3, "imagemenuitem3");
   gtk_widget_show (imagemenuitem3);
-  gtk_container_add (GTK_CONTAINER (menu4), imagemenuitem3);
+  gtk_container_add (GTK_CONTAINER (menuitem11_menu), imagemenuitem3);
 
-  image12 = gtk_image_new_from_stock ("gtk-help", GTK_ICON_SIZE_MENU);
-  gtk_widget_set_name (image12, "image12");
-  gtk_widget_show (image12);
-  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (imagemenuitem3), image12);
+  image20 = gtk_image_new_from_stock ("gtk-help", GTK_ICON_SIZE_MENU);
+  gtk_widget_set_name (image20, "image20");
+  gtk_widget_show (image20);
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (imagemenuitem3), image20);
 
   toolbar1 = gtk_toolbar_new ();
   gtk_widget_set_name (toolbar1, "toolbar1");
@@ -531,10 +591,12 @@ create_MainWindow (void)
   gtk_box_pack_start (GTK_BOX (vbox11), scrolledwindow15, TRUE, TRUE, 0);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow15), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-  treeview9 = gtk_tree_view_new ();
-  gtk_widget_set_name (treeview9, "treeview9");
-  gtk_widget_show (treeview9);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow15), treeview9);
+  var_view = gtk_tree_view_new ();
+  gtk_widget_set_name (var_view, "var_view");
+  gtk_widget_show (var_view);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow15), var_view);
+  gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (var_view), TRUE);
+  gtk_tree_view_set_hover_expand (GTK_TREE_VIEW (var_view), TRUE);
 
   statusbar = gtk_statusbar_new ();
   gtk_widget_set_name (statusbar, "statusbar");
@@ -599,28 +661,35 @@ create_MainWindow (void)
   GLADE_HOOKUP_OBJECT (MainWindow, vbox1, "vbox1");
   GLADE_HOOKUP_OBJECT (MainWindow, menubar1, "menubar1");
   GLADE_HOOKUP_OBJECT (MainWindow, menuitem1, "menuitem1");
-  GLADE_HOOKUP_OBJECT (MainWindow, menu1, "menu1");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem1_menu, "menuitem1_menu");
   GLADE_HOOKUP_OBJECT (MainWindow, imagemenuitem1, "imagemenuitem1");
   GLADE_HOOKUP_OBJECT (MainWindow, menuitem2, "menuitem2");
-  GLADE_HOOKUP_OBJECT (MainWindow, menu2, "menu2");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem2_menu, "menuitem2_menu");
   GLADE_HOOKUP_OBJECT (MainWindow, imagemenuitem2, "imagemenuitem2");
-  GLADE_HOOKUP_OBJECT (MainWindow, image11, "image11");
+  GLADE_HOOKUP_OBJECT (MainWindow, image12, "image12");
   GLADE_HOOKUP_OBJECT (MainWindow, menuitem3, "menuitem3");
-  GLADE_HOOKUP_OBJECT (MainWindow, menu3, "menu3");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem3_menu, "menuitem3_menu");
   GLADE_HOOKUP_OBJECT (MainWindow, menuitem4, "menuitem4");
+  GLADE_HOOKUP_OBJECT (MainWindow, image13, "image13");
   GLADE_HOOKUP_OBJECT (MainWindow, separatormenuitem1, "separatormenuitem1");
   GLADE_HOOKUP_OBJECT (MainWindow, menuitem5, "menuitem5");
+  GLADE_HOOKUP_OBJECT (MainWindow, image14, "image14");
   GLADE_HOOKUP_OBJECT (MainWindow, separatormenuitem2, "separatormenuitem2");
   GLADE_HOOKUP_OBJECT (MainWindow, menuitem6, "menuitem6");
+  GLADE_HOOKUP_OBJECT (MainWindow, image15, "image15");
   GLADE_HOOKUP_OBJECT (MainWindow, menuitem7, "menuitem7");
+  GLADE_HOOKUP_OBJECT (MainWindow, image16, "image16");
   GLADE_HOOKUP_OBJECT (MainWindow, menuitem8, "menuitem8");
+  GLADE_HOOKUP_OBJECT (MainWindow, image17, "image17");
   GLADE_HOOKUP_OBJECT (MainWindow, separatormenuitem3, "separatormenuitem3");
   GLADE_HOOKUP_OBJECT (MainWindow, menuitem9, "menuitem9");
+  GLADE_HOOKUP_OBJECT (MainWindow, image18, "image18");
   GLADE_HOOKUP_OBJECT (MainWindow, menuitem10, "menuitem10");
+  GLADE_HOOKUP_OBJECT (MainWindow, image19, "image19");
   GLADE_HOOKUP_OBJECT (MainWindow, menuitem11, "menuitem11");
-  GLADE_HOOKUP_OBJECT (MainWindow, menu4, "menu4");
+  GLADE_HOOKUP_OBJECT (MainWindow, menuitem11_menu, "menuitem11_menu");
   GLADE_HOOKUP_OBJECT (MainWindow, imagemenuitem3, "imagemenuitem3");
-  GLADE_HOOKUP_OBJECT (MainWindow, image12, "image12");
+  GLADE_HOOKUP_OBJECT (MainWindow, image20, "image20");
   GLADE_HOOKUP_OBJECT (MainWindow, toolbar1, "toolbar1");
   GLADE_HOOKUP_OBJECT (MainWindow, continue_button, "continue_button");
   GLADE_HOOKUP_OBJECT (MainWindow, separatortoolitem1, "separatortoolitem1");
@@ -669,7 +738,7 @@ create_MainWindow (void)
   GLADE_HOOKUP_OBJECT (MainWindow, eventbox1, "eventbox1");
   GLADE_HOOKUP_OBJECT (MainWindow, label40, "label40");
   GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow15, "scrolledwindow15");
-  GLADE_HOOKUP_OBJECT (MainWindow, treeview9, "treeview9");
+  GLADE_HOOKUP_OBJECT (MainWindow, var_view, "var_view");
   GLADE_HOOKUP_OBJECT (MainWindow, statusbar, "statusbar");
   GLADE_HOOKUP_OBJECT_NO_REF (MainWindow, tooltips, "tooltips");
 
@@ -1163,7 +1232,6 @@ create_aboutdialog (void)
   gtk_about_dialog_set_version (GTK_ABOUT_DIALOG (aboutdialog), VERSION);
   gtk_about_dialog_set_name (GTK_ABOUT_DIALOG (aboutdialog), "gtkdbgp");
   gtk_about_dialog_set_copyright (GTK_ABOUT_DIALOG (aboutdialog), "(c) 2006 by Derick Rethans");
-  gtk_about_dialog_set_comments (GTK_ABOUT_DIALOG (aboutdialog), "No comments");
   gtk_about_dialog_set_license (GTK_ABOUT_DIALOG (aboutdialog), "The Xdebug License, version 1.01\n(Based on \"The PHP License\", version 3.0)\n\nCopyright (c) 2002-2006 Derick Rethans. All rights reserved.\n\nRedistribution and use in source and binary forms, with or without modification, is permitted provided that the following conditions are met:\n\n   1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\n   2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\n   3. The name \"Xdebug\" must not be used to endorse or promote products derived from this software without prior written permission. For written permission, please contact derick@xdebug.org.\n   4. Products derived from this software may not be called \"Xdebug\", nor may \"Xdebug\" appear in their name, without prior written permission from derick@xdebug.org.\n   5. Derick Rethans may publish revised and/or new versions of the license from time to time. Each version will be given a distinguishing version number. Once covered code has been published under a particular version of the license, you may always continue to use it under the terms of that version. You may also choose to use such covered code under the terms of any subsequent version of the license published by Derick Rethans. No one other than Derick Rethans has the right to modify the terms applicable to covered code created under this License.\n   6. Redistributions of any form whatsoever must retain the following acknowledgment: \"This product includes Xdebug, freely available from http://xdebug.org/\".\n\nTHIS SOFTWARE IS PROVIDED BY DERICK RETHANS ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE PHP DEVELOPMENT TEAM OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n\nThis software consists of voluntary contributions made by some individuals on behalf of Derick Rethans.\n\nDerick Rethans can be contacted via e-mail at derick@xdebug.org.\n\nFor more information Xdebug, please see http://xdebug.org/");
   gtk_about_dialog_set_wrap_license (GTK_ABOUT_DIALOG (aboutdialog), TRUE);
   gtk_about_dialog_set_website (GTK_ABOUT_DIALOG (aboutdialog), "http://xdebug.org");
