@@ -1,3 +1,8 @@
+Sat Nov 25 16:15:32 CET 2006 Derick Rethans <derick@derickrethans.nl>
+src/server.c:
+- Make sure we calculate page count for all arrays, even for the ones we're
+  already showing children for.
+
 Sat Nov 25 15:55:06 CET 2006 Derick Rethans <derick@derickrethans.nl>
 gtkdbgp.glade
 gtkdbgp/src/Makefile
