@@ -1,3 +1,14 @@
+Sat Nov 25 15:55:06 CET 2006 Derick Rethans <derick@derickrethans.nl>
+gtkdbgp.glade
+gtkdbgp/src/Makefile
+gtkdbgp/src/callbacks.c
+gtkdbgp/src/callbacks.h
+gtkdbgp/src/globals.h
+gtkdbgp/src/interface.c
+gtkdbgp/src/main.c
+gtkdbgp/src/server.c:
+- Implemented support for nested properties.
+
 Tue Nov 21 14:41:41 CET 2006 Derick Rethans <derick@derickrethans.nl>
 gtkdbgp.glade
 gtkdbgp/src/interface.c
