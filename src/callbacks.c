@@ -245,3 +245,13 @@ on_revert_clicked                      (GtkButton       *button,
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(PHPErrorBreak), TRUE);
 }
 
+
+gboolean
+on_var_view_select_cursor_row          (GtkTreeView     *treeview,
+                                        gboolean         start_editing,
+                                        gpointer         user_data)
+{
+
+  return FALSE;
+}
+

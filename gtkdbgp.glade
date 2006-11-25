@@ -1046,6 +1046,7 @@
 			      <property name="fixed_height_mode">False</property>
 			      <property name="hover_selection">False</property>
 			      <property name="hover_expand">False</property>
+			      <signal name="select_cursor_row" handler="on_var_view_select_cursor_row" last_modification_time="Thu, 23 Nov 2006 19:17:21 GMT"/>
 			    </widget>
 			  </child>
 			</widget>

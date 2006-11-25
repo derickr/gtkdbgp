@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <glib.h>
 #include <gnet.h>
 
@@ -62,6 +63,7 @@ void update_statusbar(gchar* text);
 static GTcpSocket* async_server = NULL;
 static xdebug_hash *code_tabs_hash;
 
+static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_xml_node *property);
 void add_source_file(gchar* filename, gchar *source);
 
 int do_context_get(int param, ClientState* state);
@@ -73,6 +75,7 @@ int do_stack_get(int param, ClientState* state);
 int do_step_into(int param, ClientState* state);
 
 int process_add_source_file(int param, ClientState* state);
+int process_fetched_property(int param, ClientState* state);
 int process_jump(int param, ClientState* state);
 int process_mark_buttons_active(int param, ClientState* state);
 int process_mark_buttons_inactive(int param, ClientState* state);
@@ -87,6 +90,7 @@ int process_update_stack(int param, ClientState* state);
 #define SERVER_STATE_BREAK             2
 #define SERVER_STATE_STOPPED           3
 #define SERVER_STATE_SELECT_STACK      4
+#define SERVER_STATE_FETCH_PROPERTY    5
 
 #define SERVER_ACTION_SOURCE_GET       1
 #define SERVER_ACTION_STEP_IN          2
@@ -152,6 +156,13 @@ int do_source_get(int param, ClientState* state)
 	return INTERACTIVE;
 }
 
+int do_property_get(int param, ClientState* state)
+{
+	state->command = xdebug_sprintf( "property_get -i %d -n %s", get_next_id(state), state->property);
+	xdfree(state->property);
+	return INTERACTIVE;
+}
+
 
 int do_stack_get(int param, ClientState* state)
 {
@@ -175,6 +186,27 @@ int process_add_source_file(int param, ClientState* state)
 	add_source_file(state->last_source_file, message->text->text);
 	xdfree(state->last_source_file);
 	state->last_source_file = NULL;
+	return NON_INTERACTIVE;
+}
+
+
+int process_fetched_property(int param, ClientState* state)
+{
+	GtkWidget *var_view;
+	GtkTreeStore *store;
+	xdebug_xml_node *property;
+	GtkTreeIter iter;
+
+ 	var_view = lookup_widget(GTK_WIDGET(MainWindow), "var_view");
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(var_view));
+
+	property = state->message;
+
+	gtk_tree_model_get_iter_from_string(store, &iter, client_state->path_string);
+	add_property(store, &iter, property->child);
+	gtk_tree_view_expand_row(var_view, gtk_tree_path_new_from_string(client_state->path_string), 1);
+	g_free(client_state->path_string);
+
 	return NON_INTERACTIVE;
 }
 
@@ -327,19 +359,42 @@ int process_select_file_line_for_selected_stack_no_check(int param, ClientState*
 	_process_select_file_line_for_selected_stack(param, state, 0);
 }
 
-static add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_xml_node *property)
+static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_xml_node *property)
 {
-	xdebug_xml_attribute *fullname_attr, *type_attr, *size_attr, *encoding_attr, *class_attr, *facet_attr;
+	xdebug_xml_attribute *fullname_attr, *name_attr, *type_attr, *size_attr, *encoding_attr, *class_attr, *facet_attr;
+	xdebug_xml_attribute *children_attr, *numchildren_attr;
 	gchar *value, *type, *name;
-	int new_len;
+	int new_len, max_children;
 	GtkTreeIter iter;
+	GConfEngine *conf;
+	gint pages;
+	GtkTreePath *path;
+	gchar *path_string;
 
+	conf = gconf_engine_get_default();
+	max_children = gconf_engine_get_int(conf, "/apps/gtkdbgp/max_children", NULL);
+
+	children_attr = xdebug_xml_fetch_attribute(property, "children");
+	numchildren_attr = xdebug_xml_fetch_attribute(property, "numchildren");
+
+	if (!property->child && children_attr && children_attr->value && strcmp(children_attr->value, "1") == 0) {
+		pages = strtol(numchildren_attr->value, NULL, 10);
+		pages = (pages + 24) / max_children;
+		gtk_tree_store_set(store, parent_iter,
+			VARVIEW_HIDDEN_HINT, DBGPCLIENT_FETCH_MORE,
+			VARVIEW_PAGE_COUNT,  pages,
+			-1);
+		return;
+	}
+
+	property = property->child;
 	while (property) {
 		if (strcmp(property->tag, "property") == 0) {
-			fullname_attr = xdebug_xml_fetch_attribute(property, "fullname");
+			name_attr = xdebug_xml_fetch_attribute(property, "name");
 			type_attr = xdebug_xml_fetch_attribute(property, "type");
 			size_attr = xdebug_xml_fetch_attribute(property, "size");
 			encoding_attr = xdebug_xml_fetch_attribute(property, "encoding");
+			fullname_attr = xdebug_xml_fetch_attribute(property, "fullname");
 
 			if (property->text && property->text->text) {
 				if (encoding_attr && strcmp(encoding_attr->value, "base64") == 0) {
@@ -351,8 +406,8 @@ static add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_xml_no
 				value = "";
 			}
 
-			name = fullname_attr->value ? fullname_attr->value : "*unknown*";
-			if (fullname_attr->value) {
+			name = name_attr->value ? name_attr->value : "*unknown*";
+			if (name_attr->value) {
 				facet_attr = xdebug_xml_fetch_attribute(property, "facet");
 				if (facet_attr && facet_attr->value) {
 					name = xdebug_sprintf("%s: %s", facet_attr->value, name);
@@ -370,19 +425,22 @@ static add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_xml_no
 			}
 
 			gtk_tree_store_append(store, &iter, parent_iter);
+			path = gtk_tree_model_get_path(store, &iter);
+			path_string = gtk_tree_path_to_string(path);
 			gtk_tree_store_set(store, &iter,
-				STACK_NR_COLUMN,       name,
-				STACK_FUNCTION_COLUMN, type,
-				STACK_LOCATION_COLUMN, value,
+				VARVIEW_NR_COLUMN,       name,
+				VARVIEW_FUNCTION_COLUMN, type,
+				VARVIEW_LOCATION_COLUMN, value,
+				VARVIEW_FULLNAME,        fullname_attr->value,
+				VARVIEW_PATH_STRING,     path_string,
 				-1);
+			g_free(path_string);
+			gtk_tree_path_free(path);
 
-			if (property->child) {
-				add_property(store, &iter, property->child);
-			}
-		}
+			add_property(store, &iter, property);
+		}	
 		property = property->next;
 	}
-
 }
 
 int process_update_context_vars_for_selected_stack(int param, ClientState* state)
@@ -396,7 +454,7 @@ int process_update_context_vars_for_selected_stack(int param, ClientState* state
 
 	gtk_tree_store_clear(store);
 
-	property = state->message->child;
+	property = state->message;
 
 	add_property(store, NULL, property);
 
@@ -506,7 +564,6 @@ action_item stopped_action_list[] = {
 
 action_item select_stack_action_list[] = {
 	{ process_mark_buttons_inactive, 0 },
-	{ do_stack_get, 0 },
 	{ process_select_file_line_for_selected_stack, 4 },
 	{ do_source_get, 0 },
 	{ process_add_source_file, 0 },
@@ -514,6 +571,13 @@ action_item select_stack_action_list[] = {
 	{ process_select_file_line_for_selected_stack_no_check, 0 },
 	{ do_context_get, 0 },
 	{ process_update_context_vars_for_selected_stack, 0 },
+	{ process_mark_buttons_active, 0 },
+	{ NULL, 0 }
+};
+
+action_item fetch_property_action_list[] = {
+	{ process_mark_buttons_inactive, 0 },
+	{ process_fetched_property, 0 },
 	{ process_mark_buttons_active, 0 },
 	{ NULL, 0 }
 };
@@ -604,7 +668,6 @@ gboolean stack_selection_function(GtkTreeSelection *selection, GtkTreeModel *mod
 	if (!path_currently_selected && !client_state->auto_stack_select && gtk_tree_model_get_iter(model, &iter, path)) {
 		gtk_tree_model_get(model, &iter, STACK_NR_COLUMN, &name, -1);
 		if (strtol(name, NULL, 10) != client_state->last_selected_stack_frame) {
-			g_print ("%s is going to be selected.\n", name);
 			client_state->last_selected_stack_frame = strtol(name, NULL, 10);
 
 			client_state->server_state = SERVER_STATE_SELECT_STACK;
@@ -618,6 +681,37 @@ gboolean stack_selection_function(GtkTreeSelection *selection, GtkTreeModel *mod
 			client_state->watch = g_io_add_watch(iochannel, client_state->watch_flags, async_client_iofunc, client_state);
 		}
 		g_free(name);
+	}
+	return TRUE; /* allow selection state to change */
+}
+
+gboolean varview_selection_function(GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *path, gboolean path_currently_selected, gpointer userdata)
+{
+	GtkTreeIter iter;
+	GIOChannel *iochannel;
+	gchar *fullname;
+	gint   hint;
+
+	if (!path_currently_selected && gtk_tree_model_get_iter(model, &iter, path)) {
+		gtk_tree_model_get(model, &iter, VARVIEW_FULLNAME, &fullname, -1);
+		gtk_tree_model_get(model, &iter, VARVIEW_HIDDEN_HINT, &hint, -1);
+
+		g_print( "Need to fetch '%s'? The hint is '%d'\n", fullname, hint);
+		if (hint == 1) {
+			gtk_tree_store_set(model, &iter, VARVIEW_HIDDEN_HINT, 0, -1);
+			client_state->server_state = SERVER_STATE_FETCH_PROPERTY;
+			client_state->action_list_ptr = fetch_property_action_list;
+			client_state->property = xdstrdup(fullname);
+			client_state->path_string = gtk_tree_path_to_string(path);
+
+			do_property_get(0, client_state);
+
+			client_state->watch_flags |= G_IO_OUT;
+			iochannel = gnet_tcp_socket_get_io_channel(client_state->socket);
+			g_source_remove(client_state->watch);
+			client_state->watch = g_io_add_watch(iochannel, client_state->watch_flags, async_client_iofunc, client_state);
+		}
+		g_free(fullname);
 	}
 	return TRUE; /* allow selection state to change */
 }
@@ -746,7 +840,7 @@ int process_state_input(ClientState *client_state)
 	xdebug_xml_attribute *attr;
 
 	if (strcmp(message->tag, "init") == 0) {
-		// We need to do initialization
+		/* We need to do initialization */
 		attr = xdebug_xml_fetch_attribute(message, "fileuri");
 		if (attr && attr->value) {
 			client_state->last_source_file = xdstrdup(attr->value);
@@ -832,15 +926,10 @@ int process_request(ClientState *client_state, int bcount)
 
 	switch (client_state->server_state) {
 		case SERVER_STATE_INITIAL:
-			process_state_init(client_state);
-			break;
 		case SERVER_STATE_BREAK:
-			process_state_init(client_state);
-			break;
 		case SERVER_STATE_STOPPED:
-			process_state_init(client_state);
-			break;
 		case SERVER_STATE_SELECT_STACK:
+		case SERVER_STATE_FETCH_PROPERTY:
 			process_state_init(client_state);
 			break;
 	}
@@ -911,7 +1000,7 @@ static void async_accept (GTcpSocket* server, GTcpSocket* client, gpointer data)
 		GIOChannel* client_iochannel;
 
 		/* Stop more connections */
-		// gnet_tcp_socket_server_accept_async_cancel (server);
+		/* gnet_tcp_socket_server_accept_async_cancel (server); */
 
 		/* Print the address */
 		addr = gnet_tcp_socket_get_local_inetaddr(client);
@@ -1020,8 +1109,6 @@ gboolean async_client_iofunc (GIOChannel* iochannel, GIOCondition condition, gpo
 
 				expected_length = strtol(buffer, NULL, 10);
 
-//				printf("LENGTH=%d (%d) bc=%d\n", expected_length, strlen(buffer + null_starts + 1), bytes_read);
-
 				client_state->expected_length = expected_length;
 				if (bytes_read - null_starts - 1 < expected_length) {
 					client_state->more_coming = TRUE;
@@ -1029,17 +1116,14 @@ gboolean async_client_iofunc (GIOChannel* iochannel, GIOCondition condition, gpo
 					client_state->more_coming = FALSE;
 				}
 			} else {
-//				printf("LENGTH=%d (pos=%d) bc=%d\n", client_state->expected_length, client_state->current_pos, bytes_read);
 				memcpy(client_state->buffer + client_state->current_pos, buffer, bytes_read);
 				client_state->current_pos += bytes_read;
-//				printf("LENGTH=%d (pos=%d) bc=%d\n", client_state->expected_length, client_state->current_pos, bytes_read);
 				if (client_state->current_pos >= client_state->expected_length) {
 					client_state->more_coming = FALSE;
 				}
 			}
 
 			old_watch_flags = client_state->watch_flags;
-			//	  client_state->n += bytes_read;
 
 			if (!client_state->more_coming) {
 				if (process_request(client_state, client_state->expected_length)) {
@@ -1049,10 +1133,6 @@ gboolean async_client_iofunc (GIOChannel* iochannel, GIOCondition condition, gpo
 				client_state->first_packet = TRUE;
 				client_state->more_coming = FALSE;
 			}
-
-			/* Remove the IN watch if the buffer is full */
-			//	  if (client_state->n == sizeof(client_state->buffer))
-			//	    client_state->watch_flags &= ~G_IO_IN;
 
 			/* Update watch flags if they changed */
 			if (old_watch_flags != client_state->watch_flags)

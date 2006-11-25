@@ -89,3 +89,8 @@ on_ok_clicked                          (GtkButton       *button,
 void
 on_revert_clicked                      (GtkButton       *button,
                                         gpointer         user_data);
+
+gboolean
+on_var_view_select_cursor_row          (GtkTreeView     *treeview,
+                                        gboolean         start_editing,
+                                        gpointer         user_data);

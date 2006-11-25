@@ -95,7 +95,7 @@ usefulstuff.o xdebug_hash.o xdebug_llist.o xdebug_str.o xdebug_xml.o \
 xdebug_xml_reader.o
 gtkdbgp_DEPENDENCIES = 
 gtkdbgp_LDFLAGS = 
-CFLAGS = -g -O2
+CFLAGS = -g -O0
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

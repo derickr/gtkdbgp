@@ -33,6 +33,8 @@ struct _ClientState
 	int last_tid;
 	int server_state; // INITIAL, BREAK, STOPPED
 	action_item *action_list_ptr;
+	char *property; // property to fetch
+	char *path_string;
 
 	xdebug_xml_node* message;
 	gchar *last_source_file;
@@ -52,10 +54,29 @@ enum
 	STACK_N_COLUMNS
 };
 
+enum
+{
+	VARVIEW_NR_COLUMN = 0,
+	VARVIEW_FUNCTION_COLUMN,
+	VARVIEW_LOCATION_COLUMN,
+	VARVIEW_HIDDEN_HINT,
+	VARVIEW_PAGE_COUNT,
+	VARVIEW_PAGES_FETCHED,
+	VARVIEW_FULLNAME,
+	VARVIEW_PATH_STRING,
+	VARVIEW_N_COLUMNS
+};
+
+enum
+{
+	DBGPCLIENT_FETCH_MORE = 1
+};
+
 ClientState* client_state;
 
 int get_next_id(ClientState * client_state);
 gboolean stack_selection_function(GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *path, gboolean path_currently_selected, gpointer userdata);
+gboolean varview_selection_function(GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *path, gboolean path_currently_selected, gpointer userdata);
 
 void process_continue_button(GtkToolButton *toolbutton, gpointer user_data);
 void process_step_into_button(GtkToolButton *toolbutton, gpointer user_data);

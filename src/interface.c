@@ -654,6 +654,9 @@ create_MainWindow (void)
   g_signal_connect ((gpointer) stack_view, "select_cursor_row",
                     G_CALLBACK (on_stack_view_select_cursor_row),
                     NULL);
+  g_signal_connect ((gpointer) var_view, "select_cursor_row",
+                    G_CALLBACK (on_var_view_select_cursor_row),
+                    NULL);
 
   /* Store pointers to all widgets, for use by lookup_widget(). */
   GLADE_HOOKUP_OBJECT_NO_REF (MainWindow, MainWindow, "MainWindow");

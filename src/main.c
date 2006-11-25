@@ -87,15 +87,19 @@ int main (int argc, char *argv[])
 
 
 	/* Setup the variables view store */
-	var_store = gtk_tree_store_new(STACK_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+	var_store = gtk_tree_store_new(VARVIEW_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING);
 
-	/* FIXME: fix constant names */
 	var_view = lookup_widget(GTK_WIDGET(MainWindow), "var_view");
-	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "Name", r2, "text", STACK_NR_COLUMN, NULL);
-	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "Type", r2, "text", STACK_FUNCTION_COLUMN, NULL);
-	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "Value", r2, "text", STACK_LOCATION_COLUMN, NULL);
+	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "Name", r2, "text", VARVIEW_NR_COLUMN, NULL);
+	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "Type", r2, "text", VARVIEW_FUNCTION_COLUMN, NULL);
+	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "Value", r2, "text", VARVIEW_LOCATION_COLUMN, NULL);
+	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "PC", r2, "text", VARVIEW_PAGE_COUNT, NULL);
+	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "PF", r2, "text", VARVIEW_PAGES_FETCHED, NULL);
 
 	gtk_tree_view_set_model(GTK_TREE_VIEW(var_view), GTK_TREE_MODEL(var_store));
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(var_view));
+	gtk_tree_selection_set_select_function(selection, varview_selection_function, NULL, NULL);
 
 
 	gtk_window_maximize(MainWindow);
