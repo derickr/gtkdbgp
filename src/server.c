@@ -204,7 +204,7 @@ int process_fetched_property(int param, ClientState* state)
 
 	gtk_tree_model_get_iter_from_string(store, &iter, client_state->path_string);
 	add_property(store, &iter, property->child);
-	gtk_tree_view_expand_row(var_view, gtk_tree_path_new_from_string(client_state->path_string), 1);
+	gtk_tree_view_expand_row(var_view, gtk_tree_path_new_from_string(client_state->path_string), 0);
 	g_free(client_state->path_string);
 
 	return NON_INTERACTIVE;
@@ -377,12 +377,16 @@ static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_x
 	children_attr = xdebug_xml_fetch_attribute(property, "children");
 	numchildren_attr = xdebug_xml_fetch_attribute(property, "numchildren");
 
-	if (!property->child && children_attr && children_attr->value && strcmp(children_attr->value, "1") == 0) {
+	if (children_attr && children_attr->value && strcmp(children_attr->value, "1") == 0) {
 		pages = strtol(numchildren_attr->value, NULL, 10);
-		pages = (pages + 24) / max_children;
+		pages = (pages + max_children - 1) / max_children;
+		gtk_tree_store_set(store, parent_iter,
+			VARVIEW_PAGE_COUNT,  pages,
+			-1);
+	}
+	if (!property->child && children_attr && children_attr->value && strcmp(children_attr->value, "1") == 0) {
 		gtk_tree_store_set(store, parent_iter,
 			VARVIEW_HIDDEN_HINT, DBGPCLIENT_FETCH_MORE,
-			VARVIEW_PAGE_COUNT,  pages,
 			-1);
 		return;
 	}
