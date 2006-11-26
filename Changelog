@@ -1,3 +1,8 @@
+Sun Nov 26 23:46:02 CET 2006 Derick Rethans <derick@derickrethans.nl>
+src/server.c:
+- Clean up some data to prevent segfaults when the connection drops.
+- Make sure buttons are only handled when we have a connection.
+
 Sun Nov 26 20:46:03 CET 2006 Derick Rethans <derick@derickrethans.nl>
 gtkdbgp.glade
 gtkdbgp/pixmaps/detach.png
