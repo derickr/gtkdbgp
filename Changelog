@@ -1,3 +1,29 @@
+Sun Nov 26 20:46:03 CET 2006 Derick Rethans <derick@derickrethans.nl>
+gtkdbgp.glade
+gtkdbgp/pixmaps/detach.png
+gtkdbgp/pixmaps/dialog-error.png
+gtkdbgp/pixmaps/edit-find-replace.png
+gtkdbgp/pixmaps/edit-undo.png
+gtkdbgp/pixmaps/emblem-unreadable.png
+gtkdbgp/pixmaps/help-browser.png
+gtkdbgp/pixmaps/list-add.png
+gtkdbgp/pixmaps/list-remove.png
+gtkdbgp/pixmaps/preferences-system.png
+gtkdbgp/pixmaps/run.png
+gtkdbgp/pixmaps/step_in.png
+gtkdbgp/pixmaps/step_out.png
+gtkdbgp/pixmaps/step_over.png
+gtkdbgp/src/callbacks.c
+gtkdbgp/src/callbacks.h
+gtkdbgp/src/globals.h
+gtkdbgp/src/interface.c
+gtkdbgp/src/main.c
+gtkdbgp/src/server.c:
+- Switched to using icons from the Tango project.
+- Implemented cool new pointer of where we are in the code.
+- Fixed focus-grabbing by the code view window.
+- Implemented fetching paged properties.
+
 Sat Nov 25 16:15:32 CET 2006 Derick Rethans <derick@derickrethans.nl>
 src/server.c:
 - Make sure we calculate page count for all arrays, even for the ones we're
