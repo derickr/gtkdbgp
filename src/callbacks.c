@@ -254,4 +254,3 @@ on_var_view_select_cursor_row          (GtkTreeView     *treeview,
 
   return FALSE;
 }
-

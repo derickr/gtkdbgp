@@ -94,3 +94,7 @@ gboolean
 on_var_view_select_cursor_row          (GtkTreeView     *treeview,
                                         gboolean         start_editing,
                                         gpointer         user_data);
+
+void
+on_quit_activate                       (GtkMenuItem     *menuitem,
+                                        gpointer         user_data);

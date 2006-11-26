@@ -1,5 +1,6 @@
 #include "xdebug_xml.h"
 #include <gnet.h>
+#include <gtk/gtk.h>
 
 typedef struct _ClientState ClientState;
 
@@ -36,6 +37,9 @@ struct _ClientState
 	char *property; // property to fetch
 	char *path_string;
 
+	GtkListStore *last_store;
+	GtkTreeIter last_iter;
+
 	xdebug_xml_node* message;
 	gchar *last_source_file;
 	char last_selected_stack_frame;
@@ -69,10 +73,13 @@ enum
 
 enum
 {
-	DBGPCLIENT_FETCH_MORE = 1
+	DBGPCLIENT_FETCH_MORE = 1,
+	DBGPCLIENT_FETCH_PAGES = 2
 };
 
 ClientState* client_state;
+
+GdkPixbuf* RunPixbuf;
 
 int get_next_id(ClientState * client_state);
 gboolean stack_selection_function(GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *path, gboolean path_currently_selected, gpointer userdata);

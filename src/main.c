@@ -24,6 +24,7 @@ int main (int argc, char *argv[])
 	GtkCellRenderer *r1, *r2;
 	GtkTreeViewColumn *column1;
 	GtkListStore *store, *var_store;
+	GtkTreeSortable *sortable;
 	GtkTreeSelection *selection;
 	GConfEngine *conf;
 	int port, max_children, max_depth, max_string_length;
@@ -61,6 +62,7 @@ int main (int argc, char *argv[])
 	add_pixmap_directory(PACKAGE_DATA_DIR "/" PACKAGE "/pixmaps");
 
 	MainWindow = create_MainWindow();
+	RunPixbuf = create_pixbuf("run.png");
 
 	g_signal_connect(MainWindow, "delete_event", gtk_main_quit, NULL);
 
@@ -93,14 +95,21 @@ int main (int argc, char *argv[])
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "Name", r2, "text", VARVIEW_NR_COLUMN, NULL);
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "Type", r2, "text", VARVIEW_FUNCTION_COLUMN, NULL);
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "Value", r2, "text", VARVIEW_LOCATION_COLUMN, NULL);
+	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "H", r2, "text", VARVIEW_HIDDEN_HINT, NULL);
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "PC", r2, "text", VARVIEW_PAGE_COUNT, NULL);
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "PF", r2, "text", VARVIEW_PAGES_FETCHED, NULL);
+
+	column1 = gtk_tree_view_get_column(GTK_TREE_VIEW(var_view), 0);
+	g_object_set(column1, "resizable", 1, "sizing", GTK_TREE_VIEW_COLUMN_AUTOSIZE, NULL);
+	column1 = gtk_tree_view_get_column(GTK_TREE_VIEW(var_view), 1);
+	g_object_set(column1, "resizable", 1, "sizing", GTK_TREE_VIEW_COLUMN_AUTOSIZE, NULL);
+	column1 = gtk_tree_view_get_column(GTK_TREE_VIEW(var_view), 2);
+	g_object_set(column1, "resizable", 1, "sizing", GTK_TREE_VIEW_COLUMN_AUTOSIZE, NULL);
 
 	gtk_tree_view_set_model(GTK_TREE_VIEW(var_view), GTK_TREE_MODEL(var_store));
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(var_view));
 	gtk_tree_selection_set_select_function(selection, varview_selection_function, NULL, NULL);
-
 
 	gtk_window_maximize(MainWindow);
 	gtk_widget_show(MainWindow);

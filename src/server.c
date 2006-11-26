@@ -48,6 +48,15 @@
 #define FEATURE_MAX_DATA     2
 #define FEATURE_MAX_DEPTH    3
 
+enum
+{
+	SOURCE_BP_COLUMN = 0,
+	SOURCE_ST_COLUMN,
+	SOURCE_LINENO_COLUMN,
+	SOURCE_LINE_COLUMN,
+	SOURCE_N_COLUMNS
+};
+
 ClientState* client_state;
 
 extern GtkWidget *MainWindow;
@@ -158,7 +167,11 @@ int do_source_get(int param, ClientState* state)
 
 int do_property_get(int param, ClientState* state)
 {
-	state->command = xdebug_sprintf( "property_get -i %d -n %s", get_next_id(state), state->property);
+	if (param) {
+		state->command = xdebug_sprintf( "property_get -i %d -n %s -p %d", get_next_id(state), state->property, param);
+	} else {
+		state->command = xdebug_sprintf( "property_get -i %d -n %s", get_next_id(state), state->property);
+	}
 	xdfree(state->property);
 	return INTERACTIVE;
 }
@@ -251,6 +264,8 @@ static int _process_select_file_line_for_stack_0(int param, ClientState* state, 
 	GtkWidget *code_notebook = lookup_widget(GTK_WIDGET(MainWindow), "code_notebook");
 	GtkTreeSelection *selection;
 	GtkTreePath      *path;
+	GtkListStore     *store;
+	GtkTreeIter       iter;
 
 	if (message->child && strcmp(message->child->tag, "stack") == 0) {
 		filename_attr = xdebug_xml_fetch_attribute(message->child, "filename");
@@ -264,15 +279,36 @@ static int _process_select_file_line_for_stack_0(int param, ClientState* state, 
 				state->action_list_ptr += param;
 			}
 
+			/* Use the old iter to unset the pixbuf */
+			if (state->last_store) {
+				gtk_list_store_set(state->last_store, &state->last_iter,
+					SOURCE_ST_COLUMN, NULL,
+					-1);
+			}
+
 			/* then we select the page */
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(code_notebook), page->nr);
 			selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(page->tree));
 			path = gtk_tree_path_new_from_indices(atoi(lineno_attr->value) - 1, -1);
+
+			/* Figure out the iter for the path */
+			store = gtk_tree_view_get_model(GTK_TREE_VIEW(page->tree));
+			gtk_tree_model_get_iter(store, &iter, path);
+
+			/* Remember the iter for later use */
+			state->last_iter = iter;
+			state->last_store = GTK_LIST_STORE(store);
+
+			/* Set the new pixbuf */
+			gtk_list_store_set(GTK_LIST_STORE(store), &iter,
+				SOURCE_ST_COLUMN, RunPixbuf,
+				-1);
+
 			gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(page->tree), path, NULL, TRUE, 0.5, 0.5);
 			state->allow_select = TRUE;
 			gtk_tree_selection_select_path(selection, path);
 			state->allow_select = FALSE;
-			gtk_widget_grab_focus(GTK_WIDGET(page->tree));
+//			gtk_widget_grab_focus(GTK_WIDGET(page->tree));
 		} else {
 			state->last_source_file = xdstrdup(filename_attr->value);
 		}
@@ -339,7 +375,7 @@ static int _process_select_file_line_for_selected_stack(int param, ClientState* 
 		state->allow_select = TRUE;
 		gtk_tree_selection_select_path(selection, path);
 		state->allow_select = FALSE;
-		gtk_widget_grab_focus(GTK_WIDGET(page->tree));
+//		gtk_widget_grab_focus(GTK_WIDGET(page->tree));
 	} else {
 		state->last_source_file = xdstrdup(filename_attr->value);
 	}
@@ -370,6 +406,8 @@ static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_x
 	gint pages;
 	GtkTreePath *path;
 	gchar *path_string;
+	int child_count, fetch_page;
+	int offset = 0;
 
 	conf = gconf_engine_get_default();
 	max_children = gconf_engine_get_int(conf, "/apps/gtkdbgp/max_children", NULL);
@@ -380,9 +418,17 @@ static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_x
 	if (children_attr && children_attr->value && strcmp(children_attr->value, "1") == 0) {
 		pages = strtol(numchildren_attr->value, NULL, 10);
 		pages = (pages + max_children - 1) / max_children;
+		gtk_tree_model_get(store, parent_iter, VARVIEW_PAGES_FETCHED, &fetch_page, -1);
+		if ((fetch_page + 1) == pages) {
+			gtk_tree_store_set(store, parent_iter,
+				VARVIEW_HIDDEN_HINT, 0,
+				-1);
+		}
 		gtk_tree_store_set(store, parent_iter,
-			VARVIEW_PAGE_COUNT,  pages,
+			VARVIEW_PAGES_FETCHED, fetch_page + 1,
+			VARVIEW_PAGE_COUNT,    pages,
 			-1);
+		offset = fetch_page * max_children;
 	}
 	if (!property->child && children_attr && children_attr->value && strcmp(children_attr->value, "1") == 0) {
 		gtk_tree_store_set(store, parent_iter,
@@ -392,8 +438,10 @@ static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_x
 	}
 
 	property = property->child;
+	child_count = 0;
 	while (property) {
 		if (strcmp(property->tag, "property") == 0) {
+			child_count++;
 			name_attr = xdebug_xml_fetch_attribute(property, "name");
 			type_attr = xdebug_xml_fetch_attribute(property, "type");
 			size_attr = xdebug_xml_fetch_attribute(property, "size");
@@ -444,6 +492,13 @@ static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_x
 			add_property(store, &iter, property);
 		}	
 		property = property->next;
+	}
+
+	if (numchildren_attr && numchildren_attr->value &&
+		((offset + child_count) < strtoul(numchildren_attr->value, NULL, 10))) {
+		gtk_tree_store_set(store, parent_iter,
+			VARVIEW_HIDDEN_HINT, DBGPCLIENT_FETCH_PAGES,
+			-1);
 	}
 }
 
@@ -589,6 +644,7 @@ action_item fetch_property_action_list[] = {
 static process_a_button(gchar *command, GtkToolButton *toolbutton, gpointer user_data)
 {
 	GIOChannel *iochannel;
+	GtkWidget *statusbar;
 
 	if (client_state->buttons_active) {
 		update_statusbar("Processing...");
@@ -597,6 +653,9 @@ static process_a_button(gchar *command, GtkToolButton *toolbutton, gpointer user
 		iochannel = gnet_tcp_socket_get_io_channel(client_state->socket);
 		g_source_remove(client_state->watch);
 		client_state->watch = g_io_add_watch(iochannel, client_state->watch_flags, async_client_iofunc, client_state);
+
+		statusbar = lookup_widget(GTK_WIDGET(MainWindow), "last_message_label");
+		gtk_label_set(statusbar, "");
 	}
 }
 
@@ -645,15 +704,6 @@ int get_next_id(ClientState * client_state)
 	return client_state->last_tid;
 }
 
-enum
-{
-	SOURCE_BP_COLUMN = 0,
-	SOURCE_ST_COLUMN,
-	SOURCE_LINENO_COLUMN,
-	SOURCE_LINE_COLUMN,
-	SOURCE_N_COLUMNS
-};
-
 gboolean code_page_selection_function (GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *path, gboolean path_currently_selected, gpointer userdata)
 {
 	if (client_state->allow_select) {
@@ -695,13 +745,15 @@ gboolean varview_selection_function(GtkTreeSelection *selection, GtkTreeModel *m
 	GIOChannel *iochannel;
 	gchar *fullname;
 	gint   hint;
+	gint   fetch_page;
 
 	if (!path_currently_selected && gtk_tree_model_get_iter(model, &iter, path)) {
 		gtk_tree_model_get(model, &iter, VARVIEW_FULLNAME, &fullname, -1);
 		gtk_tree_model_get(model, &iter, VARVIEW_HIDDEN_HINT, &hint, -1);
+		gtk_tree_model_get(model, &iter, VARVIEW_PAGES_FETCHED, &fetch_page, -1);
 
 		g_print( "Need to fetch '%s'? The hint is '%d'\n", fullname, hint);
-		if (hint == 1) {
+		if (hint == DBGPCLIENT_FETCH_MORE) {
 			gtk_tree_store_set(model, &iter, VARVIEW_HIDDEN_HINT, 0, -1);
 			client_state->server_state = SERVER_STATE_FETCH_PROPERTY;
 			client_state->action_list_ptr = fetch_property_action_list;
@@ -709,6 +761,20 @@ gboolean varview_selection_function(GtkTreeSelection *selection, GtkTreeModel *m
 			client_state->path_string = gtk_tree_path_to_string(path);
 
 			do_property_get(0, client_state);
+
+			client_state->watch_flags |= G_IO_OUT;
+			iochannel = gnet_tcp_socket_get_io_channel(client_state->socket);
+			g_source_remove(client_state->watch);
+			client_state->watch = g_io_add_watch(iochannel, client_state->watch_flags, async_client_iofunc, client_state);
+		}
+		if (hint == DBGPCLIENT_FETCH_PAGES) {
+			gtk_tree_store_set(model, &iter, VARVIEW_HIDDEN_HINT, 0, -1);
+			client_state->server_state = SERVER_STATE_FETCH_PROPERTY;
+			client_state->action_list_ptr = fetch_property_action_list;
+			client_state->property = xdstrdup(fullname);
+			client_state->path_string = gtk_tree_path_to_string(path);
+
+			do_property_get(fetch_page, client_state);
 
 			client_state->watch_flags |= G_IO_OUT;
 			iochannel = gnet_tcp_socket_get_io_channel(client_state->socket);
@@ -742,7 +808,7 @@ void add_source_file(gchar* filename, gchar *source)
 	}
 
 	/* Setup the store */
-	store = gtk_list_store_new (SOURCE_N_COLUMNS, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING);
+	store = gtk_list_store_new (SOURCE_N_COLUMNS, G_TYPE_BOOLEAN, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
 
 	/* Add data */
 	unencoded = gnet_base64_decode(source, strlen(source), &new_len);
@@ -754,8 +820,7 @@ void add_source_file(gchar* filename, gchar *source)
 
 		gtk_list_store_append (store, &iter);  /* Acquire an iterator */
 		gtk_list_store_set (store, &iter,
-			SOURCE_BP_COLUMN, FALSE,
-			SOURCE_ST_COLUMN, FALSE, 
+			SOURCE_ST_COLUMN, NULL, 
 			SOURCE_LINENO_COLUMN, lineno,
 			SOURCE_LINE_COLUMN, lines->args[i],
 			-1);
@@ -773,7 +838,7 @@ void add_source_file(gchar* filename, gchar *source)
 	gtk_widget_set_name (treeview3, "treeview3");
 	gtk_widget_show (treeview3);
 	selection = gtk_tree_view_get_selection(treeview3);
-	gtk_tree_selection_set_select_function(selection, code_page_selection_function, NULL, NULL);
+//	gtk_tree_selection_set_select_function(selection, code_page_selection_function, NULL, NULL);
 	gtk_container_add (GTK_CONTAINER (scrolledwindow), treeview3);
 
 	page = (dbgp_code_page*) malloc(sizeof (dbgp_code_page));
@@ -795,13 +860,8 @@ void add_source_file(gchar* filename, gchar *source)
 	gtk_container_add(GTK_CONTAINER(eventbox1), label1);
 
 	/* Do the columns */
-	r1 = gtk_cell_renderer_toggle_new();
-	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview3), -1, "BP", r1, "active", SOURCE_BP_COLUMN, NULL);
-	column1 = gtk_tree_view_get_column(GTK_TREE_VIEW(treeview3), 0);
-	gtk_tree_view_column_set_fixed_width(column1, 90);
-
-	r2 = gtk_cell_renderer_toggle_new();
-	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview3), -1, "ST", r2, "active", SOURCE_ST_COLUMN, NULL);
+	r2 = gtk_cell_renderer_pixbuf_new();
+	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview3), -1, "", r2, "pixbuf", SOURCE_ST_COLUMN, NULL);
 
 	r3 = gtk_cell_renderer_text_new();
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview3), -1, "#", r3, "text", SOURCE_LINENO_COLUMN, NULL);
@@ -1033,6 +1093,9 @@ static void async_accept (GTcpSocket* server, GTcpSocket* client, gpointer data)
 
 		client_state->buttons_active = FALSE;
 		client_state->auto_stack_select = FALSE;
+
+		memset(&client_state->last_iter, 0, sizeof(GtkTreeIter));
+		client_state->last_store = NULL;
 
 		g_print ("Accepted connection from %s:%d\n", name, port);
 		update_statusbar( "Waiting for input." );
