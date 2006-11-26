@@ -646,7 +646,7 @@ static process_a_button(gchar *command, GtkToolButton *toolbutton, gpointer user
 	GIOChannel *iochannel;
 	GtkWidget *statusbar;
 
-	if (client_state->buttons_active) {
+	if (client_state && client_state->buttons_active) {
 		update_statusbar("Processing...");
 		client_state->command = xdebug_sprintf("%s -i %d", command, get_next_id(client_state));
 		client_state->watch_flags |= G_IO_OUT;
@@ -1255,6 +1255,19 @@ gboolean async_client_iofunc (GIOChannel* iochannel, GIOCondition condition, gpo
 
 error:
 	clientstate_delete(client_state);
+
+	{
+		GtkWidget *var_view, *stack_view;
+		GtkTreeStore *store;
+
+		stack_view = lookup_widget(GTK_WIDGET(MainWindow), "stack_view");
+		store = gtk_tree_view_get_model(GTK_TREE_VIEW(stack_view));
+		gtk_list_store_clear(store);
+
+		var_view = lookup_widget(GTK_WIDGET(MainWindow), "var_view");
+		store = gtk_tree_view_get_model(GTK_TREE_VIEW(var_view));
+		gtk_tree_store_clear(store);
+	}
 	return FALSE;
 }
 
