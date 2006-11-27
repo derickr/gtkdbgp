@@ -11,7 +11,8 @@
 #include "globals.h"
 
 extern ClientState *client_state;
-GtkWidget* DebuggerSettingsWindow;
+extern GtkWidget* DebuggerSettingsWindow;
+extern GtkWidget* AddBreakPointWindow;
 
 void
 on_quit_activate                       (GtkMenuItem     *menuitem,
@@ -25,7 +26,7 @@ void
 on_add_breakpoint_menu_item_activate   (GtkMenuItem     *menuitem,
                                         gpointer         user_data)
 {
-
+	gtk_widget_show(AddBreakPointWindow);
 }
 
 
@@ -150,7 +151,6 @@ void
 on_preferences_activate                (GtkMenuItem     *menuitem,
                                         gpointer         user_data)
 {
-	DebuggerSettingsWindow = create_DebuggerSettingsWindow();
 	GtkWidget *PortWidget, *MaxDepth, *MaxStringLength, *MaxChildren, *PHPErrorBreak;
 	int port, max_string_length;
 	GConfEngine *conf;
@@ -254,3 +254,44 @@ on_var_view_select_cursor_row          (GtkTreeView     *treeview,
 
   return FALSE;
 }
+
+void
+on_main_add_bp_button_activate         (GtkButton       *button,
+                                        gpointer         user_data)
+{
+	AddBreakPointWindow = create_AddBreakPointWindow();
+	gtk_widget_show(AddBreakPointWindow);
+}
+
+
+void
+on_main_edit_bp_button_activate        (GtkButton       *button,
+                                        gpointer         user_data)
+{
+	gtk_widget_show(AddBreakPointWindow);
+}
+
+
+void
+on_main_remove_bp_button_activate      (GtkButton       *button,
+                                        gpointer         user_data)
+{
+	gtk_widget_show(AddBreakPointWindow);
+}
+
+
+void
+on_add_bp_cancel_button_activate       (GtkButton       *button,
+                                        gpointer         user_data)
+{
+	gtk_widget_hide(AddBreakPointWindow);
+}
+
+
+void
+on_add_bp_add_button_activate          (GtkButton       *button,
+                                        gpointer         user_data)
+{
+	gtk_widget_hide(AddBreakPointWindow);
+}
+

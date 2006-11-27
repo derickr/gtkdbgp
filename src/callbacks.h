@@ -98,3 +98,43 @@ on_var_view_select_cursor_row          (GtkTreeView     *treeview,
 void
 on_quit_activate                       (GtkMenuItem     *menuitem,
                                         gpointer         user_data);
+
+void
+on_main_add_bp_button_activate         (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_main_edit_bp_button_activate        (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_main_remove_bp_button_activate      (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_add_bp_cancel_button_activate       (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_add_bp_add_button_activate          (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_main_add_bp_button_activate         (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_add_bp_add_button_activate          (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_main_edit_bp_button_activate        (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_main_remove_bp_button_activate      (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_add_bp_cancel_button_activate       (GtkButton       *button,
+                                        gpointer         user_data);

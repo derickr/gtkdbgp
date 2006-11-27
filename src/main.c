@@ -15,11 +15,11 @@
 #include "globals.h"
 
 GtkWidget *MainWindow;
+GtkWidget *AddBreakPointWindow;
+GtkWidget *DebuggerSettingsWindow;
 
 int main (int argc, char *argv[])
 {
-	GtkWidget *AddBreakPointWindow;
-	GtkWidget *DebuggerSettingsWindow;
 	GtkWidget *stack_view, *var_view;
 	GtkCellRenderer *r1, *r2;
 	GtkTreeViewColumn *column1;
@@ -62,6 +62,9 @@ int main (int argc, char *argv[])
 	add_pixmap_directory(PACKAGE_DATA_DIR "/" PACKAGE "/pixmaps");
 
 	MainWindow = create_MainWindow();
+	DebuggerSettingsWindow = create_DebuggerSettingsWindow();
+	AddBreakPointWindow = create_AddBreakPointWindow();
+
 	RunPixbuf = create_pixbuf("run.png");
 
 	g_signal_connect(MainWindow, "delete_event", gtk_main_quit, NULL);
