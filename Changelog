@@ -1,3 +1,11 @@
+Mon Nov 27 23:37:02 CET 2006 Derick Rethans <derick@derickrethans.nl>
+gtkdbgp.glade
+gtkdbgp/src/callbacks.c
+gtkdbgp/src/callbacks.h
+gtkdbgp/src/interface.c
+gtkdbgp/src/main.c:
+- GUI mashup for adding breakpoints.
+
 Sun Nov 26 23:46:02 CET 2006 Derick Rethans <derick@derickrethans.nl>
 src/server.c:
 - Clean up some data to prevent segfaults when the connection drops.
