@@ -4,6 +4,7 @@
 
 #include <gtk/gtk.h>
 #include <gconf/gconf.h>
+#include <string.h>
 
 #include "callbacks.h"
 #include "interface.h"
@@ -11,6 +12,7 @@
 #include "globals.h"
 
 extern ClientState *client_state;
+extern GtkWidget* MainWindow;
 extern GtkWidget* DebuggerSettingsWindow;
 extern GtkWidget* AddBreakPointWindow;
 
@@ -292,6 +294,68 @@ void
 on_add_bp_add_button_activate          (GtkButton       *button,
                                         gpointer         user_data)
 {
+	GtkNotebook *notebook;
+	GtkEntry    *entry1, *entry2;
+	int         col1, col2;
+	GtkTreeView *breakpoint_view;
+	GtkListStore *store;
+	GtkTreeIter  iter;
+	gchar       *display_string, *type;
+	const gchar *string1, *string2;
+
+	breakpoint_view = GTK_TREE_VIEW(lookup_widget(GTK_WIDGET(MainWindow), "breakpoint_view"));
+	store = GTK_LIST_STORE(gtk_tree_view_get_model(breakpoint_view));
+
+	/* Figure out which tab was selected */
+	notebook = GTK_NOTEBOOK(lookup_widget(GTK_WIDGET(AddBreakPointWindow), "breakpoint_type_notebook"));
+	switch (gtk_notebook_get_current_page(notebook)) {
+		case 0:
+			/* file/line */
+			entry1 = GTK_ENTRY(lookup_widget(GTK_WIDGET(AddBreakPointWindow), "bp_filename"));
+			entry2 = GTK_ENTRY(lookup_widget(GTK_WIDGET(AddBreakPointWindow), "bp_linenumber"));
+			string1 = gtk_entry_get_text(entry1);
+			string2 = gtk_entry_get_text(entry2);
+			type = "line";
+			col1 = BREAKPOINT_FILE_NAME_COLUMN;
+			col2 = BREAKPOINT_LINENO_COLUMN;
+			display_string = xdebug_sprintf("%s:%s", string1, string2);
+			break;
+		case 1:
+			/* class/function */
+			entry1 = GTK_ENTRY(lookup_widget(GTK_WIDGET(AddBreakPointWindow), "bp_classname"));
+			entry2 = GTK_ENTRY(lookup_widget(GTK_WIDGET(AddBreakPointWindow), "bp_functionname"));
+			string1 = gtk_entry_get_text(entry1);
+			string2 = gtk_entry_get_text(entry2);
+			display_string = xdebug_sprintf("%s::%s", string1, string2);
+			type = "call";
+			col1 = BREAKPOINT_CLASS_NAME_COLUMN;
+			col2 = BREAKPOINT_FUNCTION_NAME_COLUMN;
+			break;
+		case 2:
+			/* exception */
+			entry1 = GTK_ENTRY(lookup_widget(GTK_WIDGET(AddBreakPointWindow), "bp_exceptionname"));
+			string1 = gtk_entry_get_text(entry1);
+			string2 = "";
+			display_string = xdstrdup(string1);
+			type = "exception";
+			col1 = BREAKPOINT_EXCEPTION_NAME_COLUMN;
+			col2 = BREAKPOINT_LINENO_COLUMN; /* dummy */
+			break;
+	}
+
+	gtk_list_store_append(store, &iter);
+	gtk_list_store_set(store, &iter,
+		BREAKPOINT_TYPE_COLUMN, type,
+		BREAKPOINT_WHAT_COLUMN, display_string,
+		col1, string1,
+		col2, string2,
+		BREAKPOINT_ENABLED_COLUMN, 1,
+		BREAKPOINT_TEMPORARY_COLUMN, 0,
+		BREAKPOINT_HIT_CONDITION_COLUMN, "",
+		BREAKPOINT_HIT_VALUE_COLUMN, 0,
+		BREAKPOINT_HIT_VALUE_COLUMN, 0,
+		-1);
+	xdfree(display_string);
 	gtk_widget_hide(AddBreakPointWindow);
 }
 

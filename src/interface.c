@@ -89,7 +89,7 @@ create_MainWindow (void)
   GtkWidget *label36;
   GtkWidget *vbox9;
   GtkWidget *scrolledwindow11;
-  GtkWidget *treeview6;
+  GtkWidget *breakpoint_view;
   GtkWidget *hbuttonbox1;
   GtkWidget *main_add_bp_button;
   GtkWidget *alignment17;
@@ -128,7 +128,7 @@ create_MainWindow (void)
   gtk_widget_set_size_request (MainWindow, 900, 600);
   gtk_window_set_title (GTK_WINDOW (MainWindow), "Xdebug client");
   gtk_window_set_destroy_with_parent (GTK_WINDOW (MainWindow), TRUE);
-  MainWindow_icon_pixbuf = create_pixbuf ("run.png");
+  MainWindow_icon_pixbuf = create_pixbuf ("xdebug16.png");
   if (MainWindow_icon_pixbuf)
     {
       gtk_window_set_icon (GTK_WINDOW (MainWindow), MainWindow_icon_pixbuf);
@@ -480,11 +480,11 @@ create_MainWindow (void)
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow11), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow11), GTK_SHADOW_IN);
 
-  treeview6 = gtk_tree_view_new ();
-  gtk_widget_set_name (treeview6, "treeview6");
-  gtk_widget_show (treeview6);
-  gtk_container_add (GTK_CONTAINER (scrolledwindow11), treeview6);
-  gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview6), TRUE);
+  breakpoint_view = gtk_tree_view_new ();
+  gtk_widget_set_name (breakpoint_view, "breakpoint_view");
+  gtk_widget_show (breakpoint_view);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow11), breakpoint_view);
+  gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (breakpoint_view), TRUE);
 
   hbuttonbox1 = gtk_hbutton_box_new ();
   gtk_widget_set_name (hbuttonbox1, "hbuttonbox1");
@@ -754,7 +754,7 @@ create_MainWindow (void)
   GLADE_HOOKUP_OBJECT (MainWindow, label36, "label36");
   GLADE_HOOKUP_OBJECT (MainWindow, vbox9, "vbox9");
   GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow11, "scrolledwindow11");
-  GLADE_HOOKUP_OBJECT (MainWindow, treeview6, "treeview6");
+  GLADE_HOOKUP_OBJECT (MainWindow, breakpoint_view, "breakpoint_view");
   GLADE_HOOKUP_OBJECT (MainWindow, hbuttonbox1, "hbuttonbox1");
   GLADE_HOOKUP_OBJECT (MainWindow, main_add_bp_button, "main_add_bp_button");
   GLADE_HOOKUP_OBJECT (MainWindow, alignment17, "alignment17");
@@ -797,8 +797,8 @@ create_AddBreakPointWindow (void)
   GtkWidget *frame7;
   GtkWidget *alignment29;
   GtkWidget *table7;
-  GtkWidget *entry6;
-  GtkWidget *entry7;
+  GtkWidget *bp_filename;
+  GtkWidget *bp_linenumber;
   GtkWidget *filename;
   GtkWidget *linenumber;
   GtkWidget *label56;
@@ -806,8 +806,8 @@ create_AddBreakPointWindow (void)
   GtkWidget *frame5;
   GtkWidget *alignment27;
   GtkWidget *table5;
-  GtkWidget *classname;
-  GtkWidget *functionname;
+  GtkWidget *bp_classname;
+  GtkWidget *bp_functionname;
   GtkWidget *label47;
   GtkWidget *label50;
   GtkWidget *label49;
@@ -815,7 +815,7 @@ create_AddBreakPointWindow (void)
   GtkWidget *frame6;
   GtkWidget *alignment28;
   GtkWidget *table6;
-  GtkWidget *exceptionname;
+  GtkWidget *bp_exceptionname;
   GtkWidget *label51;
   GtkWidget *label53;
   GtkWidget *exception_label;
@@ -824,19 +824,19 @@ create_AddBreakPointWindow (void)
   GtkWidget *alignment2;
   GtkWidget *table8;
   GtkWidget *vbox12;
-  GtkWidget *hitcondition;
-  GSList *hitcondition_group = NULL;
+  GtkWidget *bp_hitcondition;
+  GSList *bp_hitcondition_group = NULL;
   GtkWidget *radiobutton2;
   GtkWidget *radiobutton3;
   GtkWidget *radiobutton4;
   GtkWidget *alignment30;
   GtkWidget *label57;
-  GtkObject *hitvalue_adj;
-  GtkWidget *hitvalue;
-  GtkWidget *temporary;
+  GtkObject *bp_hitvalue_adj;
+  GtkWidget *bp_hitvalue;
+  GtkWidget *bp_temporary;
   GtkWidget *label58;
   GtkWidget *label59;
-  GtkWidget *enabled;
+  GtkWidget *bp_enabled;
   GtkWidget *label60;
   GtkWidget *condition_frame_label;
   GtkWidget *alignment32;
@@ -890,17 +890,17 @@ create_AddBreakPointWindow (void)
   gtk_widget_show (table7);
   gtk_container_add (GTK_CONTAINER (alignment29), table7);
 
-  entry6 = gtk_entry_new ();
-  gtk_widget_set_name (entry6, "entry6");
-  gtk_widget_show (entry6);
-  gtk_table_attach (GTK_TABLE (table7), entry6, 1, 2, 0, 1,
+  bp_filename = gtk_entry_new ();
+  gtk_widget_set_name (bp_filename, "bp_filename");
+  gtk_widget_show (bp_filename);
+  gtk_table_attach (GTK_TABLE (table7), bp_filename, 1, 2, 0, 1,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
-  entry7 = gtk_entry_new ();
-  gtk_widget_set_name (entry7, "entry7");
-  gtk_widget_show (entry7);
-  gtk_table_attach (GTK_TABLE (table7), entry7, 1, 2, 1, 2,
+  bp_linenumber = gtk_entry_new ();
+  gtk_widget_set_name (bp_linenumber, "bp_linenumber");
+  gtk_widget_show (bp_linenumber);
+  gtk_table_attach (GTK_TABLE (table7), bp_linenumber, 1, 2, 1, 2,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
@@ -953,17 +953,17 @@ create_AddBreakPointWindow (void)
   gtk_widget_show (table5);
   gtk_container_add (GTK_CONTAINER (alignment27), table5);
 
-  classname = gtk_entry_new ();
-  gtk_widget_set_name (classname, "classname");
-  gtk_widget_show (classname);
-  gtk_table_attach (GTK_TABLE (table5), classname, 1, 2, 0, 1,
+  bp_classname = gtk_entry_new ();
+  gtk_widget_set_name (bp_classname, "bp_classname");
+  gtk_widget_show (bp_classname);
+  gtk_table_attach (GTK_TABLE (table5), bp_classname, 1, 2, 0, 1,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
-  functionname = gtk_entry_new ();
-  gtk_widget_set_name (functionname, "functionname");
-  gtk_widget_show (functionname);
-  gtk_table_attach (GTK_TABLE (table5), functionname, 1, 2, 1, 2,
+  bp_functionname = gtk_entry_new ();
+  gtk_widget_set_name (bp_functionname, "bp_functionname");
+  gtk_widget_show (bp_functionname);
+  gtk_table_attach (GTK_TABLE (table5), bp_functionname, 1, 2, 1, 2,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
@@ -1016,10 +1016,10 @@ create_AddBreakPointWindow (void)
   gtk_widget_show (table6);
   gtk_container_add (GTK_CONTAINER (alignment28), table6);
 
-  exceptionname = gtk_entry_new ();
-  gtk_widget_set_name (exceptionname, "exceptionname");
-  gtk_widget_show (exceptionname);
-  gtk_table_attach (GTK_TABLE (table6), exceptionname, 1, 2, 0, 1,
+  bp_exceptionname = gtk_entry_new ();
+  gtk_widget_set_name (bp_exceptionname, "bp_exceptionname");
+  gtk_widget_show (bp_exceptionname);
+  gtk_table_attach (GTK_TABLE (table6), bp_exceptionname, 1, 2, 0, 1,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
 
@@ -1077,34 +1077,34 @@ create_AddBreakPointWindow (void)
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (GTK_FILL), 0, 0);
 
-  hitcondition = gtk_radio_button_new_with_mnemonic (NULL, "A_lways");
-  gtk_widget_set_name (hitcondition, "hitcondition");
-  gtk_widget_show (hitcondition);
-  gtk_box_pack_start (GTK_BOX (vbox12), hitcondition, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (hitcondition), hitcondition_group);
-  hitcondition_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (hitcondition));
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (hitcondition), TRUE);
+  bp_hitcondition = gtk_radio_button_new_with_mnemonic (NULL, "A_lways");
+  gtk_widget_set_name (bp_hitcondition, "bp_hitcondition");
+  gtk_widget_show (bp_hitcondition);
+  gtk_box_pack_start (GTK_BOX (vbox12), bp_hitcondition, FALSE, FALSE, 0);
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (bp_hitcondition), bp_hitcondition_group);
+  bp_hitcondition_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (bp_hitcondition));
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bp_hitcondition), TRUE);
 
   radiobutton2 = gtk_radio_button_new_with_mnemonic (NULL, "_More than x hits");
   gtk_widget_set_name (radiobutton2, "radiobutton2");
   gtk_widget_show (radiobutton2);
   gtk_box_pack_start (GTK_BOX (vbox12), radiobutton2, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton2), hitcondition_group);
-  hitcondition_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton2));
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton2), bp_hitcondition_group);
+  bp_hitcondition_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton2));
 
   radiobutton3 = gtk_radio_button_new_with_mnemonic (NULL, "Exactl_y x hits");
   gtk_widget_set_name (radiobutton3, "radiobutton3");
   gtk_widget_show (radiobutton3);
   gtk_box_pack_start (GTK_BOX (vbox12), radiobutton3, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton3), hitcondition_group);
-  hitcondition_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton3));
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton3), bp_hitcondition_group);
+  bp_hitcondition_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton3));
 
   radiobutton4 = gtk_radio_button_new_with_mnemonic (NULL, "A m_ultiple of x hits");
   gtk_widget_set_name (radiobutton4, "radiobutton4");
   gtk_widget_show (radiobutton4);
   gtk_box_pack_start (GTK_BOX (vbox12), radiobutton4, FALSE, FALSE, 0);
-  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton4), hitcondition_group);
-  hitcondition_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton4));
+  gtk_radio_button_set_group (GTK_RADIO_BUTTON (radiobutton4), bp_hitcondition_group);
+  bp_hitcondition_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton4));
 
   alignment30 = gtk_alignment_new (1, 1, 1, 1);
   gtk_widget_set_name (alignment30, "alignment30");
@@ -1120,22 +1120,22 @@ create_AddBreakPointWindow (void)
   gtk_label_set_use_markup (GTK_LABEL (label57), TRUE);
   gtk_misc_set_alignment (GTK_MISC (label57), 0.9, 0.04);
 
-  hitvalue_adj = gtk_adjustment_new (1, 1, 10000, 1, 10, 10);
-  hitvalue = gtk_spin_button_new (GTK_ADJUSTMENT (hitvalue_adj), 1, 0);
-  gtk_widget_set_name (hitvalue, "hitvalue");
-  gtk_widget_show (hitvalue);
-  gtk_table_attach (GTK_TABLE (table8), hitvalue, 1, 2, 1, 2,
+  bp_hitvalue_adj = gtk_adjustment_new (1, 1, 10000, 1, 10, 10);
+  bp_hitvalue = gtk_spin_button_new (GTK_ADJUSTMENT (bp_hitvalue_adj), 1, 0);
+  gtk_widget_set_name (bp_hitvalue, "bp_hitvalue");
+  gtk_widget_show (bp_hitvalue);
+  gtk_table_attach (GTK_TABLE (table8), bp_hitvalue, 1, 2, 1, 2,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
-  gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (hitvalue), TRUE);
+  gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (bp_hitvalue), TRUE);
 
-  temporary = gtk_check_button_new_with_mnemonic ("_Temporary breakpoint");
-  gtk_widget_set_name (temporary, "temporary");
-  gtk_widget_show (temporary);
-  gtk_table_attach (GTK_TABLE (table8), temporary, 1, 2, 2, 3,
+  bp_temporary = gtk_check_button_new_with_mnemonic ("_Temporary breakpoint");
+  gtk_widget_set_name (bp_temporary, "bp_temporary");
+  gtk_widget_show (bp_temporary);
+  gtk_table_attach (GTK_TABLE (table8), bp_temporary, 1, 2, 2, 3,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
-  gtk_tooltips_set_tip (tooltips, temporary, "Temporary breakpoints will be automatically deleted after the first time they have been hit.", NULL);
+  gtk_tooltips_set_tip (tooltips, bp_temporary, "Temporary breakpoints will be automatically deleted after the first time they have been hit.", NULL);
 
   label58 = gtk_label_new_with_mnemonic ("Hit value (_x):");
   gtk_widget_set_name (label58, "label58");
@@ -1159,13 +1159,13 @@ create_AddBreakPointWindow (void)
   gtk_misc_set_alignment (GTK_MISC (label59), 0, 0.5);
   gtk_label_set_ellipsize (GTK_LABEL (label59), PANGO_ELLIPSIZE_START);
 
-  enabled = gtk_check_button_new_with_mnemonic ("Ena_bled");
-  gtk_widget_set_name (enabled, "enabled");
-  gtk_widget_show (enabled);
-  gtk_table_attach (GTK_TABLE (table8), enabled, 1, 2, 3, 4,
+  bp_enabled = gtk_check_button_new_with_mnemonic ("Ena_bled");
+  gtk_widget_set_name (bp_enabled, "bp_enabled");
+  gtk_widget_show (bp_enabled);
+  gtk_table_attach (GTK_TABLE (table8), bp_enabled, 1, 2, 3, 4,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (enabled), TRUE);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bp_enabled), TRUE);
 
   label60 = gtk_label_new_with_mnemonic ("");
   gtk_widget_set_name (label60, "label60");
@@ -1258,15 +1258,14 @@ create_AddBreakPointWindow (void)
                     G_CALLBACK (on_add_bp_add_button_activate),
                     NULL);
 
-  gtk_label_set_mnemonic_widget (GTK_LABEL (filename), entry6);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (linenumber), entry7);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label47), classname);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label50), functionname);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label51), exceptionname);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label57), hitcondition);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label58), hitvalue);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label59), temporary);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label60), temporary);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (filename), bp_filename);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (linenumber), bp_linenumber);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label47), bp_classname);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label50), bp_functionname);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label51), bp_exceptionname);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label58), bp_hitvalue);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label59), bp_temporary);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label60), bp_enabled);
 
   /* Store pointers to all widgets, for use by lookup_widget(). */
   GLADE_HOOKUP_OBJECT_NO_REF (AddBreakPointWindow, AddBreakPointWindow, "AddBreakPointWindow");
@@ -1275,8 +1274,8 @@ create_AddBreakPointWindow (void)
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, frame7, "frame7");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, alignment29, "alignment29");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, table7, "table7");
-  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, entry6, "entry6");
-  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, entry7, "entry7");
+  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, bp_filename, "bp_filename");
+  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, bp_linenumber, "bp_linenumber");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, filename, "filename");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, linenumber, "linenumber");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, label56, "label56");
@@ -1284,8 +1283,8 @@ create_AddBreakPointWindow (void)
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, frame5, "frame5");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, alignment27, "alignment27");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, table5, "table5");
-  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, classname, "classname");
-  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, functionname, "functionname");
+  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, bp_classname, "bp_classname");
+  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, bp_functionname, "bp_functionname");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, label47, "label47");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, label50, "label50");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, label49, "label49");
@@ -1293,7 +1292,7 @@ create_AddBreakPointWindow (void)
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, frame6, "frame6");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, alignment28, "alignment28");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, table6, "table6");
-  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, exceptionname, "exceptionname");
+  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, bp_exceptionname, "bp_exceptionname");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, label51, "label51");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, label53, "label53");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, exception_label, "exception_label");
@@ -1302,17 +1301,17 @@ create_AddBreakPointWindow (void)
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, alignment2, "alignment2");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, table8, "table8");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, vbox12, "vbox12");
-  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, hitcondition, "hitcondition");
+  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, bp_hitcondition, "bp_hitcondition");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, radiobutton2, "radiobutton2");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, radiobutton3, "radiobutton3");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, radiobutton4, "radiobutton4");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, alignment30, "alignment30");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, label57, "label57");
-  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, hitvalue, "hitvalue");
-  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, temporary, "temporary");
+  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, bp_hitvalue, "bp_hitvalue");
+  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, bp_temporary, "bp_temporary");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, label58, "label58");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, label59, "label59");
-  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, enabled, "enabled");
+  GLADE_HOOKUP_OBJECT (AddBreakPointWindow, bp_enabled, "bp_enabled");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, label60, "label60");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, condition_frame_label, "condition_frame_label");
   GLADE_HOOKUP_OBJECT (AddBreakPointWindow, alignment32, "alignment32");
