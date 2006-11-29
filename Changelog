@@ -1,3 +1,13 @@
+Wed Nov 29 21:17:06 CET 2006 Derick Rethans <derick@derickrethans.nl>
+gtkdbgp.glade
+gtkdbgp/pixmaps/xdebug16.png
+gtkdbgp/src/callbacks.c
+gtkdbgp/src/globals.h
+gtkdbgp/src/interface.c
+gtkdbgp/src/main.c:
+- Added the breakpoint store
+- Added a proper icon.
+
 Mon Nov 27 23:37:02 CET 2006 Derick Rethans <derick@derickrethans.nl>
 gtkdbgp.glade
 gtkdbgp/src/callbacks.c
