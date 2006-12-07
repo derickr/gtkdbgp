@@ -1,3 +1,11 @@
+Thu Dec 07 01:39:19 CET 2006 Derick Rethans <derick@derickrethans.nl>
+gtkdbgp.glade
+gtkdbgp/src/callbacks.c
+gtkdbgp/src/interface.c
+gtkdbgp/src/main.c
+gtkdbgp/src/server.c:
+- Implementing font configuration for code and variables.
+
 Wed Nov 29 21:17:06 CET 2006 Derick Rethans <derick@derickrethans.nl>
 gtkdbgp.glade
 gtkdbgp/pixmaps/xdebug16.png
