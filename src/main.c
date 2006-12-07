@@ -29,6 +29,7 @@ int main (int argc, char *argv[])
 	GConfEngine *conf;
 	int port, max_children, max_depth, max_string_length;
 	gboolean break_on_warning;
+	gchar *code_font, *var_font;
 
 	/* Make default settings */
 	conf = gconf_engine_get_default();
@@ -52,6 +53,16 @@ int main (int argc, char *argv[])
 		max_string_length = 512;
 		gconf_engine_set_int(conf, "/apps/gtkdbgp/max_string_length", max_string_length, NULL);
 	}
+	code_font = gconf_engine_get_string(conf, "/apps/gtkdbgp/font/code", NULL);
+	if (!code_font) {
+		code_font = "Monospace 9";
+		gconf_engine_set_string(conf, "/apps/gtkdbgp/font/code", code_font, NULL);
+	}
+	var_font = gconf_engine_get_string(conf, "/apps/gtkdbgp/font/var", NULL);
+	if (!var_font) {
+		var_font = "Sans 8";
+		gconf_engine_set_string(conf, "/apps/gtkdbgp/font/var", var_font, NULL);
+	}
 	break_on_warning = gconf_engine_get_bool(conf, "/apps/gtkdbgp/break_on_warning", NULL);
 	gconf_engine_set_bool(conf, "/apps/gtkdbgp/break_on_warning", break_on_warning, NULL);
 	gconf_engine_unref(conf);
@@ -71,9 +82,9 @@ int main (int argc, char *argv[])
 
 	/* Create two renders */
  	r1 = gtk_cell_renderer_text_new();
-	g_object_set(r1, "font-desc", pango_font_description_from_string ("sans 8"), "xalign", 0.99999, NULL);
+	g_object_set(r1, "font-desc", pango_font_description_from_string (var_font), "xalign", 0.99999, NULL);
  	r2 = gtk_cell_renderer_text_new();
-	g_object_set(r2, "font-desc", pango_font_description_from_string ("sans 8"), NULL);
+	g_object_set(r2, "font-desc", pango_font_description_from_string (var_font), NULL);
 
 	/* Setup the stack view store */
 	store = gtk_list_store_new(STACK_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);

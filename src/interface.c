@@ -1363,6 +1363,15 @@ create_DebuggerSettingsWindow (void)
   GtkWidget *table3;
   GtkWidget *break_on_warning;
   GtkWidget *label18;
+  GtkWidget *alignment33;
+  GtkWidget *frame8;
+  GtkWidget *alignment34;
+  GtkWidget *table9;
+  GtkWidget *label62;
+  GtkWidget *label63;
+  GtkWidget *font_code_button;
+  GtkWidget *font_var_button;
+  GtkWidget *label61;
   GtkWidget *alignment3;
   GtkWidget *hbox2;
   GtkWidget *revert;
@@ -1420,7 +1429,7 @@ create_DebuggerSettingsWindow (void)
   gtk_table_attach (GTK_TABLE (table1), label19, 0, 1, 0, 1,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 4, 4);
-  gtk_widget_set_size_request (label19, 150, -1);
+  gtk_widget_set_size_request (label19, 160, -1);
   gtk_label_set_justify (GTK_LABEL (label19), GTK_JUSTIFY_RIGHT);
   gtk_misc_set_alignment (GTK_MISC (label19), 0, 0.5);
   gtk_label_set_ellipsize (GTK_LABEL (label19), PANGO_ELLIPSIZE_START);
@@ -1431,7 +1440,7 @@ create_DebuggerSettingsWindow (void)
   gtk_table_attach (GTK_TABLE (table1), port, 1, 3, 0, 1,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_set_size_request (port, 160, -1);
+  gtk_widget_set_size_request (port, 140, -1);
   gtk_tooltips_set_tip (tooltips, port, "This is the port on which the DBGP client listens. The default value is 9000.", NULL);
   gtk_widget_add_accelerator (port, "activate", accel_group,
                               GDK_P, (GdkModifierType) GDK_MOD1_MASK,
@@ -1473,7 +1482,7 @@ create_DebuggerSettingsWindow (void)
   gtk_table_attach (GTK_TABLE (table2), label20, 0, 1, 0, 1,
                     (GtkAttachOptions) (GTK_FILL),
                     (GtkAttachOptions) (0), 4, 4);
-  gtk_widget_set_size_request (label20, 150, -1);
+  gtk_widget_set_size_request (label20, 160, -1);
   gtk_label_set_justify (GTK_LABEL (label20), GTK_JUSTIFY_RIGHT);
   gtk_misc_set_alignment (GTK_MISC (label20), 0, 0.5);
   gtk_label_set_ellipsize (GTK_LABEL (label20), PANGO_ELLIPSIZE_START);
@@ -1504,6 +1513,7 @@ create_DebuggerSettingsWindow (void)
   gtk_table_attach (GTK_TABLE (table2), max_string_length, 1, 2, 1, 2,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
+  gtk_widget_set_size_request (max_string_length, 140, -1);
   gtk_tooltips_set_tip (tooltips, max_string_length, "The number of bytes that will be returns for a string while fetching variable contents.", NULL);
   gtk_widget_add_accelerator (max_string_length, "activate", accel_group,
                               GDK_S, (GdkModifierType) GDK_MOD1_MASK,
@@ -1516,7 +1526,7 @@ create_DebuggerSettingsWindow (void)
   gtk_table_attach (GTK_TABLE (table2), max_children, 1, 2, 0, 1,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_set_size_request (max_children, 160, -1);
+  gtk_widget_set_size_request (max_children, 140, -1);
   gtk_tooltips_set_tip (tooltips, max_children, "The maximum number of children to be returned in a single request for variable warnings.", NULL);
   gtk_widget_add_accelerator (max_children, "activate", accel_group,
                               GDK_H, (GdkModifierType) GDK_MOD1_MASK,
@@ -1530,7 +1540,7 @@ create_DebuggerSettingsWindow (void)
   gtk_table_attach (GTK_TABLE (table2), max_depth, 1, 2, 2, 3,
                     (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                     (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_set_size_request (max_depth, 160, -1);
+  gtk_widget_set_size_request (max_depth, 140, -1);
   gtk_tooltips_set_tip (tooltips, max_depth, "The number of levels deep that will be returned for variable contents.", NULL);
   gtk_widget_add_accelerator (max_depth, "activate", accel_group,
                               GDK_D, (GdkModifierType) GDK_MOD1_MASK,
@@ -1590,6 +1600,72 @@ create_DebuggerSettingsWindow (void)
   gtk_frame_set_label_widget (GTK_FRAME (frame3), label18);
   gtk_label_set_use_markup (GTK_LABEL (label18), TRUE);
 
+  alignment33 = gtk_alignment_new (0.5, 0.5, 1, 1);
+  gtk_widget_set_name (alignment33, "alignment33");
+  gtk_widget_show (alignment33);
+  gtk_box_pack_start (GTK_BOX (vbox4), alignment33, TRUE, TRUE, 0);
+  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment33), 5, 5, 5, 5);
+
+  frame8 = gtk_frame_new (NULL);
+  gtk_widget_set_name (frame8, "frame8");
+  gtk_widget_show (frame8);
+  gtk_container_add (GTK_CONTAINER (alignment33), frame8);
+
+  alignment34 = gtk_alignment_new (0.5, 0.5, 1, 1);
+  gtk_widget_set_name (alignment34, "alignment34");
+  gtk_widget_show (alignment34);
+  gtk_container_add (GTK_CONTAINER (frame8), alignment34);
+  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment34), 4, 4, 12, 0);
+
+  table9 = gtk_table_new (2, 2, FALSE);
+  gtk_widget_set_name (table9, "table9");
+  gtk_widget_show (table9);
+  gtk_container_add (GTK_CONTAINER (alignment34), table9);
+
+  label62 = gtk_label_new_with_mnemonic ("Font for code display:");
+  gtk_widget_set_name (label62, "label62");
+  gtk_widget_show (label62);
+  gtk_table_attach (GTK_TABLE (table9), label62, 0, 1, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 4, 4);
+  gtk_widget_set_size_request (label62, 150, -1);
+  gtk_label_set_justify (GTK_LABEL (label62), GTK_JUSTIFY_RIGHT);
+  gtk_misc_set_alignment (GTK_MISC (label62), 0, 0.5);
+  gtk_label_set_ellipsize (GTK_LABEL (label62), PANGO_ELLIPSIZE_START);
+
+  label63 = gtk_label_new_with_mnemonic ("Font for variable display:");
+  gtk_widget_set_name (label63, "label63");
+  gtk_widget_show (label63);
+  gtk_table_attach (GTK_TABLE (table9), label63, 0, 1, 1, 2,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 4, 4);
+  gtk_widget_set_size_request (label63, 160, -1);
+  gtk_label_set_justify (GTK_LABEL (label63), GTK_JUSTIFY_RIGHT);
+  gtk_misc_set_alignment (GTK_MISC (label63), 0, 0.5);
+  gtk_label_set_ellipsize (GTK_LABEL (label63), PANGO_ELLIPSIZE_START);
+
+  font_code_button = gtk_font_button_new ();
+  gtk_widget_set_name (font_code_button, "font_code_button");
+  gtk_widget_show (font_code_button);
+  gtk_table_attach (GTK_TABLE (table9), font_code_button, 1, 2, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_widget_set_size_request (font_code_button, 140, -1);
+
+  font_var_button = gtk_font_button_new ();
+  gtk_widget_set_name (font_var_button, "font_var_button");
+  gtk_widget_show (font_var_button);
+  gtk_table_attach (GTK_TABLE (table9), font_var_button, 1, 2, 1, 2,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_widget_set_size_request (font_var_button, 140, -1);
+
+  label61 = gtk_label_new ("<b>Appearance</b>");
+  gtk_widget_set_name (label61, "label61");
+  gtk_widget_show (label61);
+  gtk_frame_set_label_widget (GTK_FRAME (frame8), label61);
+  gtk_label_set_use_markup (GTK_LABEL (label61), TRUE);
+
   alignment3 = gtk_alignment_new (0, 0.5, 1, 1);
   gtk_widget_set_name (alignment3, "alignment3");
   gtk_widget_show (alignment3);
@@ -1645,6 +1721,12 @@ create_DebuggerSettingsWindow (void)
   GTK_WIDGET_SET_FLAGS (ok, GTK_CAN_DEFAULT);
   gtk_button_set_relief (GTK_BUTTON (ok), GTK_RELIEF_NONE);
 
+  g_signal_connect ((gpointer) font_code_button, "font_set",
+                    G_CALLBACK (on_font_code_button_font_set),
+                    NULL);
+  g_signal_connect ((gpointer) font_var_button, "font_set",
+                    G_CALLBACK (on_font_var_button_font_set),
+                    NULL);
   g_signal_connect ((gpointer) revert, "clicked",
                     G_CALLBACK (on_revert_clicked),
                     NULL);
@@ -1659,6 +1741,8 @@ create_DebuggerSettingsWindow (void)
   gtk_label_set_mnemonic_widget (GTK_LABEL (label20), max_children);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label21), max_string_length);
   gtk_label_set_mnemonic_widget (GTK_LABEL (label22), max_depth);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label62), max_depth);
+  gtk_label_set_mnemonic_widget (GTK_LABEL (label63), max_string_length);
 
   /* Store pointers to all widgets, for use by lookup_widget(). */
   GLADE_HOOKUP_OBJECT_NO_REF (DebuggerSettingsWindow, DebuggerSettingsWindow, "DebuggerSettingsWindow");
@@ -1688,6 +1772,15 @@ create_DebuggerSettingsWindow (void)
   GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, table3, "table3");
   GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, break_on_warning, "break_on_warning");
   GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, label18, "label18");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, alignment33, "alignment33");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, frame8, "frame8");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, alignment34, "alignment34");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, table9, "table9");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, label62, "label62");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, label63, "label63");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, font_code_button, "font_code_button");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, font_var_button, "font_var_button");
+  GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, label61, "label61");
   GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, alignment3, "alignment3");
   GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, hbox2, "hbox2");
   GLADE_HOOKUP_OBJECT (DebuggerSettingsWindow, revert, "revert");

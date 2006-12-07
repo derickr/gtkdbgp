@@ -415,7 +415,7 @@ static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_x
 	children_attr = xdebug_xml_fetch_attribute(property, "children");
 	numchildren_attr = xdebug_xml_fetch_attribute(property, "numchildren");
 
-	if (children_attr && children_attr->value && strcmp(children_attr->value, "1") == 0) {
+	if (children_attr && numchildren_attr && children_attr->value && strcmp(children_attr->value, "1") == 0) {
 		pages = strtol(numchildren_attr->value, NULL, 10);
 		pages = (pages + max_children - 1) / max_children;
 		gtk_tree_model_get(store, parent_iter, VARVIEW_PAGES_FETCHED, &fetch_page, -1);
@@ -801,11 +801,17 @@ void add_source_file(gchar* filename, gchar *source)
 	gchar *unencoded, *sanitized_label;
 	xdebug_arg *lines;
 	dbgp_code_page *page;
+	GConfEngine *conf;
+	gchar *code_font;
 
 	if (xdebug_hash_find(code_tabs_hash, filename, strlen(filename), (void*) &page))
 	{
 		return;
 	}
+
+	/* Fetch the font */
+	conf = gconf_engine_get_default();
+	code_font = gconf_engine_get_string(conf, "/apps/gtkdbgp/font/code", NULL);
 
 	/* Setup the store */
 	store = gtk_list_store_new (SOURCE_N_COLUMNS, G_TYPE_BOOLEAN, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
@@ -867,7 +873,7 @@ void add_source_file(gchar* filename, gchar *source)
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview3), -1, "#", r3, "text", SOURCE_LINENO_COLUMN, NULL);
 
 	r4 = gtk_cell_renderer_text_new();
-	g_object_set(r4, "font-desc", pango_font_description_from_string ("Monospace 8"), NULL);
+	g_object_set(r4, "font-desc", pango_font_description_from_string (code_font), NULL);
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview3), -1, "Code", r4, "text", SOURCE_LINE_COLUMN, NULL);
 
 	gtk_tree_view_set_model(GTK_TREE_VIEW(treeview3), GTK_TREE_MODEL(store));

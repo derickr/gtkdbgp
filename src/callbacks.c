@@ -153,7 +153,7 @@ void
 on_preferences_activate                (GtkMenuItem     *menuitem,
                                         gpointer         user_data)
 {
-	GtkWidget *PortWidget, *MaxDepth, *MaxStringLength, *MaxChildren, *PHPErrorBreak;
+	GtkWidget *PortWidget, *MaxDepth, *MaxStringLength, *MaxChildren, *PHPErrorBreak, *FontCode, *FontVar;
 	int port, max_string_length;
 	GConfEngine *conf;
 	char small_buffer[32];
@@ -164,6 +164,8 @@ on_preferences_activate                (GtkMenuItem     *menuitem,
 	MaxStringLength = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_string_length");
 	MaxChildren = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_children");
 	PHPErrorBreak = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "break_on_warning");
+	FontCode = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "font_code_button");
+	FontVar = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "font_var_button");
 
 	/* Let's load the settings! */
 	conf = gconf_engine_get_default();
@@ -179,6 +181,11 @@ on_preferences_activate                (GtkMenuItem     *menuitem,
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(MaxChildren), gconf_engine_get_int(conf, "/apps/gtkdbgp/max_children", NULL));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(MaxDepth), gconf_engine_get_int(conf, "/apps/gtkdbgp/max_depth", NULL));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(PHPErrorBreak), gconf_engine_get_bool(conf, "/apps/gtkdbgp/break_on_warning", NULL));
+
+	gtk_font_button_set_font_name(GTK_FONT_BUTTON(FontCode), gconf_engine_get_string(conf, "/apps/gtkdbgp/font/code", NULL));
+	gtk_font_button_set_font_name(GTK_FONT_BUTTON(FontVar), gconf_engine_get_string(conf, "/apps/gtkdbgp/font/var", NULL));
+
+	/* Fontz */
 
 	gconf_engine_unref(conf);
 
@@ -198,7 +205,7 @@ void
 on_ok_clicked                          (GtkButton       *button,
                                         gpointer         user_data)
 {
-	GtkWidget *PortWidget, *MaxDepth, *MaxStringLength, *MaxChildren, *PHPErrorBreak;
+	GtkWidget *PortWidget, *MaxDepth, *MaxStringLength, *MaxChildren, *PHPErrorBreak, *FontCode, *FontVar;
 	int port, max_string_length;
 	GConfEngine *conf;
 	char small_buffer[32];
@@ -211,6 +218,8 @@ on_ok_clicked                          (GtkButton       *button,
 	MaxStringLength = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_string_length");
 	MaxChildren = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_children");
 	PHPErrorBreak = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "break_on_warning");
+	FontCode = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "font_code_button");
+	FontVar = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "font_var_button");
 
 	/* Let's save the settings! */
 	conf = gconf_engine_get_default();
@@ -220,6 +229,8 @@ on_ok_clicked                          (GtkButton       *button,
 	gconf_engine_set_int(conf, "/apps/gtkdbgp/max_children", gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(MaxChildren)), NULL);
 	gconf_engine_set_int(conf, "/apps/gtkdbgp/max_depth", gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(MaxDepth)), NULL);
 	gconf_engine_set_bool(conf, "/apps/gtkdbgp/break_on_warning", gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(PHPErrorBreak)), NULL);
+	gconf_engine_set_string(conf, "/apps/gtkdbgp/font/code", gtk_font_button_get_font_name(GTK_FONT_BUTTON(FontCode)), NULL);
+	gconf_engine_set_string(conf, "/apps/gtkdbgp/font/var", gtk_font_button_get_font_name(GTK_FONT_BUTTON(FontVar)), NULL);
 
 	gconf_engine_unref(conf);
 
