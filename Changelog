@@ -1,3 +1,9 @@
+Mon Feb 19 20:37:40 CET 2007 Derick Rethans <derick@derickrethans.nl>
+gtkdbgp.glade
+gtkdbgp/src/interface.c
+gtkdbgp/src/server.c:
+- No clue what this changes :I
+
 Thu Dec 07 01:39:19 CET 2006 Derick Rethans <derick@derickrethans.nl>
 gtkdbgp.glade
 gtkdbgp/src/callbacks.c
