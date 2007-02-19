@@ -77,7 +77,7 @@ create_MainWindow (void)
   GtkWidget *kill_button;
   GtkWidget *last_message_label;
   GtkWidget *hseparator1;
-  GtkWidget *hbox10;
+  GtkWidget *hpaned1;
   GtkWidget *vbox10;
   GtkWidget *code_notebook;
   GtkWidget *scrolledwindow13;
@@ -405,15 +405,15 @@ create_MainWindow (void)
   gtk_box_pack_start (GTK_BOX (vbox1), hseparator1, FALSE, TRUE, 1);
   gtk_widget_set_size_request (hseparator1, -1, 2);
 
-  hbox10 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_set_name (hbox10, "hbox10");
-  gtk_widget_show (hbox10);
-  gtk_box_pack_start (GTK_BOX (vbox1), hbox10, TRUE, TRUE, 0);
+  hpaned1 = gtk_hpaned_new ();
+  gtk_widget_set_name (hpaned1, "hpaned1");
+  gtk_widget_show (hpaned1);
+  gtk_box_pack_start (GTK_BOX (vbox1), hpaned1, TRUE, TRUE, 0);
 
   vbox10 = gtk_vbox_new (FALSE, 0);
   gtk_widget_set_name (vbox10, "vbox10");
   gtk_widget_show (vbox10);
-  gtk_box_pack_start (GTK_BOX (hbox10), vbox10, FALSE, TRUE, 0);
+  gtk_paned_pack1 (GTK_PANED (hpaned1), vbox10, FALSE, TRUE);
   gtk_widget_set_size_request (vbox10, 650, -1);
 
   code_notebook = gtk_notebook_new ();
@@ -581,8 +581,7 @@ create_MainWindow (void)
   alignment20 = gtk_alignment_new (0.5, 0.5, 1, 1);
   gtk_widget_set_name (alignment20, "alignment20");
   gtk_widget_show (alignment20);
-  gtk_box_pack_start (GTK_BOX (hbox10), alignment20, TRUE, TRUE, 0);
-  gtk_alignment_set_padding (GTK_ALIGNMENT (alignment20), 0, 0, 10, 0);
+  gtk_paned_pack2 (GTK_PANED (hpaned1), alignment20, TRUE, TRUE);
 
   viewport1 = gtk_viewport_new (NULL, NULL);
   gtk_widget_set_name (viewport1, "viewport1");
@@ -742,7 +741,7 @@ create_MainWindow (void)
   GLADE_HOOKUP_OBJECT (MainWindow, kill_button, "kill_button");
   GLADE_HOOKUP_OBJECT (MainWindow, last_message_label, "last_message_label");
   GLADE_HOOKUP_OBJECT (MainWindow, hseparator1, "hseparator1");
-  GLADE_HOOKUP_OBJECT (MainWindow, hbox10, "hbox10");
+  GLADE_HOOKUP_OBJECT (MainWindow, hpaned1, "hpaned1");
   GLADE_HOOKUP_OBJECT (MainWindow, vbox10, "vbox10");
   GLADE_HOOKUP_OBJECT (MainWindow, code_notebook, "code_notebook");
   GLADE_HOOKUP_OBJECT (MainWindow, scrolledwindow13, "scrolledwindow13");
@@ -1721,12 +1720,6 @@ create_DebuggerSettingsWindow (void)
   GTK_WIDGET_SET_FLAGS (ok, GTK_CAN_DEFAULT);
   gtk_button_set_relief (GTK_BUTTON (ok), GTK_RELIEF_NONE);
 
-  g_signal_connect ((gpointer) font_code_button, "font_set",
-                    G_CALLBACK (on_font_code_button_font_set),
-                    NULL);
-  g_signal_connect ((gpointer) font_var_button, "font_set",
-                    G_CALLBACK (on_font_var_button_font_set),
-                    NULL);
   g_signal_connect ((gpointer) revert, "clicked",
                     G_CALLBACK (on_revert_clicked),
                     NULL);

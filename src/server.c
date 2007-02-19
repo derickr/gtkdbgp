@@ -168,9 +168,9 @@ int do_source_get(int param, ClientState* state)
 int do_property_get(int param, ClientState* state)
 {
 	if (param) {
-		state->command = xdebug_sprintf( "property_get -i %d -n %s -p %d", get_next_id(state), state->property, param);
+		state->command = xdebug_sprintf( "property_get -i %d -n %s -d %d -p %d", get_next_id(state), state->property, state->last_selected_stack_frame, param);
 	} else {
-		state->command = xdebug_sprintf( "property_get -i %d -n %s", get_next_id(state), state->property);
+		state->command = xdebug_sprintf( "property_get -i %d -n %s -d %d", get_next_id(state), state->property, state->last_selected_stack_frame);
 	}
 	xdfree(state->property);
 	return INTERACTIVE;
@@ -398,7 +398,7 @@ int process_select_file_line_for_selected_stack_no_check(int param, ClientState*
 static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_xml_node *property)
 {
 	xdebug_xml_attribute *fullname_attr, *name_attr, *type_attr, *size_attr, *encoding_attr, *class_attr, *facet_attr;
-	xdebug_xml_attribute *children_attr, *numchildren_attr;
+	xdebug_xml_attribute *children_attr, *numchildren_attr, *page_attr;
 	gchar *value, *type, *name;
 	int new_len, max_children;
 	GtkTreeIter iter;
@@ -407,30 +407,51 @@ static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_x
 	GtkTreePath *path;
 	gchar *path_string;
 	int child_count, fetch_page;
-	int offset = 0;
+	int offset = 0, hint = 0;
 
 	conf = gconf_engine_get_default();
 	max_children = gconf_engine_get_int(conf, "/apps/gtkdbgp/max_children", NULL);
 
 	children_attr = xdebug_xml_fetch_attribute(property, "children");
+	fullname_attr = xdebug_xml_fetch_attribute(property, "fullname");
 	numchildren_attr = xdebug_xml_fetch_attribute(property, "numchildren");
+	page_attr = xdebug_xml_fetch_attribute(property, "page");
+
+	if (fullname_attr) {
+		g_print( "\nRunning add_property for '%s'\n", fullname_attr->value);
+	}
 
 	if (children_attr && numchildren_attr && children_attr->value && strcmp(children_attr->value, "1") == 0) {
+		gtk_tree_model_get(store, parent_iter, VARVIEW_PAGES_FETCHED, &fetch_page, -1);
+		gtk_tree_model_get(store, parent_iter, VARVIEW_HIDDEN_HINT, &hint, -1);
+		g_print( "Got fetched pages: %d\n", fetch_page);
+		g_print( "Got hidden hint: %d\n", hint);
+
 		pages = strtol(numchildren_attr->value, NULL, 10);
 		pages = (pages + max_children - 1) / max_children;
-		gtk_tree_model_get(store, parent_iter, VARVIEW_PAGES_FETCHED, &fetch_page, -1);
 		if ((fetch_page + 1) == pages) {
+			g_print( "Setting hint to 0\n");
 			gtk_tree_store_set(store, parent_iter,
 				VARVIEW_HIDDEN_HINT, 0,
 				-1);
 		}
+
+		g_print( "Setting page count to %d\n", pages);
 		gtk_tree_store_set(store, parent_iter,
-			VARVIEW_PAGES_FETCHED, fetch_page + 1,
 			VARVIEW_PAGE_COUNT,    pages,
 			-1);
+
+		if (page_attr) {
+			g_print( "Setting pages fetched to %d\n", fetch_page + 1);
+			gtk_tree_store_set(store, parent_iter,
+				VARVIEW_PAGES_FETCHED, fetch_page + 1,
+				-1);
+		}
+
 		offset = fetch_page * max_children;
 	}
 	if (!property->child && children_attr && children_attr->value && strcmp(children_attr->value, "1") == 0) {
+		g_print( "Setting hint to %d\n", DBGPCLIENT_FETCH_MORE);
 		gtk_tree_store_set(store, parent_iter,
 			VARVIEW_HIDDEN_HINT, DBGPCLIENT_FETCH_MORE,
 			-1);
@@ -755,6 +776,7 @@ gboolean varview_selection_function(GtkTreeSelection *selection, GtkTreeModel *m
 		g_print( "Need to fetch '%s'? The hint is '%d'\n", fullname, hint);
 		if (hint == DBGPCLIENT_FETCH_MORE) {
 			gtk_tree_store_set(model, &iter, VARVIEW_HIDDEN_HINT, 0, -1);
+			g_print( "Setting hint to 0\n");
 			client_state->server_state = SERVER_STATE_FETCH_PROPERTY;
 			client_state->action_list_ptr = fetch_property_action_list;
 			client_state->property = xdstrdup(fullname);
@@ -769,6 +791,7 @@ gboolean varview_selection_function(GtkTreeSelection *selection, GtkTreeModel *m
 		}
 		if (hint == DBGPCLIENT_FETCH_PAGES) {
 			gtk_tree_store_set(model, &iter, VARVIEW_HIDDEN_HINT, 0, -1);
+			g_print( "Setting hint to 0\n");
 			client_state->server_state = SERVER_STATE_FETCH_PROPERTY;
 			client_state->action_list_ptr = fetch_property_action_list;
 			client_state->property = xdstrdup(fullname);
