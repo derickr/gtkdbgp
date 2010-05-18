@@ -496,7 +496,7 @@ static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_x
 				if (strcmp(type_attr->value, "object") == 0) {
 					class_attr = xdebug_xml_fetch_attribute(property, "classname");
 					if (class_attr && class_attr->value) {
-						type = xdebug_sprintf("object(%s)", class_attr->value);
+						value = xdebug_sprintf("class = %s", class_attr->value);
 					}
 				}
 			}
