@@ -18,19 +18,23 @@
 
 #include <stdlib.h>
 #include <string.h>
+
 #ifndef WIN32
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <sys/resource.h>
-#include <sys/file.h>
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/socket.h>
+# include <sys/time.h>
+# include <sys/resource.h>
+# include <sys/file.h>
+# ifndef PATH_MAX
+#  define PATH_MAX 256
+# endif
 #else
-#define PATH_MAX MAX_PATH
-#include <winsock2.h>
-#include <io.h>
-#include "win32/time.h"
-#include <process.h>
+# define PATH_MAX MAX_PATH
+# include <winsock2.h>
+# include <io.h>
+# include "win32/time.h"
+# include <process.h>
 #endif
 #include "xdebug_mm.h"
 #include "xdebug_str.h"
