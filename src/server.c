@@ -464,6 +464,10 @@ static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_x
 		if (strcmp(property->tag, "property") == 0) {
 			child_count++;
 			name_attr = xdebug_xml_fetch_attribute(property, "name");
+
+			if (name_attr && name_attr->value && strcmp(name_attr->value, "CLASSNAME") == 0) {
+				goto process_next;
+			}
 			type_attr = xdebug_xml_fetch_attribute(property, "type");
 			size_attr = xdebug_xml_fetch_attribute(property, "size");
 			encoding_attr = xdebug_xml_fetch_attribute(property, "encoding");
@@ -504,14 +508,15 @@ static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_x
 				VARVIEW_NR_COLUMN,       name,
 				VARVIEW_FUNCTION_COLUMN, type,
 				VARVIEW_LOCATION_COLUMN, value,
-				VARVIEW_FULLNAME,        fullname_attr->value,
+				VARVIEW_FULLNAME,        fullname_attr ? fullname_attr->value : name_attr->value,
 				VARVIEW_PATH_STRING,     path_string,
 				-1);
 			g_free(path_string);
 			gtk_tree_path_free(path);
 
 			add_property(store, &iter, property);
-		}	
+		}
+process_next:
 		property = property->next;
 	}
 
