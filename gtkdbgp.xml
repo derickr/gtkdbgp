@@ -55,6 +55,8 @@
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="gtk_main_quit"/>
                       </object>
                     </child>
@@ -76,8 +78,117 @@
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate_item" handler="on_preferences_activate"/>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_preferences_activate"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="debug_item">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">_Debug</property>
+                <property name="use_underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu" id="menu3">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkImageMenuItem" id="add_breakpoint_item">
+                        <property name="label">gtk-add</property>
+                        <property name="visible">True</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparatorMenuItem" id="sep1_item">
+                        <property name="visible">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="continue_item">
+                        <property name="label">gtk-go-forward</property>
+                        <property name="visible">True</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="step_in_item">
+                        <property name="label">gtk-jump-to</property>
+                        <property name="visible">True</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="step_over_item">
+                        <property name="label">gtk-redo</property>
+                        <property name="visible">True</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="step_out_item">
+                        <property name="label">gtk-ok</property>
+                        <property name="visible">True</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparatorMenuItem" id="sep2_item">
+                        <property name="visible">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="detach_item">
+                        <property name="label">gtk-remove</property>
+                        <property name="visible">True</property>
+                        <property name="tooltip_text" translatable="yes">Stops debugging, but does not aborts the script</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="stop_debugging_item">
+                        <property name="label">gtk-stop</property>
+                        <property name="visible">True</property>
+                        <property name="tooltip_text" translatable="yes">Stops debugging and aborts the script</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="about_item">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">_About</property>
+                <property name="use_underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu" id="menu4">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkImageMenuItem" id="help_item">
+                        <property name="label">gtk-help</property>
+                        <property name="visible">True</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="on_about_activate"/>
                       </object>
                     </child>
                   </object>
@@ -1826,13 +1937,13 @@
   <object class="GtkAboutDialog" id="aboutdialog">
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">normal</property>
-    <property name="copyright" translatable="yes">(c) 2006 by Derick Rethans</property>
+    <property name="copyright" translatable="yes">(c) 2010 by Derick Rethans</property>
     <property name="website">http://xdebug.org</property>
     <property name="website_label" translatable="yes">Xdebug website</property>
     <property name="license">The Xdebug License, version 1.01
 (Based on "The PHP License", version 3.0)
 
-Copyright (c) 2002-2006 Derick Rethans. All rights reserved.
+Copyright (c) 2002-2010 Derick Rethans. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, is permitted provided that the following conditions are met:
 
@@ -1854,8 +1965,10 @@ For more information Xdebug, please see http://xdebug.org/</property>
     <property name="translator_credits" translatable="yes" comments="TRANSLATORS: Replace this string with your names, one name per line.">translator-credits</property>
     <property name="logo">xdebug-logo.png</property>
     <property name="wrap_license">True</property>
+    <signal name="response" handler="on_about_close"/>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
+        <property name="orientation">vertical</property>
         <child internal-child="action_area">
           <object class="GtkHButtonBox" id="dialog-action_area1"/>
           <packing>

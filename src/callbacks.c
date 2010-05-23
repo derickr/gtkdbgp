@@ -80,10 +80,15 @@ void
 on_about_activate                      (GtkMenuItem     *menuitem,
                                         gpointer         user_data)
 {
-	GtkWidget *aboutdialog;
-	
-	aboutdialog = gtk_builder_get_object(builder, "aboutdialog");
-	gtk_widget_show (aboutdialog);
+	gtk_widget_show(gtk_builder_get_object(builder, "aboutdialog"));
+}
+
+
+void
+on_about_close                      (GtkMenuItem     *menuitem,
+                                        gpointer         user_data)
+{
+	gtk_widget_hide(gtk_builder_get_object(builder, "aboutdialog"));
 }
 
 
