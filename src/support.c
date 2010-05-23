@@ -13,8 +13,8 @@
 #include <stdio.h>
 
 #include <gtk/gtk.h>
-
 #include "support.h"
+/*
 
 GtkWidget*
 lookup_widget                          (GtkWidget       *widget,
@@ -41,6 +41,7 @@ lookup_widget                          (GtkWidget       *widget,
     g_warning ("Widget not found: %s", widget_name);
   return found_widget;
 }
+*/
 
 static GList *pixmaps_directories = NULL;
 
@@ -64,6 +65,7 @@ find_pixmap_file                       (const gchar     *filename)
     {
       gchar *pathname = g_strdup_printf ("%s%s%s", (gchar*)elem->data,
                                          G_DIR_SEPARATOR_S, filename);
+	  printf("SEARCH %s\n", pathname);
       if (g_file_test (pathname, G_FILE_TEST_EXISTS))
         return pathname;
       g_free (pathname);

@@ -1,164 +1,32 @@
 <?xml version="1.0"?>
 <interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
-    <property name="upper">10000</property>
-    <property name="lower">1</property>
-    <property name="page_increment">10</property>
-    <property name="step_increment">1</property>
-    <property name="page_size">10</property>
     <property name="value">1</property>
+    <property name="lower">1</property>
+    <property name="upper">10000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment2">
-    <property name="upper">100</property>
-    <property name="lower">5</property>
-    <property name="page_increment">5</property>
-    <property name="step_increment">1</property>
-    <property name="page_size">5</property>
     <property name="value">5</property>
+    <property name="lower">5</property>
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+    <property name="page_size">5</property>
   </object>
   <object class="GtkAdjustment" id="adjustment3">
-    <property name="upper">10</property>
-    <property name="lower">1</property>
-    <property name="page_increment">10</property>
-    <property name="step_increment">1</property>
-    <property name="page_size">10</property>
     <property name="value">1</property>
+    <property name="lower">1</property>
+    <property name="upper">10</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">10</property>
   </object>
-  <object class="GtkUIManager" id="uimanager1">
-    <child>
-      <object class="GtkActionGroup" id="actiongroup1">
-        <child>
-          <object class="GtkAction" id="menuitem1">
-            <property name="name">menuitem1</property>
-            <property name="label" translatable="yes">_File</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="quitmenuitem">
-            <property name="stock_id">_Quit</property>
-            <property name="name">quitmenuitem</property>
-            <signal handler="on_quit_activate" name="activate"/>
-          </object>
-          <accelerator key="Q" modifiers="GDK_CONTROL_MASK"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="menuitem2">
-            <property name="name">menuitem2</property>
-            <property name="label" translatable="yes">_Settings</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="imagemenuitem2">
-            <property name="stock_id">_Preferences</property>
-            <property name="name">imagemenuitem2</property>
-            <signal handler="on_preferences_activate" name="activate"/>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="menuitem3">
-            <property name="name">menuitem3</property>
-            <property name="label" translatable="yes">_Debug</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="menuitem4">
-            <property name="stock_id">_Add Breakpoint</property>
-            <property name="name">menuitem4</property>
-            <signal handler="on_add_breakpoint_menu_item_activate" name="activate"/>
-          </object>
-          <accelerator key="F4"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="menuitem5">
-            <property name="stock_id">_Continue</property>
-            <property name="name">menuitem5</property>
-            <signal handler="on_continue_menu_item_activate" name="activate"/>
-          </object>
-          <accelerator key="F5"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="menuitem6">
-            <property name="stock_id">Step _Over</property>
-            <property name="name">menuitem6</property>
-            <signal handler="on_step_over_menu_item_activate" name="activate"/>
-          </object>
-          <accelerator key="F6"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="menuitem7">
-            <property name="stock_id">Step _In</property>
-            <property name="name">menuitem7</property>
-            <signal handler="on_step_in_menu_item_activate" name="activate"/>
-          </object>
-          <accelerator key="F7"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="menuitem8">
-            <property name="stock_id">Step O_ut</property>
-            <property name="name">menuitem8</property>
-            <signal handler="on_step_out_menu_item_activate" name="activate"/>
-          </object>
-          <accelerator key="F8"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="menuitem9">
-            <property name="stock_id">_Detach Debugger</property>
-            <property name="name">menuitem9</property>
-            <signal handler="on_detach_debugger_menu_item_activate" name="activate"/>
-          </object>
-          <accelerator key="F9"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="menuitem10">
-            <property name="stock_id">_Stop Debugging</property>
-            <property name="name">menuitem10</property>
-            <signal handler="on_stop_debugging_menu_item_activate" name="activate"/>
-          </object>
-          <accelerator key="F10"/>
-        </child>
-        <child>
-          <object class="GtkAction" id="menuitem11">
-            <property name="name">menuitem11</property>
-            <property name="label" translatable="yes">_Help</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkAction" id="imagemenuitem3">
-            <property name="stock_id">_About</property>
-            <property name="name">imagemenuitem3</property>
-            <signal handler="on_about_activate" name="activate"/>
-          </object>
-        </child>
-      </object>
-    </child>
-    <ui>
-      <menubar name="menubar1">
-        <menu action="menuitem1">
-          <menuitem action="quitmenuitem"/>
-        </menu>
-        <menu action="menuitem2">
-          <menuitem action="imagemenuitem2"/>
-        </menu>
-        <menu action="menuitem3">
-          <menuitem action="menuitem4"/>
-          <separator/>
-          <menuitem action="menuitem5"/>
-          <separator/>
-          <menuitem action="menuitem6"/>
-          <menuitem action="menuitem7"/>
-          <menuitem action="menuitem8"/>
-          <separator/>
-          <menuitem action="menuitem9"/>
-          <menuitem action="menuitem10"/>
-        </menu>
-        <menu action="menuitem11">
-          <menuitem action="imagemenuitem3"/>
-        </menu>
-      </menubar>
-    </ui>
-  </object>
-  <!-- interface-requires gtk+ 2.10 -->
-  <!-- interface-naming-policy toplevel-contextual -->
+  <object class="GtkUIManager" id="uimanager1"/>
   <object class="GtkWindow" id="MainWindow">
     <property name="width_request">900</property>
     <property name="height_request">600</property>
@@ -171,8 +39,51 @@
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkMenuBar" constructor="uimanager1" id="menubar1">
+          <object class="GtkMenuBar" id="menubar1">
             <property name="visible">True</property>
+            <child>
+              <object class="GtkMenuItem" id="file_item">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">_File</property>
+                <property name="use_underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu" id="menu1">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkImageMenuItem" id="quit_item">
+                        <property name="label">gtk-quit</property>
+                        <property name="visible">True</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <signal name="activate" handler="gtk_main_quit"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="settings_item">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">_Settings</property>
+                <property name="use_underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu" id="menu2">
+                    <property name="visible">True</property>
+                    <child>
+                      <object class="GtkImageMenuItem" id="preferences_item">
+                        <property name="label">gtk-preferences</property>
+                        <property name="visible">True</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <signal name="activate_item" handler="on_preferences_activate"/>
+                        <signal name="activate" handler="on_preferences_activate"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -187,10 +98,10 @@
             <child>
               <object class="GtkToolButton" id="continue_button">
                 <property name="visible">True</property>
-                <property name="tooltip-text" translatable="yes">run/continue</property>
+                <property name="tooltip_text" translatable="yes">run/continue</property>
                 <property name="use_underline">True</property>
-                <property name="icon">run.png</property>
-                <signal handler="on_continue_button_clicked" name="clicked"/>
+                <property name="stock_id">gtk-media-play</property>
+                <signal name="clicked" handler="on_continue_button_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -210,10 +121,10 @@
                 <property name="width_request">16</property>
                 <property name="height_request">16</property>
                 <property name="visible">True</property>
-                <property name="tooltip-text" translatable="yes">step_over</property>
+                <property name="tooltip_text" translatable="yes">step_over</property>
                 <property name="use_underline">True</property>
-                <property name="icon">step_over.png</property>
-                <signal handler="on_step_over_button_clicked" name="clicked"/>
+                <property name="stock_id">gtk-jump-to</property>
+                <signal name="clicked" handler="on_step_over_button_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -225,10 +136,10 @@
                 <property name="width_request">16</property>
                 <property name="height_request">16</property>
                 <property name="visible">True</property>
-                <property name="tooltip-text" translatable="yes">step_in</property>
+                <property name="tooltip_text" translatable="yes">step_in</property>
                 <property name="use_underline">True</property>
-                <property name="icon">step_in.png</property>
-                <signal handler="on_step_in_button_clicked" name="clicked"/>
+                <property name="stock_id">gtk-redo</property>
+                <signal name="clicked" handler="on_step_in_button_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -238,10 +149,10 @@
             <child>
               <object class="GtkToolButton" id="step_out_button">
                 <property name="visible">True</property>
-                <property name="tooltip-text" translatable="yes">step_out</property>
+                <property name="tooltip_text" translatable="yes">step_out</property>
                 <property name="use_underline">True</property>
-                <property name="icon">step_out.png</property>
-                <signal handler="on_step_out_button_clicked" name="clicked"/>
+                <property name="stock_id">gtk-ok</property>
+                <signal name="clicked" handler="on_step_out_button_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -259,10 +170,10 @@
             <child>
               <object class="GtkToolButton" id="detach_button">
                 <property name="visible">True</property>
-                <property name="tooltip-text" translatable="yes">detach</property>
+                <property name="tooltip_text" translatable="yes">detach</property>
                 <property name="use_underline">True</property>
-                <property name="icon">dialog-error.png</property>
-                <signal handler="on_detach_button_clicked" name="clicked"/>
+                <property name="stock_id">gtk-remove</property>
+                <signal name="clicked" handler="on_detach_button_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -272,10 +183,10 @@
             <child>
               <object class="GtkToolButton" id="kill_button">
                 <property name="visible">True</property>
-                <property name="tooltip-text" translatable="yes">kill</property>
+                <property name="tooltip_text" translatable="yes">kill</property>
                 <property name="use_underline">True</property>
-                <property name="icon">emblem-unreadable.png</property>
-                <signal handler="on_kill_button_clicked" name="clicked"/>
+                <property name="stock_id">gtk-stop</property>
+                <signal name="clicked" handler="on_kill_button_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -378,7 +289,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="rules_hint">True</property>
-                            <signal handler="on_stack_view_select_cursor_row" name="select_cursor_row"/>
+                            <signal name="select_cursor_row" handler="on_stack_view_select_cursor_row"/>
                           </object>
                         </child>
                       </object>
@@ -427,7 +338,7 @@
                                 <property name="can_default">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="relief">none</property>
-                                <signal handler="on_main_add_bp_button_activate" name="clicked"/>
+                                <signal name="clicked" handler="on_main_add_bp_button_activate"/>
                                 <child>
                                   <object class="GtkAlignment" id="alignment17">
                                     <property name="visible">True</property>
@@ -478,7 +389,7 @@
                                 <property name="can_default">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="relief">none</property>
-                                <signal handler="on_main_edit_bp_button_activate" name="clicked"/>
+                                <signal name="clicked" handler="on_main_edit_bp_button_activate"/>
                                 <child>
                                   <object class="GtkAlignment" id="alignment18">
                                     <property name="visible">True</property>
@@ -529,7 +440,7 @@
                                 <property name="can_default">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="relief">none</property>
-                                <signal handler="on_main_remove_bp_button_activate" name="clicked"/>
+                                <signal name="clicked" handler="on_main_remove_bp_button_activate"/>
                                 <child>
                                   <object class="GtkAlignment" id="alignment19">
                                     <property name="visible">True</property>
@@ -581,6 +492,9 @@
                           </packing>
                         </child>
                       </object>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
                     </child>
                     <child type="tab">
                       <object class="GtkLabel" id="label35">
@@ -651,7 +565,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="reorderable">True</property>
                                 <property name="rules_hint">True</property>
-                                <signal handler="on_var_view_select_cursor_row" name="select_cursor_row"/>
+                                <signal name="select_cursor_row" handler="on_var_view_select_cursor_row"/>
                               </object>
                             </child>
                           </object>
@@ -689,7 +603,6 @@
     </child>
   </object>
   <object class="GtkWindow" id="AddBreakPointWindow">
-    <property name="visible">True</property>
     <property name="title" translatable="yes">Add Breakpoint</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
@@ -727,7 +640,7 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
@@ -740,7 +653,7 @@
                             <property name="right_attach">2</property>
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
@@ -756,7 +669,7 @@
                           </object>
                           <packing>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -776,7 +689,7 @@
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -833,7 +746,7 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
@@ -846,7 +759,7 @@
                             <property name="right_attach">2</property>
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
@@ -862,7 +775,7 @@
                           </object>
                           <packing>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -882,7 +795,7 @@
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -905,6 +818,9 @@
                   </object>
                 </child>
               </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
             </child>
             <child type="tab">
               <object class="GtkLabel" id="function_label">
@@ -939,7 +855,7 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
@@ -955,7 +871,7 @@
                           </object>
                           <packing>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -975,6 +891,9 @@
                   </object>
                 </child>
               </object>
+              <packing>
+                <property name="position">2</property>
+              </packing>
             </child>
             <child type="tab">
               <object class="GtkLabel" id="exception_label">
@@ -1120,7 +1039,7 @@
                             <property name="right_attach">2</property>
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
@@ -1129,7 +1048,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="tooltip-text" translatable="yes">Temporary breakpoints will be automatically deleted after the first time they have been hit.</property>
+                            <property name="tooltip_text" translatable="yes">Temporary breakpoints will be automatically deleted after the first time they have been hit.</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
                           </object>
@@ -1139,7 +1058,7 @@
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
@@ -1157,7 +1076,7 @@
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -1177,7 +1096,7 @@
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -1198,7 +1117,7 @@
                             <property name="top_attach">3</property>
                             <property name="bottom_attach">4</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
@@ -1215,7 +1134,7 @@
                             <property name="top_attach">3</property>
                             <property name="bottom_attach">4</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -1269,7 +1188,7 @@
                     <property name="can_default">True</property>
                     <property name="receives_default">False</property>
                     <property name="relief">none</property>
-                    <signal handler="on_add_bp_cancel_button_activate" name="clicked"/>
+                    <signal name="clicked" handler="on_add_bp_cancel_button_activate"/>
                     <child>
                       <object class="GtkAlignment" id="alignment24">
                         <property name="visible">True</property>
@@ -1320,7 +1239,7 @@
                     <property name="can_default">True</property>
                     <property name="receives_default">False</property>
                     <property name="relief">none</property>
-                    <signal handler="on_add_bp_add_button_activate" name="clicked"/>
+                    <signal name="clicked" handler="on_add_bp_add_button_activate"/>
                     <child>
                       <object class="GtkAlignment" id="alignment23">
                         <property name="visible">True</property>
@@ -1376,7 +1295,6 @@
     </child>
   </object>
   <object class="GtkWindow" id="DebuggerSettingsWindow">
-    <property name="visible">True</property>
     <property name="title" translatable="yes">Preferences</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
@@ -1420,7 +1338,7 @@
                           </object>
                           <packing>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -1431,16 +1349,16 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="has_focus">True</property>
-                            <property name="tooltip-text" translatable="yes">This is the port on which the DBGP client listens. The default value is 9000.</property>
+                            <property name="tooltip_text" translatable="yes">This is the port on which the DBGP client listens. The default value is 9000.</property>
                             <property name="max_length">5</property>
                             <property name="text" translatable="yes">9000</property>
-                            <accelerator key="P" modifiers="GDK_MOD1_MASK" signal="activate"/>
+                            <accelerator key="P" signal="activate" modifiers="GDK_MOD1_MASK"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">3</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                       </object>
@@ -1496,7 +1414,7 @@
                           </object>
                           <packing>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -1515,7 +1433,7 @@
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -1534,7 +1452,7 @@
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -1544,15 +1462,15 @@
                             <property name="width_request">140</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="tooltip-text" translatable="yes">The number of bytes that will be returns for a string while fetching variable contents.</property>
-                            <accelerator key="S" modifiers="GDK_MOD1_MASK" signal="activate"/>
+                            <property name="tooltip_text" translatable="yes">The number of bytes that will be returns for a string while fetching variable contents.</property>
+                            <accelerator key="S" signal="activate" modifiers="GDK_MOD1_MASK"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
@@ -1560,16 +1478,16 @@
                             <property name="width_request">140</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="tooltip-text" translatable="yes">The maximum number of children to be returned in a single request for variable warnings.</property>
+                            <property name="tooltip_text" translatable="yes">The maximum number of children to be returned in a single request for variable warnings.</property>
                             <property name="adjustment">adjustment2</property>
                             <property name="climb_rate">1</property>
                             <property name="numeric">True</property>
-                            <accelerator key="H" modifiers="GDK_MOD1_MASK" signal="activate"/>
+                            <accelerator key="H" signal="activate" modifiers="GDK_MOD1_MASK"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
@@ -1577,18 +1495,18 @@
                             <property name="width_request">140</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="tooltip-text" translatable="yes">The number of levels deep that will be returned for variable contents.</property>
+                            <property name="tooltip_text" translatable="yes">The number of levels deep that will be returned for variable contents.</property>
                             <property name="adjustment">adjustment3</property>
                             <property name="climb_rate">1</property>
                             <property name="numeric">True</property>
-                            <accelerator key="D" modifiers="GDK_MOD1_MASK" signal="activate"/>
+                            <accelerator key="D" signal="activate" modifiers="GDK_MOD1_MASK"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
@@ -1603,7 +1521,7 @@
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -1659,15 +1577,15 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="tooltip-text" translatable="yes">Causes the PHP script to generate a breakpoint whenever a Notice, Warning or Error has been reached.</property>
+                            <property name="tooltip_text" translatable="yes">Causes the PHP script to generate a breakpoint whenever a Notice, Warning or Error has been reached.</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
-                            <accelerator key="B" modifiers="GDK_MOD1_MASK" signal="grab_focus"/>
+                            <accelerator key="B" signal="grab_focus" modifiers="GDK_MOD1_MASK"/>
                           </object>
                           <packing>
                             <property name="right_attach">3</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                       </object>
@@ -1723,7 +1641,7 @@
                           </object>
                           <packing>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -1743,7 +1661,7 @@
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                             <property name="x_padding">4</property>
                             <property name="y_padding">4</property>
                           </packing>
@@ -1759,7 +1677,7 @@
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
@@ -1775,7 +1693,7 @@
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"/>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                       </object>
@@ -1813,9 +1731,9 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="tooltip-text" translatable="yes">Revert settings to default changes.</property>
+                    <property name="tooltip_text" translatable="yes">Revert settings to default changes.</property>
                     <property name="relief">none</property>
-                    <signal handler="on_revert_clicked" name="clicked"/>
+                    <signal name="clicked" handler="on_revert_clicked"/>
                     <child>
                       <object class="GtkAlignment" id="alignment22">
                         <property name="visible">True</property>
@@ -1868,7 +1786,7 @@
                     <property name="receives_default">False</property>
                     <property name="relief">none</property>
                     <property name="use_stock">True</property>
-                    <signal handler="on_cancel_clicked" name="clicked"/>
+                    <signal name="clicked" handler="on_cancel_clicked"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1887,7 +1805,7 @@
                     <property name="receives_default">False</property>
                     <property name="relief">none</property>
                     <property name="use_stock">True</property>
-                    <signal handler="on_ok_clicked" name="clicked"/>
+                    <signal name="clicked" handler="on_ok_clicked"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1906,7 +1824,6 @@
     </child>
   </object>
   <object class="GtkAboutDialog" id="aboutdialog">
-    <property name="visible">True</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">normal</property>
     <property name="copyright" translatable="yes">(c) 2006 by Derick Rethans</property>
@@ -1934,7 +1851,7 @@ Derick Rethans can be contacted via e-mail at derick@xdebug.org.
 
 For more information Xdebug, please see http://xdebug.org/</property>
     <property name="authors">Derick Rethans</property>
-    <property comments="TRANSLATORS: Replace this string with your names, one name per line." name="translator_credits" translatable="yes">translator-credits</property>
+    <property name="translator_credits" translatable="yes" comments="TRANSLATORS: Replace this string with your names, one name per line.">translator-credits</property>
     <property name="logo">xdebug-logo.png</property>
     <property name="wrap_license">True</property>
     <child internal-child="vbox">

@@ -10,7 +10,6 @@ bin_PROGRAMS = gtkdbgp
 gtkdbgp_SOURCES = \
 	main.c \
 	support.c support.h \
-	interface.c interface.h \
 	callbacks.c callbacks.h \
 	server.c \
 	usefulstuff.c usefulstuff.h \
@@ -24,4 +23,4 @@ gtkdbgp_SOURCES = \
 	xdebug_xml_reader.c
 
 gtkdbgp_LDADD = @PACKAGE_LIBS@
-
+gtkdbgp_LDFLAGS =  -Wl,--export-dynamic 

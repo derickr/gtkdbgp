@@ -28,7 +28,6 @@
 #include <gtk/gtk.h>
 #include <gconf/gconf.h>
 
-#include "interface.h"
 #include "support.h"
 #include "usefulstuff.h"
 #include "xdebug_hash.h"
@@ -210,7 +209,7 @@ int process_fetched_property(int param, ClientState* state)
 	xdebug_xml_node *property;
 	GtkTreeIter iter;
 
- 	var_view = lookup_widget(GTK_WIDGET(MainWindow), "var_view");
+ 	var_view = gtk_builder_get_object(builder, "var_view");
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(var_view));
 
 	property = state->message;
@@ -261,7 +260,7 @@ static int _process_select_file_line_for_stack_0(int param, ClientState* state, 
 	xdebug_xml_node *message = state->message;
 	xdebug_xml_attribute *filename_attr, *lineno_attr;
 	dbgp_code_page *page;
-	GtkWidget *code_notebook = lookup_widget(GTK_WIDGET(MainWindow), "code_notebook");
+	GtkWidget *code_notebook = gtk_builder_get_object(builder, "code_notebook");
 	GtkTreeSelection *selection;
 	GtkTreePath      *path;
 	GtkListStore     *store;
@@ -336,7 +335,7 @@ static int _process_select_file_line_for_selected_stack(int param, ClientState* 
 	xdebug_xml_node *message = state->message;
 	xdebug_xml_attribute *level_attr, *filename_attr = NULL, *lineno_attr = NULL;
 	dbgp_code_page *page;
-	GtkWidget *code_notebook = lookup_widget(GTK_WIDGET(MainWindow), "code_notebook");
+	GtkWidget *code_notebook = gtk_builder_get_object(builder, "code_notebook");
 	GtkTreeSelection *selection;
 	GtkTreePath      *path;
 	xdebug_xml_node *stack_frame;
@@ -534,7 +533,7 @@ int process_update_context_vars_for_selected_stack(int param, ClientState* state
 	GtkTreeStore *store;
 	xdebug_xml_node *property;
 
- 	var_view = lookup_widget(GTK_WIDGET(MainWindow), "var_view");
+ 	var_view = gtk_builder_get_object(builder, "var_view");
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(var_view));
 
 	gtk_tree_store_clear(store);
@@ -557,7 +556,7 @@ int process_update_stack(int param, ClientState* state)
 	xdebug_xml_node *stack_frame;
 	xdebug_xml_attribute *where_attr, *level_attr, *filename_attr, *lineno_attr;
 
- 	stack_view = lookup_widget(GTK_WIDGET(MainWindow), "stack_view");
+ 	stack_view = gtk_builder_get_object(builder, "stack_view");
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(stack_view));
 
 	gtk_list_store_clear(store);
@@ -680,7 +679,7 @@ static process_a_button(gchar *command, GtkToolButton *toolbutton, gpointer user
 		g_source_remove(client_state->watch);
 		client_state->watch = g_io_add_watch(iochannel, client_state->watch_flags, async_client_iofunc, client_state);
 
-		statusbar = lookup_widget(GTK_WIDGET(MainWindow), "last_message_label");
+		statusbar = gtk_builder_get_object(builder, "last_message_label");
 		gtk_label_set(statusbar, "");
 	}
 }
@@ -818,7 +817,7 @@ void add_source_file(gchar* filename, gchar *source)
 {
 	GtkWidget *treeview3;
 	GtkWidget *label1, *scrolledwindow, *eventbox1;
-	GtkWidget *code_notebook = lookup_widget(GTK_WIDGET(MainWindow), "code_notebook");
+	GtkWidget *code_notebook = gtk_builder_get_object(builder, "code_notebook");
 	GtkTooltips *tooltips;
 	GtkTreeViewColumn *column1, *column2, *column3, *column4;
 	GtkTreeSelection *selection;
@@ -927,7 +926,7 @@ void process_stack_get(xdebug_xml_node *cg)
 
 void update_statusbar(gchar* text)
 {
-	GtkWidget *statusbar = lookup_widget(GTK_WIDGET(MainWindow), "statusbar");
+	GtkWidget *statusbar = gtk_builder_get_object(builder, "statusbar");
 
 	gtk_statusbar_push(GTK_STATUSBAR(statusbar), gtk_statusbar_get_context_id(GTK_STATUSBAR(statusbar), "test"), text);
 }
@@ -958,7 +957,7 @@ int process_state_input(ClientState *client_state)
 			xdebug_xml_attribute *level, *code;
 			GtkWidget *statusbar;
 			
-			statusbar = lookup_widget(GTK_WIDGET(MainWindow), "last_message_label");
+			statusbar = gtk_builder_get_object(builder, "last_message_label");
 			level = xdebug_xml_fetch_attribute(message->child, "exception");
 			code = xdebug_xml_fetch_attribute(message->child, "code");
 
@@ -1294,11 +1293,11 @@ error:
 		GtkWidget *var_view, *stack_view;
 		GtkTreeStore *store;
 
-		stack_view = lookup_widget(GTK_WIDGET(MainWindow), "stack_view");
+		stack_view = gtk_builder_get_object(builder, "stack_view");
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(stack_view));
 		gtk_list_store_clear(store);
 
-		var_view = lookup_widget(GTK_WIDGET(MainWindow), "var_view");
+		var_view = gtk_builder_get_object(builder, "var_view");
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(var_view));
 		gtk_tree_store_clear(store);
 	}

@@ -7,7 +7,6 @@
 #include <string.h>
 
 #include "callbacks.h"
-#include "interface.h"
 #include "support.h"
 #include "globals.h"
 
@@ -86,7 +85,7 @@ on_about_activate                      (GtkMenuItem     *menuitem,
 {
 	GtkWidget *aboutdialog;
 	
-	aboutdialog = create_aboutdialog ();
+	aboutdialog = gtk_builder_get_object(builder, "aboutdialog");
 	gtk_widget_show (aboutdialog);
 }
 
@@ -159,13 +158,13 @@ on_preferences_activate                (GtkMenuItem     *menuitem,
 	char small_buffer[32];
 
 	/* Find ze widgetz! */
-	PortWidget = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "port");
-	MaxDepth = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_depth");
-	MaxStringLength = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_string_length");
-	MaxChildren = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_children");
-	PHPErrorBreak = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "break_on_warning");
-	FontCode = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "font_code_button");
-	FontVar = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "font_var_button");
+	PortWidget =      gtk_builder_get_object(builder, "port");
+	MaxDepth =        gtk_builder_get_object(builder, "max_depth");
+	MaxStringLength = gtk_builder_get_object(builder, "max_string_length");
+	MaxChildren =     gtk_builder_get_object(builder, "max_children");
+	PHPErrorBreak =   gtk_builder_get_object(builder, "break_on_warning");
+	FontCode =        gtk_builder_get_object(builder, "font_code_button");
+	FontVar =         gtk_builder_get_object(builder, "font_var_button");
 
 	/* Let's load the settings! */
 	conf = gconf_engine_get_default();
@@ -189,7 +188,7 @@ on_preferences_activate                (GtkMenuItem     *menuitem,
 
 	gconf_engine_unref(conf);
 
-	gtk_widget_show(DebuggerSettingsWindow);
+	gtk_widget_show(gtk_builder_get_object(builder, "DebuggerSettingsWindow"));
 }
 
 
@@ -197,7 +196,7 @@ void
 on_cancel_clicked                      (GtkButton       *button,
                                         gpointer         user_data)
 {
-	gtk_widget_hide(DebuggerSettingsWindow);
+	gtk_widget_hide(gtk_builder_get_object(builder, "DebuggerSettingsWindow"));
 }
 
 
@@ -210,16 +209,16 @@ on_ok_clicked                          (GtkButton       *button,
 	GConfEngine *conf;
 	char small_buffer[32];
 
-	gtk_widget_hide(DebuggerSettingsWindow);
+	gtk_widget_hide(gtk_builder_get_object(builder, "DebuggerSettingsWindow"));
 
 	/* Find ze widgetz! */
-	PortWidget = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "port");
-	MaxDepth = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_depth");
-	MaxStringLength = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_string_length");
-	MaxChildren = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_children");
-	PHPErrorBreak = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "break_on_warning");
-	FontCode = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "font_code_button");
-	FontVar = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "font_var_button");
+	PortWidget =      gtk_builder_get_object(builder, "port");
+	MaxDepth =        gtk_builder_get_object(builder, "max_depth");
+	MaxStringLength = gtk_builder_get_object(builder, "max_string_length");
+	MaxChildren =     gtk_builder_get_object(builder, "max_children");
+	PHPErrorBreak =   gtk_builder_get_object(builder, "break_on_warning");
+	FontCode =        gtk_builder_get_object(builder, "font_code_button");
+	FontVar =         gtk_builder_get_object(builder, "font_var_button");
 
 	/* Let's save the settings! */
 	conf = gconf_engine_get_default();
@@ -244,11 +243,11 @@ on_revert_clicked                      (GtkButton       *button,
 	GtkWidget *PortWidget, *MaxDepth, *MaxStringLength, *MaxChildren, *PHPErrorBreak;
 
 	/* Find ze widgetz! */
-	PortWidget = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "port");
-	MaxDepth = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_depth");
-	MaxStringLength = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_string_length");
-	MaxChildren = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "max_children");
-	PHPErrorBreak = lookup_widget(GTK_WIDGET(DebuggerSettingsWindow), "break_on_warning");
+	PortWidget =      gtk_builder_get_object(builder, "port");
+	MaxDepth =        gtk_builder_get_object(builder, "max_depth");
+	MaxStringLength = gtk_builder_get_object(builder, "max_string_length");
+	MaxChildren =     gtk_builder_get_object(builder, "max_children");
+	PHPErrorBreak =   gtk_builder_get_object(builder, "break_on_warning");
 
 	gtk_entry_set_text(GTK_ENTRY(PortWidget), "9000");
 	gtk_entry_set_text(GTK_ENTRY(MaxStringLength), "512");
@@ -272,7 +271,7 @@ void
 on_main_add_bp_button_activate         (GtkButton       *button,
                                         gpointer         user_data)
 {
-	AddBreakPointWindow = create_AddBreakPointWindow();
+	AddBreakPointWindow = gtk_builder_get_object(builder, "AddBreakPointWindow");
 	gtk_widget_show(AddBreakPointWindow);
 }
 
@@ -314,16 +313,16 @@ on_add_bp_add_button_activate          (GtkButton       *button,
 	gchar       *display_string, *type;
 	const gchar *string1, *string2;
 
-	breakpoint_view = GTK_TREE_VIEW(lookup_widget(GTK_WIDGET(MainWindow), "breakpoint_view"));
+	breakpoint_view = GTK_TREE_VIEW(gtk_builder_get_object(builder, "breakpoint_view"));
 	store = GTK_LIST_STORE(gtk_tree_view_get_model(breakpoint_view));
 
 	/* Figure out which tab was selected */
-	notebook = GTK_NOTEBOOK(lookup_widget(GTK_WIDGET(AddBreakPointWindow), "breakpoint_type_notebook"));
+	notebook = GTK_NOTEBOOK(gtk_builder_get_object(builder, "breakpoint_type_notebook"));
 	switch (gtk_notebook_get_current_page(notebook)) {
 		case 0:
 			/* file/line */
-			entry1 = GTK_ENTRY(lookup_widget(GTK_WIDGET(AddBreakPointWindow), "bp_filename"));
-			entry2 = GTK_ENTRY(lookup_widget(GTK_WIDGET(AddBreakPointWindow), "bp_linenumber"));
+			entry1 = GTK_ENTRY(gtk_builder_get_object(builder, "bp_filename"));
+			entry2 = GTK_ENTRY(gtk_builder_get_object(builder, "bp_linenumber"));
 			string1 = gtk_entry_get_text(entry1);
 			string2 = gtk_entry_get_text(entry2);
 			type = "line";
@@ -333,8 +332,8 @@ on_add_bp_add_button_activate          (GtkButton       *button,
 			break;
 		case 1:
 			/* class/function */
-			entry1 = GTK_ENTRY(lookup_widget(GTK_WIDGET(AddBreakPointWindow), "bp_classname"));
-			entry2 = GTK_ENTRY(lookup_widget(GTK_WIDGET(AddBreakPointWindow), "bp_functionname"));
+			entry1 = GTK_ENTRY(gtk_builder_get_object(builder, "bp_classname"));
+			entry2 = GTK_ENTRY(gtk_builder_get_object(builder, "bp_functionname"));
 			string1 = gtk_entry_get_text(entry1);
 			string2 = gtk_entry_get_text(entry2);
 			display_string = xdebug_sprintf("%s::%s", string1, string2);
@@ -344,7 +343,7 @@ on_add_bp_add_button_activate          (GtkButton       *button,
 			break;
 		case 2:
 			/* exception */
-			entry1 = GTK_ENTRY(lookup_widget(GTK_WIDGET(AddBreakPointWindow), "bp_exceptionname"));
+			entry1 = GTK_ENTRY(gtk_builder_get_object(builder, "bp_exceptionname"));
 			string1 = gtk_entry_get_text(entry1);
 			string2 = "";
 			display_string = xdstrdup(string1);
