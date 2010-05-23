@@ -11,9 +11,6 @@
 #include "globals.h"
 
 extern ClientState *client_state;
-extern GtkWidget* MainWindow;
-extern GtkWidget* DebuggerSettingsWindow;
-extern GtkWidget* AddBreakPointWindow;
 
 void
 on_quit_activate                       (GtkMenuItem     *menuitem,
@@ -27,7 +24,7 @@ void
 on_add_breakpoint_menu_item_activate   (GtkMenuItem     *menuitem,
                                         gpointer         user_data)
 {
-	gtk_widget_show(AddBreakPointWindow);
+	gtk_widget_show(gtk_builder_get_object(builder, "AddBreakPointWindow"));
 }
 
 
@@ -271,8 +268,7 @@ void
 on_main_add_bp_button_activate         (GtkButton       *button,
                                         gpointer         user_data)
 {
-	AddBreakPointWindow = gtk_builder_get_object(builder, "AddBreakPointWindow");
-	gtk_widget_show(AddBreakPointWindow);
+	gtk_widget_show(gtk_builder_get_object(builder, "AddBreakPointWindow"));
 }
 
 
@@ -280,7 +276,7 @@ void
 on_main_edit_bp_button_activate        (GtkButton       *button,
                                         gpointer         user_data)
 {
-	gtk_widget_show(AddBreakPointWindow);
+	gtk_widget_show(gtk_builder_get_object(builder, "AddBreakPointWindow"));
 }
 
 
@@ -288,7 +284,7 @@ void
 on_main_remove_bp_button_activate      (GtkButton       *button,
                                         gpointer         user_data)
 {
-	gtk_widget_show(AddBreakPointWindow);
+	gtk_widget_show(gtk_builder_get_object(builder, "AddBreakPointWindow"));
 }
 
 
@@ -296,7 +292,7 @@ void
 on_add_bp_cancel_button_activate       (GtkButton       *button,
                                         gpointer         user_data)
 {
-	gtk_widget_hide(AddBreakPointWindow);
+	gtk_widget_hide(gtk_builder_get_object(builder, "AddBreakPointWindow"));
 }
 
 
@@ -366,6 +362,6 @@ on_add_bp_add_button_activate          (GtkButton       *button,
 		BREAKPOINT_HIT_VALUE_COLUMN, 0,
 		-1);
 	xdfree(display_string);
-	gtk_widget_hide(AddBreakPointWindow);
+	gtk_widget_hide(gtk_builder_get_object(builder, "AddBreakPointWindow"));
 }
 
