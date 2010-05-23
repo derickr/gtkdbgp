@@ -84,10 +84,10 @@ int main (int argc, char *argv[])
  
 //        window = GTK_WIDGET (gtk_builder_get_object (builder, "window"));
 
-	RunPixbuf = create_pixbuf("run.png");
 	gtk_builder_connect_signals(builder, NULL);
 
 	MainWindow = gtk_builder_get_object(builder, "MainWindow");
+	gtk_widget_show(MainWindow);
 
 //	g_signal_connect(MainWindow, "delete_event", gtk_main_quit, NULL);
 
