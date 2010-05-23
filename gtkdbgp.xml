@@ -51,10 +51,11 @@
                     <property name="visible">True</property>
                     <child>
                       <object class="GtkImageMenuItem" id="quit_item">
-                        <property name="label">gtk-quit</property>
+                        <property name="label">_Quit</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="image">image1</property>
+                        <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
                         <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                         <signal name="activate" handler="gtk_main_quit"/>
@@ -96,10 +97,10 @@
                     <property name="visible">True</property>
                     <child>
                       <object class="GtkImageMenuItem" id="add_breakpoint_item">
-                        <property name="label">gtk-add</property>
+                        <property name="label" translatable="yes">_Add Breakpoint</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
                       </object>
                     </child>
@@ -110,38 +111,42 @@
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="continue_item">
-                        <property name="label">gtk-go-forward</property>
+                        <property name="label" translatable="yes">_Continue</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
+                        <accelerator key="F5" signal="activate"/>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="step_in_item">
-                        <property name="label">gtk-jump-to</property>
+                        <property name="label" translatable="yes">Step _In</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
+                        <accelerator key="F6" signal="activate"/>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="step_over_item">
-                        <property name="label">gtk-redo</property>
+                        <property name="label" translatable="yes">Step _Over</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
+                        <accelerator key="F7" signal="activate"/>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="step_out_item">
-                        <property name="label">gtk-ok</property>
+                        <property name="label" translatable="yes">Step O_ut</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
+                        <accelerator key="F8" signal="activate"/>
                       </object>
                     </child>
                     <child>
@@ -151,22 +156,25 @@
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="detach_item">
-                        <property name="label">gtk-remove</property>
+                        <property name="label" translatable="yes">_Detach Debugger</property>
                         <property name="visible">True</property>
                         <property name="tooltip_text" translatable="yes">Stops debugging, but does not aborts the script</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
+                        <accelerator key="F9" signal="activate"/>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="stop_debugging_item">
-                        <property name="label">gtk-stop</property>
+                        <property name="label" translatable="yes">_Stop Debugger</property>
                         <property name="visible">True</property>
                         <property name="tooltip_text" translatable="yes">Stops debugging and aborts the script</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="image">DetachImagee</property>
+                        <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
+                        <accelerator key="F9" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
@@ -211,7 +219,7 @@
                 <property name="visible">True</property>
                 <property name="tooltip_text" translatable="yes">run/continue</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-media-play</property>
+                <property name="icon_widget">RunImage</property>
                 <signal name="clicked" handler="on_continue_button_clicked"/>
               </object>
               <packing>
@@ -234,7 +242,7 @@
                 <property name="visible">True</property>
                 <property name="tooltip_text" translatable="yes">step_over</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-jump-to</property>
+                <property name="icon_widget">StepOverImage</property>
                 <signal name="clicked" handler="on_step_over_button_clicked"/>
               </object>
               <packing>
@@ -249,7 +257,7 @@
                 <property name="visible">True</property>
                 <property name="tooltip_text" translatable="yes">step_in</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-redo</property>
+                <property name="icon_widget">StepInImage</property>
                 <signal name="clicked" handler="on_step_in_button_clicked"/>
               </object>
               <packing>
@@ -262,7 +270,7 @@
                 <property name="visible">True</property>
                 <property name="tooltip_text" translatable="yes">step_out</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-ok</property>
+                <property name="icon_widget">StepOutImage</property>
                 <signal name="clicked" handler="on_step_out_button_clicked"/>
               </object>
               <packing>
@@ -283,7 +291,6 @@
                 <property name="visible">True</property>
                 <property name="tooltip_text" translatable="yes">detach</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-remove</property>
                 <signal name="clicked" handler="on_detach_button_clicked"/>
               </object>
               <packing>
@@ -296,7 +303,7 @@
                 <property name="visible">True</property>
                 <property name="tooltip_text" translatable="yes">kill</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-stop</property>
+                <property name="icon_widget">DetachImage</property>
                 <signal name="clicked" handler="on_kill_button_clicked"/>
               </object>
               <packing>
@@ -1979,5 +1986,37 @@ For more information Xdebug, please see http://xdebug.org/</property>
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkImage" id="AddListImage">
+    <property name="visible">True</property>
+    <property name="pixbuf">pixmaps/list-add.png</property>
+  </object>
+  <object class="GtkImage" id="RunImage">
+    <property name="visible">True</property>
+    <property name="pixbuf">pixmaps/run.png</property>
+  </object>
+  <object class="GtkImage" id="StepInImage">
+    <property name="visible">True</property>
+    <property name="pixbuf">pixmaps/step_in.png</property>
+  </object>
+  <object class="GtkImage" id="StepOverImage">
+    <property name="visible">True</property>
+    <property name="pixbuf">pixmaps/step_over.png</property>
+  </object>
+  <object class="GtkImage" id="StepOutImage">
+    <property name="visible">True</property>
+    <property name="pixbuf">pixmaps/step_out.png</property>
+  </object>
+  <object class="GtkImage" id="DetachImage">
+    <property name="visible">True</property>
+    <property name="pixbuf">pixmaps/detach.png</property>
+  </object>
+  <object class="GtkImage" id="DetachImagee">
+    <property name="visible">True</property>
+    <property name="pixbuf">detach.png</property>
+  </object>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="stock">gtk-missing-image</property>
   </object>
 </interface>
