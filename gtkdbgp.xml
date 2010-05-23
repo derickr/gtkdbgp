@@ -1963,7 +1963,7 @@ Derick Rethans can be contacted via e-mail at derick@xdebug.org.
 For more information Xdebug, please see http://xdebug.org/</property>
     <property name="authors">Derick Rethans</property>
     <property name="translator_credits" translatable="yes" comments="TRANSLATORS: Replace this string with your names, one name per line.">translator-credits</property>
-    <property name="logo">xdebug-logo.png</property>
+    <property name="logo">pixmaps/xdebug-logo.png</property>
     <property name="wrap_license">True</property>
     <signal name="response" handler="on_about_close"/>
     <child internal-child="vbox">
