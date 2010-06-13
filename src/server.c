@@ -209,14 +209,14 @@ int process_fetched_property(int param, ClientState* state)
 	xdebug_xml_node *property;
 	GtkTreeIter iter;
 
- 	var_view = gtk_builder_get_object(builder, "var_view");
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(var_view));
+ 	var_view = GTK_WIDGET(gtk_builder_get_object(builder, "var_view"));
+	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(var_view)));
 
 	property = state->message;
 
-	gtk_tree_model_get_iter_from_string(store, &iter, client_state->path_string);
+	gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(store), &iter, client_state->path_string);
 	add_property(store, &iter, property->child);
-	gtk_tree_view_expand_row(var_view, gtk_tree_path_new_from_string(client_state->path_string), 0);
+	gtk_tree_view_expand_row(GTK_TREE_VIEW(var_view), gtk_tree_path_new_from_string(client_state->path_string), 0);
 	g_free(client_state->path_string);
 
 	return NON_INTERACTIVE;
@@ -260,7 +260,7 @@ static int _process_select_file_line_for_stack_0(int param, ClientState* state, 
 	xdebug_xml_node *message = state->message;
 	xdebug_xml_attribute *filename_attr, *lineno_attr;
 	dbgp_code_page *page;
-	GtkWidget *code_notebook = gtk_builder_get_object(builder, "code_notebook");
+	GtkWidget *code_notebook = GTK_WIDGET(gtk_builder_get_object(builder, "code_notebook"));
 	GtkTreeSelection *selection;
 	GtkTreePath      *path;
 	GtkListStore     *store;
@@ -291,8 +291,8 @@ static int _process_select_file_line_for_stack_0(int param, ClientState* state, 
 			path = gtk_tree_path_new_from_indices(atoi(lineno_attr->value) - 1, -1);
 
 			/* Figure out the iter for the path */
-			store = gtk_tree_view_get_model(GTK_TREE_VIEW(page->tree));
-			gtk_tree_model_get_iter(store, &iter, path);
+			store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(page->tree)));
+			gtk_tree_model_get_iter(GTK_TREE_MODEL(store), &iter, path);
 
 			/* Remember the iter for later use */
 			state->last_iter = iter;
@@ -335,7 +335,7 @@ static int _process_select_file_line_for_selected_stack(int param, ClientState* 
 	xdebug_xml_node *message = state->message;
 	xdebug_xml_attribute *level_attr, *filename_attr = NULL, *lineno_attr = NULL;
 	dbgp_code_page *page;
-	GtkWidget *code_notebook = gtk_builder_get_object(builder, "code_notebook");
+	GtkWidget *code_notebook = GTK_WIDGET(gtk_builder_get_object(builder, "code_notebook"));
 	GtkTreeSelection *selection;
 	GtkTreePath      *path;
 	xdebug_xml_node *stack_frame;
@@ -421,8 +421,8 @@ static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_x
 	}
 
 	if (children_attr && numchildren_attr && children_attr->value && strcmp(children_attr->value, "1") == 0) {
-		gtk_tree_model_get(store, parent_iter, VARVIEW_PAGES_FETCHED, &fetch_page, -1);
-		gtk_tree_model_get(store, parent_iter, VARVIEW_HIDDEN_HINT, &hint, -1);
+		gtk_tree_model_get(GTK_TREE_MODEL(store), parent_iter, VARVIEW_PAGES_FETCHED, &fetch_page, -1);
+		gtk_tree_model_get(GTK_TREE_MODEL(store), parent_iter, VARVIEW_HIDDEN_HINT, &hint, -1);
 		g_print( "Got fetched pages: %d\n", fetch_page);
 		g_print( "Got hidden hint: %d\n", hint);
 
@@ -501,7 +501,7 @@ static void add_property(GtkTreeStore *store, GtkTreeIter *parent_iter, xdebug_x
 			}
 
 			gtk_tree_store_append(store, &iter, parent_iter);
-			path = gtk_tree_model_get_path(store, &iter);
+			path = gtk_tree_model_get_path(GTK_TREE_MODEL(store), &iter);
 			path_string = gtk_tree_path_to_string(path);
 			gtk_tree_store_set(store, &iter,
 				VARVIEW_NR_COLUMN,       name,
@@ -533,8 +533,8 @@ int process_update_context_vars_for_selected_stack(int param, ClientState* state
 	GtkTreeStore *store;
 	xdebug_xml_node *property;
 
- 	var_view = gtk_builder_get_object(builder, "var_view");
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(var_view));
+ 	var_view = GTK_WIDGET(gtk_builder_get_object(builder, "var_view"));
+	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(var_view)));
 
 	gtk_tree_store_clear(store);
 
@@ -556,8 +556,8 @@ int process_update_stack(int param, ClientState* state)
 	xdebug_xml_node *stack_frame;
 	xdebug_xml_attribute *where_attr, *level_attr, *filename_attr, *lineno_attr;
 
- 	stack_view = gtk_builder_get_object(builder, "stack_view");
-	store = gtk_tree_view_get_model(GTK_TREE_VIEW(stack_view));
+ 	stack_view = GTK_WIDGET(gtk_builder_get_object(builder, "stack_view"));
+	store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(stack_view)));
 
 	gtk_list_store_clear(store);
 
@@ -679,8 +679,8 @@ static process_a_button(gchar *command, GtkToolButton *toolbutton, gpointer user
 		g_source_remove(client_state->watch);
 		client_state->watch = g_io_add_watch(iochannel, client_state->watch_flags, async_client_iofunc, client_state);
 
-		statusbar = gtk_builder_get_object(builder, "last_message_label");
-		gtk_label_set(statusbar, "");
+		statusbar = GTK_WIDGET(gtk_builder_get_object(builder, "last_message_label"));
+		gtk_label_set(GTK_LABEL(statusbar), "");
 	}
 }
 
@@ -779,7 +779,7 @@ gboolean varview_selection_function(GtkTreeSelection *selection, GtkTreeModel *m
 
 		g_print( "Need to fetch '%s'? The hint is '%d'\n", fullname, hint);
 		if (hint == DBGPCLIENT_FETCH_MORE) {
-			gtk_tree_store_set(model, &iter, VARVIEW_HIDDEN_HINT, 0, -1);
+			gtk_tree_store_set(GTK_TREE_STORE(model), &iter, VARVIEW_HIDDEN_HINT, 0, -1);
 			g_print( "Setting hint to 0\n");
 			client_state->server_state = SERVER_STATE_FETCH_PROPERTY;
 			client_state->action_list_ptr = fetch_property_action_list;
@@ -794,7 +794,7 @@ gboolean varview_selection_function(GtkTreeSelection *selection, GtkTreeModel *m
 			client_state->watch = g_io_add_watch(iochannel, client_state->watch_flags, async_client_iofunc, client_state);
 		}
 		if (hint == DBGPCLIENT_FETCH_PAGES) {
-			gtk_tree_store_set(model, &iter, VARVIEW_HIDDEN_HINT, 0, -1);
+			gtk_tree_store_set(GTK_TREE_STORE(model), &iter, VARVIEW_HIDDEN_HINT, 0, -1);
 			g_print( "Setting hint to 0\n");
 			client_state->server_state = SERVER_STATE_FETCH_PROPERTY;
 			client_state->action_list_ptr = fetch_property_action_list;
@@ -817,7 +817,7 @@ void add_source_file(gchar* filename, gchar *source)
 {
 	GtkWidget *treeview3;
 	GtkWidget *label1, *scrolledwindow, *eventbox1;
-	GtkWidget *code_notebook = gtk_builder_get_object(builder, "code_notebook");
+	GtkWidget *code_notebook = GTK_WIDGET(gtk_builder_get_object(builder, "code_notebook"));
 	GtkTooltips *tooltips;
 	GtkTreeViewColumn *column1, *column2, *column3, *column4;
 	GtkTreeSelection *selection;
@@ -870,7 +870,7 @@ void add_source_file(gchar* filename, gchar *source)
 	treeview3 = gtk_tree_view_new();
 	gtk_widget_set_name (treeview3, "treeview3");
 	gtk_widget_show (treeview3);
-	selection = gtk_tree_view_get_selection(treeview3);
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview3));
 //	gtk_tree_selection_set_select_function(selection, code_page_selection_function, NULL, NULL);
 	gtk_container_add (GTK_CONTAINER (scrolledwindow), treeview3);
 
@@ -926,7 +926,7 @@ void process_stack_get(xdebug_xml_node *cg)
 
 void update_statusbar(gchar* text)
 {
-	GtkWidget *statusbar = gtk_builder_get_object(builder, "statusbar");
+	GtkWidget *statusbar = GTK_WIDGET(gtk_builder_get_object(builder, "statusbar"));
 
 	gtk_statusbar_push(GTK_STATUSBAR(statusbar), gtk_statusbar_get_context_id(GTK_STATUSBAR(statusbar), "test"), text);
 }
@@ -957,7 +957,7 @@ int process_state_input(ClientState *client_state)
 			xdebug_xml_attribute *level, *code;
 			GtkWidget *statusbar;
 			
-			statusbar = gtk_builder_get_object(builder, "last_message_label");
+			statusbar = GTK_WIDGET(gtk_builder_get_object(builder, "last_message_label"));
 			level = xdebug_xml_fetch_attribute(message->child, "exception");
 			code = xdebug_xml_fetch_attribute(message->child, "code");
 
@@ -1174,7 +1174,7 @@ gboolean async_client_iofunc (GIOChannel* iochannel, GIOCondition condition, gpo
 
 		/* Read the data into our buffer */
 		memset(buffer, 0, sizeof(buffer));
-		error = g_io_channel_read(iochannel, buffer, sizeof(buffer), &bytes_read);
+		error = g_io_channel_read(iochannel, buffer, sizeof(buffer), (gsize *) &bytes_read);
 
 		/* Check for socket error */
 		if (error != G_IO_ERROR_NONE)
@@ -1252,7 +1252,7 @@ gboolean async_client_iofunc (GIOChannel* iochannel, GIOCondition condition, gpo
 		guint bytes_written;
 
 		/* Write the data out */
-		error = g_io_channel_write(iochannel, client_state->command, strlen(client_state->command) + 1 /*"source -i 1 -f file:///home/httpd/html/test/xdebug/bug111.php", 62*/, &bytes_written);
+		error = g_io_channel_write(iochannel, client_state->command, strlen(client_state->command) + 1 /*"source -i 1 -f file:///home/httpd/html/test/xdebug/bug111.php", 62*/, (gsize *) &bytes_written);
 		xdfree(client_state->command);
 		client_state->command = NULL;
 
@@ -1293,12 +1293,12 @@ error:
 		GtkWidget *var_view, *stack_view;
 		GtkTreeStore *store;
 
-		stack_view = gtk_builder_get_object(builder, "stack_view");
-		store = gtk_tree_view_get_model(GTK_TREE_VIEW(stack_view));
-		gtk_list_store_clear(store);
+		stack_view = GTK_WIDGET(gtk_builder_get_object(builder, "stack_view"));
+		store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(stack_view)));
+		gtk_list_store_clear(GTK_LIST_STORE(store));
 
-		var_view = gtk_builder_get_object(builder, "var_view");
-		store = gtk_tree_view_get_model(GTK_TREE_VIEW(var_view));
+		var_view = GTK_WIDGET(gtk_builder_get_object(builder, "var_view"));
+		store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(var_view)));
 		gtk_tree_store_clear(store);
 	}
 	return FALSE;

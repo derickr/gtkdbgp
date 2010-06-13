@@ -86,7 +86,7 @@ int main (int argc, char *argv[])
 
 	gtk_builder_connect_signals(builder, NULL);
 
-	MainWindow = gtk_builder_get_object(builder, "MainWindow");
+	MainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "MainWindow"));
 	gtk_widget_show(MainWindow);
 
 //	g_signal_connect(MainWindow, "delete_event", gtk_main_quit, NULL);
@@ -100,7 +100,7 @@ int main (int argc, char *argv[])
 	/* Setup the stack view store */
 	store = gtk_list_store_new(STACK_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
- 	stack_view = gtk_builder_get_object(builder, "stack_view");
+ 	stack_view = GTK_WIDGET(gtk_builder_get_object(builder, "stack_view"));
 
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(stack_view), -1, "#", r1, "text", STACK_NR_COLUMN, NULL);
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(stack_view), -1, "Function", r2, "text", STACK_FUNCTION_COLUMN, NULL);
@@ -119,7 +119,7 @@ int main (int argc, char *argv[])
 		G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
 		G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT, G_TYPE_BOOLEAN);
 
-	breakpoint_view = gtk_builder_get_object(builder, "breakpoint_view");
+	breakpoint_view = GTK_WIDGET(gtk_builder_get_object(builder, "breakpoint_view"));
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(breakpoint_view), -1, "ID", r1, "text", BREAKPOINT_ID_COLUMN, NULL);
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(breakpoint_view), -1, "Enabled?", r2, "text", BREAKPOINT_ENABLED_COLUMN, NULL);
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(breakpoint_view), -1, "Type", r2, "text", BREAKPOINT_TYPE_COLUMN, NULL);
@@ -132,9 +132,9 @@ int main (int argc, char *argv[])
 	gtk_tree_view_set_model(GTK_TREE_VIEW(breakpoint_view), GTK_TREE_MODEL(breakpoint_store));
 
 	/* Setup the variables view store */
-	var_store = gtk_tree_store_new(VARVIEW_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING);
+	var_store = GTK_LIST_STORE(gtk_tree_store_new(VARVIEW_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING));
 
-	var_view = gtk_builder_get_object(builder, "var_view");
+	var_view = GTK_WIDGET(gtk_builder_get_object(builder, "var_view"));
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "Name", r2, "text", VARVIEW_NR_COLUMN, NULL);
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "Type", r2, "text", VARVIEW_FUNCTION_COLUMN, NULL);
 	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(var_view), -1, "Value", r2, "text", VARVIEW_LOCATION_COLUMN, NULL);
@@ -154,7 +154,7 @@ int main (int argc, char *argv[])
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(var_view));
 	gtk_tree_selection_set_select_function(selection, varview_selection_function, NULL, NULL);
 
-	gtk_window_maximize(MainWindow);
+	gtk_window_maximize(GTK_WINDOW(MainWindow));
 //	gtk_widget_show(MainWindow);
 //	gtk_builder_connect_signals (builder, NULL);          
 //	g_object_unref (G_OBJECT (builder));

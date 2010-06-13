@@ -24,7 +24,7 @@ void
 on_add_breakpoint_menu_item_activate   (GtkMenuItem     *menuitem,
                                         gpointer         user_data)
 {
-	gtk_widget_show(gtk_builder_get_object(builder, "AddBreakPointWindow"));
+	gtk_widget_show(GTK_WIDGET(gtk_builder_get_object(builder, "AddBreakPointWindow")));
 }
 
 
@@ -80,7 +80,7 @@ void
 on_about_activate                      (GtkMenuItem     *menuitem,
                                         gpointer         user_data)
 {
-	gtk_widget_show(gtk_builder_get_object(builder, "AboutWindow"));
+	gtk_widget_show(GTK_WIDGET(gtk_builder_get_object(builder, "AboutWindow")));
 }
 
 
@@ -88,7 +88,7 @@ void
 on_about_close                      (GtkMenuItem     *menuitem,
                                         gpointer         user_data)
 {
-	gtk_widget_hide(gtk_builder_get_object(builder, "AboutWindow"));
+	gtk_widget_hide(GTK_WIDGET(gtk_builder_get_object(builder, "AboutWindow")));
 }
 
 
@@ -160,13 +160,13 @@ on_preferences_activate                (GtkMenuItem     *menuitem,
 	char small_buffer[32];
 
 	/* Find ze widgetz! */
-	PortWidget =      gtk_builder_get_object(builder, "port");
-	MaxDepth =        gtk_builder_get_object(builder, "max_depth");
-	MaxStringLength = gtk_builder_get_object(builder, "max_string_length");
-	MaxChildren =     gtk_builder_get_object(builder, "max_children");
-	PHPErrorBreak =   gtk_builder_get_object(builder, "break_on_warning");
-	FontCode =        gtk_builder_get_object(builder, "font_code_button");
-	FontVar =         gtk_builder_get_object(builder, "font_var_button");
+	PortWidget =      GTK_WIDGET(gtk_builder_get_object(builder, "port"));
+	MaxDepth =        GTK_WIDGET(gtk_builder_get_object(builder, "max_depth"));
+	MaxStringLength = GTK_WIDGET(gtk_builder_get_object(builder, "max_string_length"));
+	MaxChildren =     GTK_WIDGET(gtk_builder_get_object(builder, "max_children"));
+	PHPErrorBreak =   GTK_WIDGET(gtk_builder_get_object(builder, "break_on_warning"));
+	FontCode =        GTK_WIDGET(gtk_builder_get_object(builder, "font_code_button"));
+	FontVar =         GTK_WIDGET(gtk_builder_get_object(builder, "font_var_button"));
 
 	/* Let's load the settings! */
 	conf = gconf_engine_get_default();
@@ -190,7 +190,7 @@ on_preferences_activate                (GtkMenuItem     *menuitem,
 
 	gconf_engine_unref(conf);
 
-	gtk_widget_show(gtk_builder_get_object(builder, "DebuggerSettingsWindow"));
+	gtk_widget_show(GTK_WIDGET(gtk_builder_get_object(builder, "DebuggerSettingsWindow")));
 }
 
 
@@ -198,7 +198,7 @@ void
 on_cancel_clicked                      (GtkButton       *button,
                                         gpointer         user_data)
 {
-	gtk_widget_hide(gtk_builder_get_object(builder, "DebuggerSettingsWindow"));
+	gtk_widget_hide(GTK_WIDGET(gtk_builder_get_object(builder, "DebuggerSettingsWindow")));
 }
 
 
@@ -211,16 +211,16 @@ on_ok_clicked                          (GtkButton       *button,
 	GConfEngine *conf;
 	char small_buffer[32];
 
-	gtk_widget_hide(gtk_builder_get_object(builder, "DebuggerSettingsWindow"));
+	gtk_widget_hide(GTK_WIDGET(gtk_builder_get_object(builder, "DebuggerSettingsWindow")));
 
 	/* Find ze widgetz! */
-	PortWidget =      gtk_builder_get_object(builder, "port");
-	MaxDepth =        gtk_builder_get_object(builder, "max_depth");
-	MaxStringLength = gtk_builder_get_object(builder, "max_string_length");
-	MaxChildren =     gtk_builder_get_object(builder, "max_children");
-	PHPErrorBreak =   gtk_builder_get_object(builder, "break_on_warning");
-	FontCode =        gtk_builder_get_object(builder, "font_code_button");
-	FontVar =         gtk_builder_get_object(builder, "font_var_button");
+	PortWidget =      GTK_WIDGET(gtk_builder_get_object(builder, "port"));
+	MaxDepth =        GTK_WIDGET(gtk_builder_get_object(builder, "max_depth"));
+	MaxStringLength = GTK_WIDGET(gtk_builder_get_object(builder, "max_string_length"));
+	MaxChildren =     GTK_WIDGET(gtk_builder_get_object(builder, "max_children"));
+	PHPErrorBreak =   GTK_WIDGET(gtk_builder_get_object(builder, "break_on_warning"));
+	FontCode =        GTK_WIDGET(gtk_builder_get_object(builder, "font_code_button"));
+	FontVar =         GTK_WIDGET(gtk_builder_get_object(builder, "font_var_button"));
 
 	/* Let's save the settings! */
 	conf = gconf_engine_get_default();
@@ -245,11 +245,11 @@ on_revert_clicked                      (GtkButton       *button,
 	GtkWidget *PortWidget, *MaxDepth, *MaxStringLength, *MaxChildren, *PHPErrorBreak;
 
 	/* Find ze widgetz! */
-	PortWidget =      gtk_builder_get_object(builder, "port");
-	MaxDepth =        gtk_builder_get_object(builder, "max_depth");
-	MaxStringLength = gtk_builder_get_object(builder, "max_string_length");
-	MaxChildren =     gtk_builder_get_object(builder, "max_children");
-	PHPErrorBreak =   gtk_builder_get_object(builder, "break_on_warning");
+	PortWidget =      GTK_WIDGET(gtk_builder_get_object(builder, "port"));
+	MaxDepth =        GTK_WIDGET(gtk_builder_get_object(builder, "max_depth"));
+	MaxStringLength = GTK_WIDGET(gtk_builder_get_object(builder, "max_string_length"));
+	MaxChildren =     GTK_WIDGET(gtk_builder_get_object(builder, "max_children"));
+	PHPErrorBreak =   GTK_WIDGET(gtk_builder_get_object(builder, "break_on_warning"));
 
 	gtk_entry_set_text(GTK_ENTRY(PortWidget), "9000");
 	gtk_entry_set_text(GTK_ENTRY(MaxStringLength), "512");
@@ -273,7 +273,7 @@ void
 on_main_add_bp_button_activate         (GtkButton       *button,
                                         gpointer         user_data)
 {
-	gtk_widget_show(gtk_builder_get_object(builder, "AddBreakPointWindow"));
+	gtk_widget_show(GTK_WIDGET(gtk_builder_get_object(builder, "AddBreakPointWindow")));
 }
 
 
@@ -281,7 +281,7 @@ void
 on_main_edit_bp_button_activate        (GtkButton       *button,
                                         gpointer         user_data)
 {
-	gtk_widget_show(gtk_builder_get_object(builder, "AddBreakPointWindow"));
+	gtk_widget_show(GTK_WIDGET(gtk_builder_get_object(builder, "AddBreakPointWindow")));
 }
 
 
@@ -289,7 +289,7 @@ void
 on_main_remove_bp_button_activate      (GtkButton       *button,
                                         gpointer         user_data)
 {
-	gtk_widget_show(gtk_builder_get_object(builder, "AddBreakPointWindow"));
+	gtk_widget_show(GTK_WIDGET(gtk_builder_get_object(builder, "AddBreakPointWindow")));
 }
 
 
@@ -297,7 +297,7 @@ void
 on_add_bp_cancel_button_activate       (GtkButton       *button,
                                         gpointer         user_data)
 {
-	gtk_widget_hide(gtk_builder_get_object(builder, "AddBreakPointWindow"));
+	gtk_widget_hide(GTK_WIDGET(gtk_builder_get_object(builder, "AddBreakPointWindow")));
 }
 
 
@@ -367,6 +367,6 @@ on_add_bp_add_button_activate          (GtkButton       *button,
 		BREAKPOINT_HIT_VALUE_COLUMN, 0,
 		-1);
 	xdfree(display_string);
-	gtk_widget_hide(gtk_builder_get_object(builder, "AddBreakPointWindow"));
+	gtk_widget_hide(GTK_WIDGET(gtk_builder_get_object(builder, "AddBreakPointWindow")));
 }
 
