@@ -74,16 +74,24 @@ int main (int argc, char *argv[])
 
 		while(1) {
 			static struct option long_options[] = {
-				{"port", required_argument, 0, 'p'},
+				{"help",  no_argument, 0, 'h'},
+				{"port",  required_argument, 0, 'p'},
 				{0, 0, 0, 0}
 			};
 
-			c = getopt_long(argc, argv, "p:", long_options, &option_index);
+			c = getopt_long(argc, argv, "hp:", long_options, &option_index);
 			if (c == -1) {
 				break;
 			}
 
 			switch(c) {
+				case 'h':
+					printf("\nHi! This is the standalone dbgp client in GTK!\n\n");
+					printf("Supported options are:\n\n");
+					printf("  -h, --help        This help\n\n");
+					printf("  -p <portnr>       Selects a port number to listen to.\n");
+					printf("  --port <portnr>   Example: --port 9002\n\n");
+					exit(0);
 				case 'p':
 					port = strtol(optarg, NULL, 10);
 					gconf_engine_set_int(conf, "/apps/gtkdbgp/port", port, NULL);
