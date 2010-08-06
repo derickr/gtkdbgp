@@ -13,6 +13,7 @@
 #include "callbacks.h"
 #include "support.h"
 #include "globals.h"
+#include "getopt.h"
 
 GtkWidget *MainWindow;
 GtkWidget *AddBreakPointWindow;
@@ -65,6 +66,32 @@ int main (int argc, char *argv[])
 	}
 	break_on_warning = gconf_engine_get_bool(conf, "/apps/gtkdbgp/break_on_warning", NULL);
 	gconf_engine_set_bool(conf, "/apps/gtkdbgp/break_on_warning", break_on_warning, NULL);
+
+	/* Do command line arguments */
+	{
+		int c;
+		int option_index = 0;
+
+		while(1) {
+			static struct option long_options[] = {
+				{"port", required_argument, 0, 'p'},
+				{0, 0, 0, 0}
+			};
+
+			c = getopt_long(argc, argv, "p:", long_options, &option_index);
+			if (c == -1) {
+				break;
+			}
+
+			switch(c) {
+				case 'p':
+					port = strtol(optarg, NULL, 10);
+					gconf_engine_set_int(conf, "/apps/gtkdbgp/port", port, NULL);
+					break;
+			}
+		}
+	}
+
 	gconf_engine_unref(conf);
 
 	gtk_set_locale();
