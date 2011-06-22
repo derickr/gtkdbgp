@@ -558,6 +558,7 @@ int process_update_stack(int param, ClientState* state)
 
  	stack_view = GTK_WIDGET(gtk_builder_get_object(builder, "stack_view"));
 	store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(stack_view)));
+	state->nr_of_stack_frames = 0;
 
 	gtk_list_store_clear(store);
 
@@ -581,6 +582,7 @@ int process_update_stack(int param, ClientState* state)
 				-1);
 
 			xdfree(tmp_loc);
+			state->nr_of_stack_frames++;
 		}
 		
 		stack_frame = stack_frame->next;
@@ -666,10 +668,50 @@ action_item fetch_property_action_list[] = {
 	{ NULL, 0 }
 };
 
+static void record_open_rows(GtkTreeView *tree_view, GtkTreePath *path, gpointer user_data)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	gchar *var_name;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view));
+	gtk_tree_model_get_iter(model, &iter, path);
+	gtk_tree_model_get(model, &iter, VARVIEW_FULLNAME, &var_name, -1);
+
+	printf("PATH===%s\n", var_name);
+}
+
 static process_a_button(gchar *command, GtkToolButton *toolbutton, gpointer user_data)
 {
 	GIOChannel *iochannel;
 	GtkWidget *statusbar;
+	GtkWidget *stack_view;
+	GtkTreeModel *store;
+
+	stack_view = GTK_WIDGET(gtk_builder_get_object(builder, "stack_view"));
+	store = gtk_tree_view_get_model(GTK_TREE_VIEW(stack_view));
+
+	printf("SHOWING PATHS\n");
+	{
+		GtkWidget *var_view;
+		int i;
+
+		var_view = GTK_WIDGET(gtk_builder_get_object(builder, "var_view"));
+		printf("CS INFO\n- nr of frames: %d\n", client_state->nr_of_stack_frames);
+		printf("- current size: %d\n", client_state->stack_info_size);
+		if (client_state->nr_of_stack_frames > client_state->stack_info_size) {
+			client_state->stack_info = realloc(client_state->stack_info, sizeof(stack_element_info*) * (client_state->nr_of_stack_frames + 4));
+			for (i = client_state->stack_info_size; i < client_state->nr_of_stack_frames + 4; i++) {
+				printf("Setting [%d] to NULL\n", i);
+				client_state->stack_info[i] = NULL;
+			}
+			client_state->stack_info_size = client_state->nr_of_stack_frames + 4;
+			printf("- new size: %d\n", client_state->stack_info_size);
+		}
+
+		printf("- saving for [%d]\n", client_state->nr_of_stack_frames - 1);
+		gtk_tree_view_map_expanded_rows(GTK_TREE_VIEW(var_view), record_open_rows, (gpointer) client_state->stack_info[client_state->nr_of_stack_frames - 1]);
+	}
 
 	if (client_state && client_state->buttons_active) {
 		update_statusbar("Processing...");
@@ -1129,6 +1171,11 @@ static void async_accept (GTcpSocket* server, GTcpSocket* client, gpointer data)
 
 		memset(&client_state->last_iter, 0, sizeof(GtkTreeIter));
 		client_state->last_store = NULL;
+
+
+		client_state->stack_info_size = 0;
+		client_state->stack_info = NULL;
+		client_state->nr_of_stack_frames = 0;
 
 		g_print ("Accepted connection from %s:%d\n", name, port);
 		update_statusbar( "Waiting for input." );

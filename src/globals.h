@@ -16,6 +16,12 @@ typedef struct dbgp_code_page
 	GtkWidget *tree;
 } dbgp_code_page;
 
+
+typedef struct stack_element_info {
+	int    size;
+	char **paths;
+} stack_element_info;
+
 struct _ClientState
 {
 	GTcpSocket* socket;
@@ -44,11 +50,14 @@ struct _ClientState
 	gchar *last_source_file;
 	char last_selected_stack_frame;
 
+	int nr_of_stack_frames;
+	int stack_info_size;
+	stack_element_info **stack_info;
+
 	int allow_select;
 	int buttons_active;
 	int auto_stack_select;
 };
-
 
 enum
 {
