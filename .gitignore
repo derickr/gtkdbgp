@@ -10,3 +10,5 @@ configure
 depcomp
 src/.deps/
 stamp-h1
+src/*.o
+src/gtkdbgp
