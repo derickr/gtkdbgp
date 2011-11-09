@@ -1,0 +1,21 @@
+# Install from git #
+
+Fetch source with git clone
+
+Install some dev packages. For debian:
+
+`apt-get install libgtk2.0-dev libgconf2-dev libgnet-dev`
+
+Then start the autogen script:
+
+ ./autogen.sh
+
+It might report missing packages that you will have to install.
+
+Once configuration is finished. You can build the package:
+
+ makè
+
+Once finished, the compiled software is placed in the `src` directory.
+
+ ./src/gtkdbgp
